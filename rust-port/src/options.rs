@@ -2,6 +2,7 @@
 pub struct SortOptions {
     pub ignore_case: bool,
     pub reverse: bool,
+    pub signed: bool,
 }
 
 impl SortOptions {
@@ -9,6 +10,7 @@ impl SortOptions {
         Self {
             ignore_case: false,
             reverse: false,
+            signed: false,
         }
     }
 
