@@ -1,0 +1,32 @@
+
+basic_natural_sort
+Input:    ['file10', 'file2', 'file1']
+Expected: ['file1', 'file2', 'file10']
+
+leading_zeros
+Input:    ['file10', 'file002', 'file2']
+Expected: ['file002', 'file2', 'file10']
+
+large_integers
+Input:    ['file999999999999999999999999', 'file20', 'file18446744073709551616']
+Expected: ['file20', 'file18446744073709551616', 'file999999999999999999999999']
+
+signed_integers
+Input:    ['value5', 'value-2', 'value1', 'value-10']
+Expected: ['value-10', 'value-2', 'value1', 'value5']
+
+float_values
+Input:    ['value1.5', 'value1.25', 'value10.01', 'value2.0']
+Expected: ['value1.25', 'value1.5', 'value2.0', 'value10.01']
+
+scientific_notation
+Input:    ['value1e3', 'value2.5e2', 'value4.2e-3', 'value1', 'value10']
+Expected: ['value4.2e-3', 'value1', 'value10', 'value2.5e2', 'value1e3']
+
+signed_float_values
+Input:    ['value1.5', 'value-2.25', 'value-10.5', 'value0.25']
+Expected: ['value-10.5', 'value-2.25', 'value0.25', 'value1.5']
+
+ignore_case
+Input:    ['File10', 'file2', 'FILE1']
+Expected: ['FILE1', 'file2', 'File10']
