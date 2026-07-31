@@ -23,4 +23,9 @@ impl SortOptions {
         self.reverse = enabled;
         self
     }
+
+    pub const fn signed(mut self, enabled: bool) -> Self {
+        self.signed = enabled;
+        self
+    }
 }

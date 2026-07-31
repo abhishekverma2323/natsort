@@ -2,26 +2,58 @@ use crate::options::SortOptions;
 use crate::token::{Token, tokenize};
 use std::cmp::Ordering;
 
-fn compare_numeric_strings(left: &str, right: &str) -> Ordering {
-    let left_normalized = left.trim_start_matches('0');
-    let right_normalized = right.trim_start_matches('0');
+fn normalize_digits(number: &str) -> &str {
+    let normalized = number.trim_start_matches('0');
 
-    let left_normalized = if left_normalized.is_empty() {
+    if normalized.is_empty() {
         "0"
     } else {
-        left_normalized
-    };
+        normalized
+    }
+}
 
-    let right_normalized = if right_normalized.is_empty() {
-        "0"
+fn split_sign(number: &str) -> (bool, &str) {
+    if let Some(digits) = number.strip_prefix('-') {
+        (true, digits)
+    } else if let Some(digits) = number.strip_prefix('+') {
+        (false, digits)
     } else {
-        right_normalized
-    };
+        (false, number)
+    }
+}
+
+fn compare_absolute_values(left: &str, right: &str) -> Ordering {
+    let left_normalized = normalize_digits(left);
+    let right_normalized = normalize_digits(right);
 
     left_normalized
         .len()
         .cmp(&right_normalized.len())
         .then_with(|| left_normalized.cmp(right_normalized))
+}
+
+fn compare_numeric_strings(left: &str, right: &str) -> Ordering {
+    let (left_negative, left_digits) = split_sign(left);
+    let (right_negative, right_digits) = split_sign(right);
+
+    let left_digits = normalize_digits(left_digits);
+    let right_digits = normalize_digits(right_digits);
+
+    // -0, +0 and 0 are numerically equal.
+    if left_digits == "0" && right_digits == "0" {
+        return Ordering::Equal;
+    }
+
+    match (left_negative, right_negative) {
+        (true, false) => Ordering::Less,
+        (false, true) => Ordering::Greater,
+
+        // For two negative numbers, the larger absolute value is smaller.
+        (true, true) => compare_absolute_values(left_digits, right_digits).reverse(),
+
+        // Normal positive-number comparison.
+        (false, false) => compare_absolute_values(left_digits, right_digits),
+    }
 }
 
 fn compare_tokens(left: &[Token], right: &[Token]) -> Ordering {
@@ -45,16 +77,7 @@ pub fn natsorted<T>(items: &[T]) -> Vec<T>
 where
     T: AsRef<str> + Clone,
 {
-    let mut result = items.to_vec();
-    natsorted_with_options(items, SortOptions::default());
-    result.sort_by(|left, right| {
-        let left_tokens = tokenize(left.as_ref());
-        let right_tokens = tokenize(right.as_ref());
-
-        compare_tokens(&left_tokens, &right_tokens)
-    });
-
-    result
+    natsorted_with_options(items, SortOptions::default())
 }
 
 pub fn natsorted_with_options<T>(items: &[T], options: SortOptions) -> Vec<T>
@@ -76,7 +99,10 @@ where
             right.as_ref().to_string()
         };
 
-        let ordering = compare_tokens(&tokenize(&left_value), &tokenize(&right_value));
+        let left_tokens = tokenize(&left_value, options.signed);
+        let right_tokens = tokenize(&right_value, options.signed);
+
+        let ordering = compare_tokens(&left_tokens, &right_tokens);
 
         if options.reverse {
             ordering.reverse()
@@ -166,5 +192,55 @@ mod tests {
         let result = natsorted_with_options(&input, options);
 
         assert_eq!(result, vec!["file10", "file2", "file1"]);
+    }
+
+    #[test]
+    fn sorts_signed_integers() {
+        let input = vec!["value5", "value-2", "value1", "value-10"];
+
+        let options = SortOptions::new().signed(true);
+        let result = natsorted_with_options(&input, options);
+
+        assert_eq!(result, vec!["value-10", "value-2", "value1", "value5"]);
+    }
+
+    #[test]
+    fn sorts_explicit_positive_numbers() {
+        let input = vec!["value+10", "value+2", "value-1"];
+
+        let options = SortOptions::new().signed(true);
+        let result = natsorted_with_options(&input, options);
+
+        assert_eq!(result, vec!["value-1", "value+2", "value+10"]);
+    }
+
+    #[test]
+    fn sorts_very_large_negative_integers() {
+        let input = vec![
+            "value-20",
+            "value-999999999999999999999999",
+            "value-18446744073709551616",
+        ];
+
+        let options = SortOptions::new().signed(true);
+        let result = natsorted_with_options(&input, options);
+
+        assert_eq!(
+            result,
+            vec![
+                "value-999999999999999999999999",
+                "value-18446744073709551616",
+                "value-20",
+            ]
+        );
+    }
+
+    #[test]
+    fn keeps_unsigned_behavior_by_default() {
+        let input = vec!["value-10", "value-2"];
+
+        let result = natsorted(&input);
+
+        assert_eq!(result, vec!["value-2", "value-10"]);
     }
 }
