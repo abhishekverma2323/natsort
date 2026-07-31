@@ -2,6 +2,13 @@ use crate::options::SortOptions;
 use crate::token::{Token, tokenize};
 use std::cmp::Ordering;
 
+#[derive(Debug)]
+struct NumericParts {
+    negative: bool,
+    digits: String,
+    decimal_position: i64,
+}
+
 fn split_sign(number: &str) -> (bool, &str) {
     if let Some(value) = number.strip_prefix('-') {
         (true, value)
@@ -12,6 +19,17 @@ fn split_sign(number: &str) -> (bool, &str) {
     }
 }
 
+fn split_exponent(number: &str) -> (&str, i64) {
+    if let Some(index) = number.find(['e', 'E']) {
+        let mantissa = &number[..index];
+        let exponent = number[index + 1..].parse::<i64>().unwrap_or(0);
+
+        (mantissa, exponent)
+    } else {
+        (number, 0)
+    }
+}
+
 fn split_decimal(number: &str) -> (&str, &str) {
     match number.split_once('.') {
         Some((integer, fraction)) => (integer, fraction),
@@ -19,31 +37,47 @@ fn split_decimal(number: &str) -> (&str, &str) {
     }
 }
 
-fn normalize_integer(integer: &str) -> &str {
-    let normalized = integer.trim_start_matches('0');
+fn parse_numeric_parts(number: &str) -> NumericParts {
+    let (negative, unsigned) = split_sign(number);
+    let (mantissa, exponent) = split_exponent(unsigned);
+    let (integer, fraction) = split_decimal(mantissa);
 
-    if normalized.is_empty() {
-        "0"
+    let combined = format!("{integer}{fraction}");
+    let leading_zeros = combined.bytes().take_while(|digit| *digit == b'0').count();
+
+    let mut digits = combined[leading_zeros..].to_string();
+
+    if digits.is_empty() {
+        digits.push('0');
     } else {
-        normalized
+        while digits.ends_with('0') {
+            digits.pop();
+        }
+    }
+
+    let decimal_position = integer.len() as i64 - leading_zeros as i64 + exponent;
+
+    NumericParts {
+        negative: negative && digits != "0",
+        digits,
+        decimal_position,
     }
 }
 
-fn normalize_fraction(fraction: &str) -> &str {
-    fraction.trim_end_matches('0')
-}
+fn compare_digit_sequences(left: &NumericParts, right: &NumericParts) -> Ordering {
+    if left.digits == "0" && right.digits == "0" {
+        return Ordering::Equal;
+    }
 
-fn is_zero(number: &str) -> bool {
-    let (_, unsigned) = split_sign(number);
-    let (integer, fraction) = split_decimal(unsigned);
+    let position_ordering = left.decimal_position.cmp(&right.decimal_position);
 
-    normalize_integer(integer) == "0" && normalize_fraction(fraction).is_empty()
-}
+    if position_ordering != Ordering::Equal {
+        return position_ordering;
+    }
 
-fn compare_fractional_parts(left: &str, right: &str) -> Ordering {
-    let max_length = left.len().max(right.len());
-    let left_bytes = left.as_bytes();
-    let right_bytes = right.as_bytes();
+    let max_length = left.digits.len().max(right.digits.len());
+    let left_bytes = left.digits.as_bytes();
+    let right_bytes = right.digits.as_bytes();
 
     for index in 0..max_length {
         let left_digit = left_bytes.get(index).copied().unwrap_or(b'0');
@@ -58,42 +92,17 @@ fn compare_fractional_parts(left: &str, right: &str) -> Ordering {
     Ordering::Equal
 }
 
-fn compare_absolute_values(left: &str, right: &str) -> Ordering {
-    let (left_integer, left_fraction) = split_decimal(left);
-    let (right_integer, right_fraction) = split_decimal(right);
-
-    let left_integer = normalize_integer(left_integer);
-    let right_integer = normalize_integer(right_integer);
-
-    let integer_ordering = left_integer
-        .len()
-        .cmp(&right_integer.len())
-        .then_with(|| left_integer.cmp(right_integer));
-
-    if integer_ordering != Ordering::Equal {
-        return integer_ordering;
-    }
-
-    compare_fractional_parts(left_fraction, right_fraction)
-}
-
 fn compare_numeric_strings(left: &str, right: &str) -> Ordering {
-    if is_zero(left) && is_zero(right) {
-        return Ordering::Equal;
-    }
+    let left_parts = parse_numeric_parts(left);
+    let right_parts = parse_numeric_parts(right);
 
-    let (left_negative, left_unsigned) = split_sign(left);
-    let (right_negative, right_unsigned) = split_sign(right);
-
-    match (left_negative, right_negative) {
+    match (left_parts.negative, right_parts.negative) {
         (true, false) => Ordering::Less,
         (false, true) => Ordering::Greater,
 
-        // Negative values have reversed absolute ordering:
-        // -10.5 is less than -2.5.
-        (true, true) => compare_absolute_values(left_unsigned, right_unsigned).reverse(),
+        (true, true) => compare_digit_sequences(&left_parts, &right_parts).reverse(),
 
-        (false, false) => compare_absolute_values(left_unsigned, right_unsigned),
+        (false, false) => compare_digit_sequences(&left_parts, &right_parts),
     }
 }
 
@@ -301,7 +310,6 @@ mod tests {
     #[test]
     fn treats_equivalent_decimal_values_as_equal() {
         assert_eq!(compare_numeric_strings("1.5", "1.50"), Ordering::Equal);
-
         assert_eq!(compare_numeric_strings("001.5000", "1.5"), Ordering::Equal);
     }
 
@@ -314,7 +322,7 @@ mod tests {
 
         assert_eq!(
             result,
-            vec!["value-10.5", "value-2.25", "value0.25", "value1.5",]
+            vec!["value-10.5", "value-2.25", "value0.25", "value1.5"]
         );
     }
 
@@ -343,5 +351,69 @@ mod tests {
     fn compares_signed_zero_values_as_equal() {
         assert_eq!(compare_numeric_strings("-0.0", "0"), Ordering::Equal);
         assert_eq!(compare_numeric_strings("+0.000", "-0"), Ordering::Equal);
+    }
+
+    #[test]
+    fn sorts_scientific_notation() {
+        let input = vec!["value1e3", "value2.5e2", "value4.2e-3", "value1", "value10"];
+
+        let options = SortOptions::new().float(true);
+        let result = natsorted_with_options(&input, options);
+
+        assert_eq!(
+            result,
+            vec!["value4.2e-3", "value1", "value10", "value2.5e2", "value1e3",]
+        );
+    }
+
+    #[test]
+    fn compares_equivalent_scientific_values() {
+        assert_eq!(compare_numeric_strings("1e3", "1000"), Ordering::Equal);
+        assert_eq!(compare_numeric_strings("1.5e2", "150"), Ordering::Equal);
+        assert_eq!(compare_numeric_strings("0.001e3", "1"), Ordering::Equal);
+    }
+
+    #[test]
+    fn sorts_negative_scientific_notation() {
+        let input = vec!["value-1e2", "value-2.5e3", "value-4e-2", "value1"];
+
+        let options = SortOptions::new().signed(true).float(true);
+        let result = natsorted_with_options(&input, options);
+
+        assert_eq!(
+            result,
+            vec!["value-2.5e3", "value-1e2", "value-4e-2", "value1",]
+        );
+    }
+
+    #[test]
+    fn sorts_scientific_values_with_positive_exponents() {
+        let input = vec!["value1E+2", "value5e1", "value2E+3"];
+
+        let options = SortOptions::new().float(true);
+        let result = natsorted_with_options(&input, options);
+
+        assert_eq!(result, vec!["value5e1", "value1E+2", "value2E+3"]);
+    }
+
+    #[test]
+    fn handles_high_precision_scientific_values() {
+        let input = vec![
+            "value1.000000000000000000000002e10",
+            "value1.000000000000000000000001e10",
+            "value9.9e9",
+        ];
+
+        let options = SortOptions::new().float(true);
+        let result = natsorted_with_options(&input, options);
+
+        assert_eq!(
+            result,
+            vec![
+                "value9.9e9",
+                "value1.000000000000000000000001e10",
+                "value1.000000000000000000000002e10",
+            ]
+        );
     }
 }
