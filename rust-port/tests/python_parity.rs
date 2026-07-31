@@ -99,3 +99,84 @@ fn matches_python_reverse_sorting() {
         vec!["file10", "file2", "file1"]
     );
 }
+
+#[test]
+fn matches_python_empty_input() {
+    let input: Vec<&str> = vec![];
+
+    assert_eq!(natsorted(&input), Vec::<&str>::new());
+}
+
+#[test]
+fn matches_python_single_item_input() {
+    let input = vec!["file10"];
+
+    assert_eq!(natsorted(&input), vec!["file10"]);
+}
+
+#[test]
+fn matches_python_plain_text_sorting() {
+    let input = vec!["banana", "apple", "cherry"];
+
+    assert_eq!(natsorted(&input), vec!["apple", "banana", "cherry"]);
+}
+
+#[test]
+fn matches_python_multiple_numeric_components() {
+    let input = vec!["version1.10.2", "version1.2.10", "version1.2.2"];
+
+    assert_eq!(
+        natsorted(&input),
+        vec!["version1.2.2", "version1.2.10", "version1.10.2"]
+    );
+}
+
+#[test]
+fn matches_python_equivalent_leading_zero_values() {
+    let input = vec!["file1", "file01", "file001"];
+
+    assert_eq!(natsorted(&input), vec!["file1", "file01", "file001"]);
+}
+
+#[test]
+fn matches_python_signed_zero_sorting() {
+    let input = vec!["value-0", "value0", "value+0"];
+    let options = SortOptions::new().signed(true);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec!["value-0", "value0", "value+0"]
+    );
+}
+
+#[test]
+fn matches_python_precise_decimal_sorting() {
+    let input = vec!["value1.000000000002", "value1.000000000001", "value1.1"];
+    let options = SortOptions::new().float(true);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec!["value1.000000000001", "value1.000000000002", "value1.1",]
+    );
+}
+
+#[test]
+fn matches_python_mixed_scientific_notation_sorting() {
+    let input = vec!["value1E3", "value2e2", "value5E-1", "value10"];
+    let options = SortOptions::new().float(true);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec!["value5E-1", "value10", "value2e2", "value1E3"]
+    );
+}
+
+#[test]
+fn matches_python_punctuation_and_separator_sorting() {
+    let input = vec!["file-10", "file_2", "file.1", "file-2"];
+
+    assert_eq!(
+        natsorted(&input),
+        vec!["file-2", "file-10", "file.1", "file_2"]
+    );
+}

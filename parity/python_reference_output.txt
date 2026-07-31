@@ -30,3 +30,39 @@ Expected: ['value-10.5', 'value-2.25', 'value0.25', 'value1.5']
 ignore_case
 Input:    ['File10', 'file2', 'FILE1']
 Expected: ['FILE1', 'file2', 'File10']
+
+empty_input
+Input:    []
+Expected: []
+
+single_item
+Input:    ['file10']
+Expected: ['file10']
+
+plain_text
+Input:    ['banana', 'apple', 'cherry']
+Expected: ['apple', 'banana', 'cherry']
+
+multiple_numeric_components
+Input:    ['version1.10.2', 'version1.2.10', 'version1.2.2']
+Expected: ['version1.2.2', 'version1.2.10', 'version1.10.2']
+
+equivalent_leading_zero_values
+Input:    ['file1', 'file01', 'file001']
+Expected: ['file1', 'file01', 'file001']
+
+signed_zero
+Input:    ['value-0', 'value0', 'value+0']
+Expected: ['value-0', 'value0', 'value+0']
+
+high_precision_decimals
+Input:    ['value1.000000000002', 'value1.000000000001', 'value1.1']
+Expected: ['value1.000000000001', 'value1.000000000002', 'value1.1']
+
+mixed_scientific_notation
+Input:    ['value1E3', 'value2e2', 'value5E-1', 'value10']
+Expected: ['value5E-1', 'value10', 'value2e2', 'value1E3']
+
+punctuation_and_separators
+Input:    ['file-10', 'file_2', 'file.1', 'file-2']
+Expected: ['file-2', 'file-10', 'file.1', 'file_2']

@@ -59,6 +59,57 @@ def main() -> None:
         ns.IGNORECASE,
     )
 
+    show_case(
+        "empty_input",
+        [],
+    )
+
+    show_case(
+        "single_item",
+        ["file10"],
+    )
+
+    show_case(
+        "plain_text",
+        ["banana", "apple", "cherry"],
+    )
+
+    show_case(
+        "multiple_numeric_components",
+        ["version1.10.2", "version1.2.10", "version1.2.2"],
+    )
+
+    show_case(
+        "equivalent_leading_zero_values",
+        ["file1", "file01", "file001"],
+    )
+
+    show_case(
+        "signed_zero",
+        ["value-0", "value0", "value+0"],
+        ns.SIGNED,
+    )
+
+    show_case(
+        "high_precision_decimals",
+        [
+            "value1.000000000002",
+            "value1.000000000001",
+            "value1.1",
+        ],
+        ns.FLOAT,
+    )
+
+    show_case(
+        "mixed_scientific_notation",
+        ["value1E3", "value2e2", "value5E-1", "value10"],
+        ns.FLOAT,
+    )
+
+    show_case(
+        "punctuation_and_separators",
+        ["file-10", "file_2", "file.1", "file-2"],
+    )
 
 if __name__ == "__main__":
     main()
