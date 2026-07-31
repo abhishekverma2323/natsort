@@ -3,6 +3,7 @@ pub struct SortOptions {
     pub ignore_case: bool,
     pub reverse: bool,
     pub signed: bool,
+    pub float: bool,
 }
 
 impl SortOptions {
@@ -11,6 +12,7 @@ impl SortOptions {
             ignore_case: false,
             reverse: false,
             signed: false,
+            float: false,
         }
     }
 
@@ -26,6 +28,11 @@ impl SortOptions {
 
     pub const fn signed(mut self, enabled: bool) -> Self {
         self.signed = enabled;
+        self
+    }
+
+    pub const fn float(mut self, enabled: bool) -> Self {
+        self.float = enabled;
         self
     }
 }
