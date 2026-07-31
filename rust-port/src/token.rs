@@ -1,7 +1,7 @@
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub(crate) enum Token {
     Text(String),
-    Number(u64),
+    Number(String),
 }
 
 pub(crate) fn tokenize(input: &str) -> Vec<Token> {
@@ -21,8 +21,7 @@ pub(crate) fn tokenize(input: &str) -> Vec<Token> {
                 }
             }
 
-            let value = number.parse::<u64>().unwrap_or(u64::MAX);
-            tokens.push(Token::Number(value));
+            tokens.push(Token::Number(number));
         } else {
             let mut text = String::new();
 
@@ -54,8 +53,21 @@ mod tests {
             result,
             vec![
                 Token::Text("file".to_string()),
-                Token::Number(123),
+                Token::Number("123".to_string()),
                 Token::Text("test".to_string()),
+            ]
+        );
+    }
+
+    #[test]
+    fn preserves_very_large_numbers() {
+        let result = tokenize("file999999999999999999999999");
+
+        assert_eq!(
+            result,
+            vec![
+                Token::Text("file".to_string()),
+                Token::Number("999999999999999999999999".to_string()),
             ]
         );
     }
