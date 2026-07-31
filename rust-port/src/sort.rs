@@ -1,5 +1,5 @@
 use std::cmp::Ordering;
-
+use crate::options::SortOptions;
 use crate::token::{Token, tokenize};
 
 fn compare_numeric_strings(left: &str, right: &str) -> Ordering {
@@ -45,13 +45,45 @@ pub fn natsorted<T>(items: &[T]) -> Vec<T>
 where
     T: AsRef<str> + Clone,
 {
+    
     let mut result = items.to_vec();
-
+    natsorted_with_options(items, SortOptions::default());
     result.sort_by(|left, right| {
         let left_tokens = tokenize(left.as_ref());
         let right_tokens = tokenize(right.as_ref());
 
         compare_tokens(&left_tokens, &right_tokens)
+    });
+
+    result
+}
+
+pub fn natsorted_with_options<T>(items: &[T], options: SortOptions) -> Vec<T>
+where
+    T: AsRef<str> + Clone,
+{
+    let mut result = items.to_vec();
+
+    result.sort_by(|left, right| {
+        let left_value = if options.ignore_case {
+            left.as_ref().to_lowercase()
+        } else {
+            left.as_ref().to_string()
+        };
+
+        let right_value = if options.ignore_case {
+            right.as_ref().to_lowercase()
+        } else {
+            right.as_ref().to_string()
+        };
+
+        let ordering = compare_tokens(&tokenize(&left_value), &tokenize(&right_value));
+
+        if options.reverse {
+            ordering.reverse()
+        } else {
+            ordering
+        }
     });
 
     result
@@ -116,4 +148,24 @@ mod tests {
 
         assert_eq!(result, vec!["file002", "file2", "file10"]);
     }
+
+    #[test]
+fn sorts_case_insensitively() {
+    let input = vec!["File10", "file2", "FILE1"];
+
+    let options = SortOptions::new().ignore_case(true);
+    let result = natsorted_with_options(&input, options);
+
+    assert_eq!(result, vec!["FILE1", "file2", "File10"]);
+}
+
+#[test]
+fn sorts_in_reverse_order() {
+    let input = vec!["file1", "file10", "file2"];
+
+    let options = SortOptions::new().reverse(true);
+    let result = natsorted_with_options(&input, options);
+
+    assert_eq!(result, vec!["file10", "file2", "file1"]);
+}
 }
