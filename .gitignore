@@ -43,3 +43,6 @@ pip-log.txt
 
 # VSCode
 .vscode
+.venv-wsl/
+parity/benchmark_data/
+parity/__pycache__/

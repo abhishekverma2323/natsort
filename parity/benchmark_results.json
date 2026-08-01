@@ -1,0 +1,759 @@
+{
+  "metadata": {
+    "generated_at_utc": "2026-08-01T17:59:23.048353+00:00",
+    "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+    "logical_cpus": 12,
+    "seed": 20260801,
+    "sizes": [
+      1000,
+      10000,
+      50000
+    ],
+    "warmups": 2,
+    "runs": 7,
+    "modes": [
+      "default",
+      "float",
+      "real",
+      "path",
+      "locale"
+    ]
+  },
+  "results": [
+    {
+      "mode": "default",
+      "entries": 1000,
+      "python": {
+        "engine": "python",
+        "python_version": "3.14.4",
+        "natsort_version": "0.1.dev1085+g6b30aa8f4.d20260801",
+        "mode": "default",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/default_1000.txt",
+        "entries": 1000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          4.067879,
+          4.671155,
+          3.9432,
+          4.277626,
+          4.600704,
+          5.771792,
+          3.798929
+        ],
+        "median_ms": 4.277626,
+        "min_ms": 3.798929,
+        "max_ms": 5.771792,
+        "checksum": 990
+      },
+      "rust": {
+        "engine": "rust",
+        "mode": "default",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/default_1000.txt",
+        "entries": 1000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          1.993523,
+          1.924101,
+          1.659709,
+          1.687558,
+          1.683805,
+          2.167579,
+          1.927847
+        ],
+        "median_ms": 1.924101,
+        "min_ms": 1.659709,
+        "max_ms": 2.167579,
+        "checksum": 990
+      },
+      "speedup": 2.2231816313176904
+    },
+    {
+      "mode": "default",
+      "entries": 10000,
+      "python": {
+        "engine": "python",
+        "python_version": "3.14.4",
+        "natsort_version": "0.1.dev1085+g6b30aa8f4.d20260801",
+        "mode": "default",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/default_10000.txt",
+        "entries": 10000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          48.813614,
+          52.599596,
+          58.836461,
+          51.945194,
+          55.012045,
+          67.527529,
+          58.598514
+        ],
+        "median_ms": 55.012045,
+        "min_ms": 48.813614,
+        "max_ms": 67.527529,
+        "checksum": 10040
+      },
+      "rust": {
+        "engine": "rust",
+        "mode": "default",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/default_10000.txt",
+        "entries": 10000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          25.955008,
+          24.707646,
+          27.55844,
+          25.157292,
+          33.056421,
+          24.998118,
+          32.915147
+        ],
+        "median_ms": 25.955008,
+        "min_ms": 24.707646,
+        "max_ms": 33.056421,
+        "checksum": 10040
+      },
+      "speedup": 2.1195156248844156
+    },
+    {
+      "mode": "default",
+      "entries": 50000,
+      "python": {
+        "engine": "python",
+        "python_version": "3.14.4",
+        "natsort_version": "0.1.dev1085+g6b30aa8f4.d20260801",
+        "mode": "default",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/default_50000.txt",
+        "entries": 50000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          284.528834,
+          312.446893,
+          246.264872,
+          265.279308,
+          257.28523,
+          268.124393,
+          260.387129
+        ],
+        "median_ms": 265.279308,
+        "min_ms": 246.264872,
+        "max_ms": 312.446893,
+        "checksum": 50035
+      },
+      "rust": {
+        "engine": "rust",
+        "mode": "default",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/default_50000.txt",
+        "entries": 50000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          139.124203,
+          151.594826,
+          146.890333,
+          141.543202,
+          144.596875,
+          137.873919,
+          173.369191
+        ],
+        "median_ms": 144.596875,
+        "min_ms": 137.873919,
+        "max_ms": 173.369191,
+        "checksum": 50035
+      },
+      "speedup": 1.8346130094443605
+    },
+    {
+      "mode": "float",
+      "entries": 1000,
+      "python": {
+        "engine": "python",
+        "python_version": "3.14.4",
+        "natsort_version": "0.1.dev1085+g6b30aa8f4.d20260801",
+        "mode": "float",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/float_1000.txt",
+        "entries": 1000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          9.473404,
+          9.721239,
+          9.344944,
+          8.98303,
+          9.369445,
+          12.423798,
+          11.160681
+        ],
+        "median_ms": 9.473404,
+        "min_ms": 8.98303,
+        "max_ms": 12.423798,
+        "checksum": 975
+      },
+      "rust": {
+        "engine": "rust",
+        "mode": "float",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/float_1000.txt",
+        "entries": 1000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          3.086018,
+          2.628829,
+          3.427744,
+          1.942841,
+          2.307827,
+          2.188555,
+          2.127814
+        ],
+        "median_ms": 2.307827,
+        "min_ms": 1.942841,
+        "max_ms": 3.427744,
+        "checksum": 975
+      },
+      "speedup": 4.104902143878203
+    },
+    {
+      "mode": "float",
+      "entries": 10000,
+      "python": {
+        "engine": "python",
+        "python_version": "3.14.4",
+        "natsort_version": "0.1.dev1085+g6b30aa8f4.d20260801",
+        "mode": "float",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/float_10000.txt",
+        "entries": 10000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          124.536829,
+          133.306407,
+          117.909691,
+          114.919461,
+          162.944429,
+          146.213301,
+          133.415005
+        ],
+        "median_ms": 133.306407,
+        "min_ms": 114.919461,
+        "max_ms": 162.944429,
+        "checksum": 10029
+      },
+      "rust": {
+        "engine": "rust",
+        "mode": "float",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/float_10000.txt",
+        "entries": 10000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          24.060798,
+          21.99373,
+          25.873248,
+          23.605925,
+          26.566109,
+          25.198344,
+          24.418396
+        ],
+        "median_ms": 24.418396,
+        "min_ms": 21.99373,
+        "max_ms": 26.566109,
+        "checksum": 10029
+      },
+      "speedup": 5.459261410946075
+    },
+    {
+      "mode": "float",
+      "entries": 50000,
+      "python": {
+        "engine": "python",
+        "python_version": "3.14.4",
+        "natsort_version": "0.1.dev1085+g6b30aa8f4.d20260801",
+        "mode": "float",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/float_50000.txt",
+        "entries": 50000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          641.274601,
+          621.335562,
+          537.248597,
+          530.400436,
+          581.789883,
+          545.224818,
+          532.073963
+        ],
+        "median_ms": 545.224818,
+        "min_ms": 530.400436,
+        "max_ms": 641.274601,
+        "checksum": 50043
+      },
+      "rust": {
+        "engine": "rust",
+        "mode": "float",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/float_50000.txt",
+        "entries": 50000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          142.170859,
+          147.113243,
+          141.647664,
+          176.938625,
+          140.991106,
+          131.456088,
+          124.558599
+        ],
+        "median_ms": 141.647664,
+        "min_ms": 124.558599,
+        "max_ms": 176.938625,
+        "checksum": 50043
+      },
+      "speedup": 3.849162087134738
+    },
+    {
+      "mode": "real",
+      "entries": 1000,
+      "python": {
+        "engine": "python",
+        "python_version": "3.14.4",
+        "natsort_version": "0.1.dev1085+g6b30aa8f4.d20260801",
+        "mode": "real",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/real_1000.txt",
+        "entries": 1000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          10.825027,
+          16.47042,
+          12.101792,
+          13.038595,
+          14.5831,
+          12.841509,
+          14.685115
+        ],
+        "median_ms": 13.038595,
+        "min_ms": 10.825027,
+        "max_ms": 16.47042,
+        "checksum": 973
+      },
+      "rust": {
+        "engine": "rust",
+        "mode": "real",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/real_1000.txt",
+        "entries": 1000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          3.138606,
+          3.70395,
+          2.520274,
+          4.91928,
+          2.405179,
+          1.875042,
+          1.966368
+        ],
+        "median_ms": 2.520274,
+        "min_ms": 1.875042,
+        "max_ms": 4.91928,
+        "checksum": 973
+      },
+      "speedup": 5.173483121279671
+    },
+    {
+      "mode": "real",
+      "entries": 10000,
+      "python": {
+        "engine": "python",
+        "python_version": "3.14.4",
+        "natsort_version": "0.1.dev1085+g6b30aa8f4.d20260801",
+        "mode": "real",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/real_10000.txt",
+        "entries": 10000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          104.513218,
+          100.043514,
+          100.504362,
+          96.341779,
+          102.220082,
+          97.615235,
+          108.024557
+        ],
+        "median_ms": 100.504362,
+        "min_ms": 96.341779,
+        "max_ms": 108.024557,
+        "checksum": 10038
+      },
+      "rust": {
+        "engine": "rust",
+        "mode": "real",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/real_10000.txt",
+        "entries": 10000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          24.468089,
+          21.608889,
+          20.56174,
+          22.658975,
+          22.487535,
+          24.083879,
+          21.541975
+        ],
+        "median_ms": 22.487535,
+        "min_ms": 20.56174,
+        "max_ms": 24.468089,
+        "checksum": 10038
+      },
+      "speedup": 4.469336545779695
+    },
+    {
+      "mode": "real",
+      "entries": 50000,
+      "python": {
+        "engine": "python",
+        "python_version": "3.14.4",
+        "natsort_version": "0.1.dev1085+g6b30aa8f4.d20260801",
+        "mode": "real",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/real_50000.txt",
+        "entries": 50000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          613.124313,
+          589.43084,
+          590.790845,
+          596.425047,
+          581.442834,
+          597.308327,
+          639.886273
+        ],
+        "median_ms": 596.425047,
+        "min_ms": 581.442834,
+        "max_ms": 639.886273,
+        "checksum": 50024
+      },
+      "rust": {
+        "engine": "rust",
+        "mode": "real",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/real_50000.txt",
+        "entries": 50000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          148.217973,
+          140.281458,
+          138.611058,
+          136.389017,
+          152.01539,
+          142.543931,
+          142.043738
+        ],
+        "median_ms": 142.043738,
+        "min_ms": 136.389017,
+        "max_ms": 152.01539,
+        "checksum": 50024
+      },
+      "speedup": 4.198883072198508
+    },
+    {
+      "mode": "path",
+      "entries": 1000,
+      "python": {
+        "engine": "python",
+        "python_version": "3.14.4",
+        "natsort_version": "0.1.dev1085+g6b30aa8f4.d20260801",
+        "mode": "path",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/path_1000.txt",
+        "entries": 1000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          18.6917,
+          19.860223,
+          18.763495,
+          17.502144,
+          17.230848,
+          17.063217,
+          20.942943
+        ],
+        "median_ms": 18.6917,
+        "min_ms": 17.063217,
+        "max_ms": 20.942943,
+        "checksum": 951
+      },
+      "rust": {
+        "engine": "rust",
+        "mode": "path",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/path_1000.txt",
+        "entries": 1000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          3.650875,
+          3.1791,
+          3.290821,
+          3.248032,
+          3.904729,
+          3.393393,
+          4.045169
+        ],
+        "median_ms": 3.393393,
+        "min_ms": 3.1791,
+        "max_ms": 4.045169,
+        "checksum": 956
+      },
+      "speedup": 5.508262673966735
+    },
+    {
+      "mode": "path",
+      "entries": 10000,
+      "python": {
+        "engine": "python",
+        "python_version": "3.14.4",
+        "natsort_version": "0.1.dev1085+g6b30aa8f4.d20260801",
+        "mode": "path",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/path_10000.txt",
+        "entries": 10000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          214.8244,
+          227.378844,
+          216.729278,
+          231.21478,
+          220.797636,
+          217.993584,
+          238.626065
+        ],
+        "median_ms": 220.797636,
+        "min_ms": 214.8244,
+        "max_ms": 238.626065,
+        "checksum": 10056
+      },
+      "rust": {
+        "engine": "rust",
+        "mode": "path",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/path_10000.txt",
+        "entries": 10000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          43.823946,
+          40.685495,
+          46.999411,
+          46.410222,
+          51.313536,
+          41.197633,
+          41.383721
+        ],
+        "median_ms": 43.823946,
+        "min_ms": 40.685495,
+        "max_ms": 51.313536,
+        "checksum": 10051
+      },
+      "speedup": 5.038287423957669
+    },
+    {
+      "mode": "path",
+      "entries": 50000,
+      "python": {
+        "engine": "python",
+        "python_version": "3.14.4",
+        "natsort_version": "0.1.dev1085+g6b30aa8f4.d20260801",
+        "mode": "path",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/path_50000.txt",
+        "entries": 50000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          1152.283055,
+          1284.143112,
+          1144.832433,
+          1158.672534,
+          1077.896713,
+          1055.459664,
+          1073.396443
+        ],
+        "median_ms": 1144.832433,
+        "min_ms": 1055.459664,
+        "max_ms": 1284.143112,
+        "checksum": 50037
+      },
+      "rust": {
+        "engine": "rust",
+        "mode": "path",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/path_50000.txt",
+        "entries": 50000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          219.093659,
+          251.459607,
+          231.813499,
+          238.684599,
+          238.561863,
+          244.424212,
+          248.265535
+        ],
+        "median_ms": 238.684599,
+        "min_ms": 219.093659,
+        "max_ms": 251.459607,
+        "checksum": 50036
+      },
+      "speedup": 4.7964235555893575
+    },
+    {
+      "mode": "locale",
+      "entries": 1000,
+      "python": {
+        "engine": "python",
+        "python_version": "3.14.4",
+        "natsort_version": "0.1.dev1085+g6b30aa8f4.d20260801",
+        "mode": "locale",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/locale_1000.txt",
+        "entries": 1000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          14.288587,
+          9.308862,
+          9.807034,
+          7.32745,
+          7.801812,
+          7.480054,
+          8.280434
+        ],
+        "median_ms": 8.280434,
+        "min_ms": 7.32745,
+        "max_ms": 14.288587,
+        "checksum": 999
+      },
+      "rust": {
+        "engine": "rust",
+        "mode": "locale",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/locale_1000.txt",
+        "entries": 1000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          5.22419,
+          4.842008,
+          9.648494,
+          6.136602,
+          4.90623,
+          5.454851,
+          5.684003
+        ],
+        "median_ms": 5.454851,
+        "min_ms": 4.842008,
+        "max_ms": 9.648494,
+        "checksum": 997
+      },
+      "speedup": 1.5179945336728722
+    },
+    {
+      "mode": "locale",
+      "entries": 10000,
+      "python": {
+        "engine": "python",
+        "python_version": "3.14.4",
+        "natsort_version": "0.1.dev1085+g6b30aa8f4.d20260801",
+        "mode": "locale",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/locale_10000.txt",
+        "entries": 10000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          101.695493,
+          105.241726,
+          103.177415,
+          101.829371,
+          102.960476,
+          104.081077,
+          109.326853
+        ],
+        "median_ms": 103.177415,
+        "min_ms": 101.695493,
+        "max_ms": 109.326853,
+        "checksum": 9990
+      },
+      "rust": {
+        "engine": "rust",
+        "mode": "locale",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/locale_10000.txt",
+        "entries": 10000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          61.857216,
+          62.908062,
+          60.004805,
+          63.830415,
+          59.406697,
+          63.316896,
+          60.504223
+        ],
+        "median_ms": 61.857216,
+        "min_ms": 59.406697,
+        "max_ms": 63.830415,
+        "checksum": 9989
+      },
+      "speedup": 1.667993189347545
+    },
+    {
+      "mode": "locale",
+      "entries": 50000,
+      "python": {
+        "engine": "python",
+        "python_version": "3.14.4",
+        "natsort_version": "0.1.dev1085+g6b30aa8f4.d20260801",
+        "mode": "locale",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/locale_50000.txt",
+        "entries": 50000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          573.271449,
+          617.667029,
+          594.374296,
+          605.32032,
+          575.631983,
+          612.000851,
+          572.0487
+        ],
+        "median_ms": 594.374296,
+        "min_ms": 572.0487,
+        "max_ms": 617.667029,
+        "checksum": 50008
+      },
+      "rust": {
+        "engine": "rust",
+        "mode": "locale",
+        "dataset": "/mnt/d/natsort/parity/benchmark_data/locale_50000.txt",
+        "entries": 50000,
+        "warmups": 2,
+        "runs": 7,
+        "times_ms": [
+          330.319185,
+          335.950577,
+          351.665395,
+          331.033695,
+          349.164033,
+          335.422092,
+          337.406841
+        ],
+        "median_ms": 335.950577,
+        "min_ms": 330.319185,
+        "max_ms": 351.665395,
+        "checksum": 50010
+      },
+      "speedup": 1.7692313592900897
+    }
+  ]
+}

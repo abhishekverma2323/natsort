@@ -14,6 +14,20 @@ struct NumericParts {
     decimal_position: i64,
 }
 
+#[derive(Debug)]
+enum CachedToken {
+    Text {
+        value: String,
+        locale_key: Option<Vec<u8>>,
+    },
+    Number(NumericParts),
+}
+
+#[derive(Debug)]
+struct CachedStringKey {
+    components: Vec<Vec<CachedToken>>,
+}
+
 fn split_sign(number: &str) -> (bool, &str) {
     if let Some(value) = number.strip_prefix('-') {
         (true, value)
@@ -97,18 +111,22 @@ fn compare_digit_sequences(left: &NumericParts, right: &NumericParts) -> Orderin
     Ordering::Equal
 }
 
+fn compare_numeric_parts(left: &NumericParts, right: &NumericParts) -> Ordering {
+    match (left.negative, right.negative) {
+        (true, false) => Ordering::Less,
+        (false, true) => Ordering::Greater,
+
+        (true, true) => compare_digit_sequences(left, right).reverse(),
+
+        (false, false) => compare_digit_sequences(left, right),
+    }
+}
+
 pub(crate) fn compare_numeric_strings(left: &str, right: &str) -> Ordering {
     let left_parts = parse_numeric_parts(left);
     let right_parts = parse_numeric_parts(right);
 
-    match (left_parts.negative, right_parts.negative) {
-        (true, false) => Ordering::Less,
-        (false, true) => Ordering::Greater,
-
-        (true, true) => compare_digit_sequences(&left_parts, &right_parts).reverse(),
-
-        (false, false) => compare_digit_sequences(&left_parts, &right_parts),
-    }
+    compare_numeric_parts(&left_parts, &right_parts)
 }
 
 fn compare_tokens(left: &[Token], right: &[Token], options: SortOptions) -> Ordering {
@@ -176,6 +194,78 @@ pub(crate) fn string_key_components(input: &str, options: SortOptions) -> Vec<Ve
     }
 }
 
+fn cache_token(token: Token, options: SortOptions) -> CachedToken {
+    match token {
+        Token::Text(value) => {
+            let locale_key = options
+                .locale_alpha
+                .then(|| locale_sort_key(&value, options.locale_profile));
+
+            CachedToken::Text { value, locale_key }
+        }
+        Token::Number(number) => CachedToken::Number(parse_numeric_parts(&number)),
+    }
+}
+
+fn cached_string_key(input: &str, options: SortOptions) -> CachedStringKey {
+    let components: Vec<Vec<CachedToken>> = string_key_components(input, options)
+        .into_iter()
+        .map(|tokens| {
+            tokens
+                .into_iter()
+                .map(|token| cache_token(token, options))
+                .collect()
+        })
+        .collect();
+
+    CachedStringKey { components }
+}
+
+fn compare_cached_tokens(left: &[CachedToken], right: &[CachedToken]) -> Ordering {
+    for (left_token, right_token) in left.iter().zip(right.iter()) {
+        let ordering = match (left_token, right_token) {
+            (
+                CachedToken::Text {
+                    value: left_value,
+                    locale_key: left_locale_key,
+                },
+                CachedToken::Text {
+                    value: right_value,
+                    locale_key: right_locale_key,
+                },
+            ) => match (left_locale_key, right_locale_key) {
+                (Some(left_key), Some(right_key)) => left_key.cmp(right_key),
+                _ => left_value.cmp(right_value),
+            },
+
+            (CachedToken::Number(left_number), CachedToken::Number(right_number)) => {
+                compare_numeric_parts(left_number, right_number)
+            }
+
+            (CachedToken::Text { .. }, CachedToken::Number(_)) => Ordering::Less,
+            (CachedToken::Number(_), CachedToken::Text { .. }) => Ordering::Greater,
+        };
+
+        if ordering != Ordering::Equal {
+            return ordering;
+        }
+    }
+
+    left.len().cmp(&right.len())
+}
+
+fn compare_cached_string_keys(left: &CachedStringKey, right: &CachedStringKey) -> Ordering {
+    for (left_component, right_component) in left.components.iter().zip(right.components.iter()) {
+        let ordering = compare_cached_tokens(left_component, right_component);
+
+        if ordering != Ordering::Equal {
+            return ordering;
+        }
+    }
+
+    left.components.len().cmp(&right.components.len())
+}
+
 fn compare_natural_strings(left: &str, right: &str, options: SortOptions) -> Ordering {
     let left_tokens = string_key_tokens(left, options);
     let right_tokens = string_key_tokens(right, options);
@@ -234,8 +324,16 @@ where
         });
     }
 
-    result.sort_by(|left, right| {
-        let ordering = compare_strings_with_options(left.as_ref(), right.as_ref(), options);
+    let mut keyed_items: Vec<(CachedStringKey, T)> = result
+        .into_iter()
+        .map(|item| {
+            let key = cached_string_key(item.as_ref(), options);
+            (key, item)
+        })
+        .collect();
+
+    keyed_items.sort_by(|(left_key, _), (right_key, _)| {
+        let ordering = compare_cached_string_keys(left_key, right_key);
 
         if options.reverse {
             ordering.reverse()
@@ -244,7 +342,7 @@ where
         }
     });
 
-    result
+    keyed_items.into_iter().map(|(_, item)| item).collect()
 }
 
 #[cfg(test)]
