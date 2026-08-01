@@ -232,7 +232,7 @@ def path_entry(rng: random.Random) -> str:
             + directory_number
         )
 
-    separator = rng.choice(("/", "\\"))
+    separator = "/" if os.name != "nt" else rng.choice(("/", "\\"))
 
     result = (
         directory_component

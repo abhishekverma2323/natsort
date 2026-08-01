@@ -59,7 +59,15 @@ mypy_path = "mypy_stubs"
 
 [tool.ruff]
 target-version = "py39"
-extend-exclude = ["build", "dist", "docs", "mypy_stubs", "_version.py"]
+extend-exclude = [
+	"build",
+	"dist",
+	"docs",
+	"mypy_stubs",
+	"_version.py",
+	"parity",
+	"dev/generate_rust_unicode_numeric.py",
+]
 
 [tool.ruff.format]
 docstring-code-format = true
