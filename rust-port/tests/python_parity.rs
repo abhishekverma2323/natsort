@@ -1,13 +1,14 @@
 use rust_port::{
-    Decoder, LocaleProfile, NaturalValue, OsSortOptions, OsSortProfile, SortOptions, as_ascii,
-    as_utf8, humansorted_with_options, index_humansorted_with_options, index_natsorted,
-    index_natsorted_values, index_natsorted_values_with_decoder,
-    index_natsorted_values_with_options, index_natsorted_with_options,
-    index_os_sorted_values_with_options, index_realsorted, index_realsorted_values,
-    natsort_key_with_options, natsorted, natsorted_by_key, natsorted_by_key_with_options,
-    natsorted_values, natsorted_values_with_decoder, natsorted_values_with_options,
-    natsorted_with_options, order_by_index, os_sorted_by_key_with_options, os_sorted_with_options,
-    realsorted, realsorted_values, realsorted_with_options,
+    AlgorithmFlags, Decoder, LocaleProfile, NaturalValue, NumericRegexKind, OsSortOptions,
+    OsSortProfile, SortOptions, as_ascii, as_utf8, humansorted_with_options,
+    index_humansorted_with_options, index_natsorted, index_natsorted_values,
+    index_natsorted_values_with_decoder, index_natsorted_values_with_options,
+    index_natsorted_with_options, index_os_sorted_values_with_options, index_realsorted,
+    index_realsorted_values, natsort_key_with_options, natsorted, natsorted_by_key,
+    natsorted_by_key_with_options, natsorted_values, natsorted_values_with_decoder,
+    natsorted_values_with_options, natsorted_with_options, order_by_index,
+    os_sorted_by_key_with_options, os_sorted_with_options, realsorted, realsorted_values,
+    realsorted_with_options,
 };
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -1794,4 +1795,139 @@ fn matches_python_windows_os_punctuation_sort() {
             "foo_0", "foo0", "foo1", "foo2", "Foo3", "foo4", "foo10",
         ]
     );
+}
+
+#[test]
+fn matches_python_algorithm_flag_values() {
+    assert_eq!(AlgorithmFlags::DEFAULT.bits(), 0);
+    assert_eq!(AlgorithmFlags::INT.bits(), 0);
+    assert_eq!(AlgorithmFlags::UNSIGNED.bits(), 0);
+    assert_eq!(AlgorithmFlags::FLOAT.bits(), 1);
+    assert_eq!(AlgorithmFlags::SIGNED.bits(), 2);
+    assert_eq!(AlgorithmFlags::NOEXP.bits(), 4);
+    assert_eq!(AlgorithmFlags::PATH.bits(), 8);
+    assert_eq!(AlgorithmFlags::LOCALEALPHA.bits(), 16);
+    assert_eq!(AlgorithmFlags::LOCALENUM.bits(), 32);
+    assert_eq!(AlgorithmFlags::LOCALE.bits(), 48);
+    assert_eq!(AlgorithmFlags::IGNORECASE.bits(), 64);
+    assert_eq!(AlgorithmFlags::LOWERCASEFIRST.bits(), 128);
+    assert_eq!(AlgorithmFlags::GROUPLETTERS.bits(), 256);
+    assert_eq!(AlgorithmFlags::UNGROUPLETTERS.bits(), 512);
+    assert_eq!(AlgorithmFlags::NANLAST.bits(), 1024);
+    assert_eq!(AlgorithmFlags::COMPATIBILITYNORMALIZE.bits(), 2048);
+    assert_eq!(AlgorithmFlags::NUMAFTER.bits(), 4096);
+    assert_eq!(AlgorithmFlags::PRESORT.bits(), 8192);
+    assert_eq!(AlgorithmFlags::REAL.bits(), 3);
+}
+
+#[test]
+fn matches_python_algorithm_aliases() {
+    assert_eq!(AlgorithmFlags::DEFAULT, AlgorithmFlags::INT);
+    assert_eq!(AlgorithmFlags::INT, AlgorithmFlags::UNSIGNED);
+    assert_eq!(
+        AlgorithmFlags::REAL,
+        AlgorithmFlags::SIGNED | AlgorithmFlags::FLOAT
+    );
+    assert_eq!(
+        AlgorithmFlags::LOCALE,
+        AlgorithmFlags::LOCALEALPHA | AlgorithmFlags::LOCALENUM
+    );
+}
+
+#[test]
+fn matches_python_default_numeric_regex() {
+    let pattern = rust_port::numeric_regex_chooser(AlgorithmFlags::DEFAULT);
+
+    assert!(pattern.starts_with(r"\d+|[²³¹፩፪፫"));
+    assert!(pattern.ends_with("🄆🄇🄈🄉🄊]"));
+}
+
+#[test]
+fn matches_python_signed_integer_numeric_regex() {
+    let pattern = rust_port::numeric_regex_chooser(AlgorithmFlags::SIGNED);
+
+    assert!(pattern.starts_with(r"[-+]?\d+|[²³¹"));
+}
+
+#[test]
+fn matches_python_float_numeric_regex() {
+    let pattern = rust_port::numeric_regex_chooser(AlgorithmFlags::FLOAT);
+
+    assert!(pattern.starts_with(r"(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?|[²³¹¼½¾"));
+    assert!(pattern.ends_with("𠫽𠬙𢎐𢦘𣬛𦉭廾]"));
+}
+
+#[test]
+fn matches_python_signed_float_noexp_regex() {
+    let flags = AlgorithmFlags::FLOAT | AlgorithmFlags::SIGNED | AlgorithmFlags::NOEXP;
+
+    assert!(rust_port::numeric_regex_chooser(flags).starts_with(r"[-+]?(?:\d+\.?\d*|\.\d+)|["));
+    assert_eq!(
+        NumericRegexKind::from_algorithm(flags),
+        NumericRegexKind::SignedFloatNoExponent
+    );
+}
+
+#[test]
+fn matches_python_regex_selection_with_non_numeric_flags() {
+    let base = AlgorithmFlags::FLOAT;
+    let decorated = base
+        | AlgorithmFlags::PATH
+        | AlgorithmFlags::LOCALE
+        | AlgorithmFlags::IGNORECASE
+        | AlgorithmFlags::PRESORT;
+
+    assert_eq!(
+        rust_port::numeric_regex_chooser(base),
+        rust_port::numeric_regex_chooser(decorated)
+    );
+}
+
+#[test]
+fn matches_python_regex_selection_for_arbitrary_integers() {
+    assert_eq!(
+        rust_port::numeric_regex_chooser_from_bits(-1),
+        rust_port::numeric_regex_chooser_from_bits(999_999_999)
+    );
+}
+
+#[test]
+fn algorithm_flags_drive_existing_sort_options() {
+    let options = SortOptions::from_algorithm(AlgorithmFlags::REAL | AlgorithmFlags::PRESORT);
+    let input = ["a1", "a1.45", "a01", "a1.4500"];
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec!["a01", "a1", "a1.45", "a1.4500"]
+    );
+}
+
+#[test]
+fn algorithm_flags_drive_locale_sorting() {
+    let options = SortOptions::from_algorithm(AlgorithmFlags::FLOAT | AlgorithmFlags::LOCALE)
+        .locale_profile(LocaleProfile::EnglishUnitedStates);
+
+    let input = ["1,000.25", "12.50", "2.75", "10.25"];
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec!["2.75", "10.25", "12.50", "1,000.25"]
+    );
+}
+
+#[test]
+fn sort_options_round_trip_python_algorithm_bits() {
+    let flags = AlgorithmFlags::REAL
+        | AlgorithmFlags::PATH
+        | AlgorithmFlags::LOCALE
+        | AlgorithmFlags::IGNORECASE
+        | AlgorithmFlags::LOWERCASEFIRST
+        | AlgorithmFlags::GROUPLETTERS
+        | AlgorithmFlags::UNGROUPLETTERS
+        | AlgorithmFlags::NANLAST
+        | AlgorithmFlags::COMPATIBILITYNORMALIZE
+        | AlgorithmFlags::NUMAFTER
+        | AlgorithmFlags::PRESORT;
+
+    assert_eq!(SortOptions::from_algorithm(flags).algorithm(), flags);
 }

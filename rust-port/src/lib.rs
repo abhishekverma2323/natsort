@@ -1,3 +1,4 @@
+mod algorithm;
 mod api;
 mod decode;
 mod locale;
@@ -11,6 +12,10 @@ mod token;
 mod unicode_numeric;
 mod value;
 mod value_api;
+
+pub use algorithm::{
+    AlgorithmFlags, NumericRegexKind, numeric_regex_chooser, numeric_regex_chooser_from_bits,
+};
 
 pub use value_api::{
     humansorted_by_value_key, humansorted_by_value_key_with_options,
