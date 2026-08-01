@@ -2048,6 +2048,37 @@ fn matches_python_cli_newline_stdin() {
 }
 
 #[test]
+fn matches_python_cli_whitespace_from_newline_stdin() {
+    for stdin in [" num-2\n num-6 \n num-1", " num-2\n num-6 \n num-1\n"] {
+        let (code, output, error) = run_cli_case(&[], stdin);
+
+        assert_eq!(code, 0);
+        assert!(error.is_empty());
+        assert_eq!(output, cli_output_lines(&[" num-1", " num-2", " num-6 "]));
+    }
+}
+
+#[test]
+fn matches_python_cli_whitespace_from_zero_terminated_stdin() {
+    for stdin in [" num-2\0 num-6 \0 num-1", " num-2\0 num-6 \0 num-1\0"] {
+        let (code, output, error) = run_cli_case(&["--zero-terminated"], stdin);
+
+        assert_eq!(code, 0);
+        assert!(error.is_empty());
+        assert_eq!(output, cli_output_lines(&[" num-1", " num-2", " num-6 "]));
+    }
+}
+
+#[test]
+fn matches_python_cli_whitespace_from_command_line_entries() {
+    let (code, output, error) = run_cli_case(&[" num-2", " num-6 ", " num-1"], "");
+
+    assert_eq!(code, 0);
+    assert!(error.is_empty());
+    assert_eq!(output, cli_output_lines(&[" num-1", " num-2", " num-6 "]));
+}
+
+#[test]
 fn matches_python_cli_zero_terminated_stdin() {
     let (code, output, _) = run_cli_case(&["--zero-terminated"], "file10\0file2\0file1\0");
 

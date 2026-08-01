@@ -619,4 +619,350 @@ mod tests {
             ]
         );
     }
+
+    #[test]
+    fn matches_python_numeric_regex_split_corpus_semantics() {
+        macro_rules! text {
+            ($value:literal) => {
+                Token::Text($value.to_owned())
+            };
+        }
+
+        macro_rules! number {
+            ($value:literal) => {
+                Token::Number($value.to_owned())
+            };
+        }
+
+        fn assert_case(input: &str, signed: bool, float: bool, no_exp: bool, expected: Vec<Token>) {
+            assert_eq!(
+                tokenize(input, signed, float, no_exp),
+                expected,
+                "input={input:?}, signed={signed}, float={float}, no_exp={no_exp}",
+            );
+        }
+
+        // Python's re.split output contains empty string fragments at numeric
+        // boundaries. The Rust tokenizer intentionally omits empty text tokens,
+        // so these assertions verify equivalent numeric boundaries and values.
+
+        let signed_scientific = "-123.45e+67";
+
+        assert_case(
+            signed_scientific,
+            false,
+            false,
+            false,
+            vec![
+                text!("-"),
+                number!("123"),
+                text!("."),
+                number!("45"),
+                text!("e+"),
+                number!("67"),
+            ],
+        );
+        assert_case(
+            signed_scientific,
+            true,
+            false,
+            false,
+            vec![
+                number!("-123"),
+                text!("."),
+                number!("45"),
+                text!("e"),
+                number!("+67"),
+            ],
+        );
+        assert_case(
+            signed_scientific,
+            false,
+            true,
+            true,
+            vec![text!("-"), number!("123.45"), text!("e+"), number!("67")],
+        );
+        assert_case(
+            signed_scientific,
+            true,
+            true,
+            true,
+            vec![number!("-123.45"), text!("e"), number!("+67")],
+        );
+        assert_case(
+            signed_scientific,
+            false,
+            true,
+            false,
+            vec![text!("-"), number!("123.45e+67")],
+        );
+        assert_case(
+            signed_scientific,
+            true,
+            true,
+            false,
+            vec![number!("-123.45e+67")],
+        );
+
+        let embedded_scientific = "a-123.45e+67b";
+
+        assert_case(
+            embedded_scientific,
+            false,
+            false,
+            false,
+            vec![
+                text!("a-"),
+                number!("123"),
+                text!("."),
+                number!("45"),
+                text!("e+"),
+                number!("67"),
+                text!("b"),
+            ],
+        );
+        assert_case(
+            embedded_scientific,
+            true,
+            false,
+            false,
+            vec![
+                text!("a"),
+                number!("-123"),
+                text!("."),
+                number!("45"),
+                text!("e"),
+                number!("+67"),
+                text!("b"),
+            ],
+        );
+        assert_case(
+            embedded_scientific,
+            false,
+            true,
+            true,
+            vec![
+                text!("a-"),
+                number!("123.45"),
+                text!("e+"),
+                number!("67"),
+                text!("b"),
+            ],
+        );
+        assert_case(
+            embedded_scientific,
+            true,
+            true,
+            true,
+            vec![
+                text!("a"),
+                number!("-123.45"),
+                text!("e"),
+                number!("+67"),
+                text!("b"),
+            ],
+        );
+        assert_case(
+            embedded_scientific,
+            false,
+            true,
+            false,
+            vec![text!("a-"), number!("123.45e+67"), text!("b")],
+        );
+        assert_case(
+            embedded_scientific,
+            true,
+            true,
+            false,
+            vec![text!("a"), number!("-123.45e+67"), text!("b")],
+        );
+
+        for (signed, float, no_exp) in [
+            (false, false, false),
+            (true, false, false),
+            (false, true, true),
+            (true, true, true),
+            (false, true, false),
+            (true, true, false),
+        ] {
+            assert_case("hello", signed, float, no_exp, vec![text!("hello")]);
+        }
+
+        let adjacent_decimals = "abc12.34.56-7def";
+
+        assert_case(
+            adjacent_decimals,
+            false,
+            false,
+            false,
+            vec![
+                text!("abc"),
+                number!("12"),
+                text!("."),
+                number!("34"),
+                text!("."),
+                number!("56"),
+                text!("-"),
+                number!("7"),
+                text!("def"),
+            ],
+        );
+        assert_case(
+            adjacent_decimals,
+            true,
+            false,
+            false,
+            vec![
+                text!("abc"),
+                number!("12"),
+                text!("."),
+                number!("34"),
+                text!("."),
+                number!("56"),
+                number!("-7"),
+                text!("def"),
+            ],
+        );
+
+        for no_exp in [true, false] {
+            assert_case(
+                adjacent_decimals,
+                false,
+                true,
+                no_exp,
+                vec![
+                    text!("abc"),
+                    number!("12.34"),
+                    number!(".56"),
+                    text!("-"),
+                    number!("7"),
+                    text!("def"),
+                ],
+            );
+            assert_case(
+                adjacent_decimals,
+                true,
+                true,
+                no_exp,
+                vec![
+                    text!("abc"),
+                    number!("12.34"),
+                    number!(".56"),
+                    number!("-7"),
+                    text!("def"),
+                ],
+            );
+        }
+
+        let exponent_like_text = "a1b2c3d4e5e6";
+        let ordinary_tokens = vec![
+            text!("a"),
+            number!("1"),
+            text!("b"),
+            number!("2"),
+            text!("c"),
+            number!("3"),
+            text!("d"),
+            number!("4"),
+            text!("e"),
+            number!("5"),
+            text!("e"),
+            number!("6"),
+        ];
+
+        for (signed, float, no_exp) in [
+            (false, false, false),
+            (true, false, false),
+            (false, true, true),
+            (true, true, true),
+        ] {
+            assert_case(
+                exponent_like_text,
+                signed,
+                float,
+                no_exp,
+                ordinary_tokens.clone(),
+            );
+        }
+
+        let exponent_tokens = vec![
+            text!("a"),
+            number!("1"),
+            text!("b"),
+            number!("2"),
+            text!("c"),
+            number!("3"),
+            text!("d"),
+            number!("4e5"),
+            text!("e"),
+            number!("6"),
+        ];
+
+        assert_case(
+            exponent_like_text,
+            false,
+            true,
+            false,
+            exponent_tokens.clone(),
+        );
+        assert_case(exponent_like_text, true, true, false, exponent_tokens);
+
+        let mixed_decimal_scripts = "eleven۱۱eleven11eleven১১";
+        let normalized_decimal_tokens = vec![
+            text!("eleven"),
+            number!("11"),
+            text!("eleven"),
+            number!("11"),
+            text!("eleven"),
+            number!("11"),
+        ];
+
+        for (signed, float, no_exp) in [
+            (false, false, false),
+            (true, false, false),
+            (false, true, true),
+            (true, true, true),
+            (false, true, false),
+            (true, true, false),
+        ] {
+            assert_case(
+                mixed_decimal_scripts,
+                signed,
+                float,
+                no_exp,
+                normalized_decimal_tokens.clone(),
+            );
+        }
+
+        let broad_unicode_numbers = "12①②ⅠⅡ⅓";
+
+        for signed in [false, true] {
+            assert_case(
+                broad_unicode_numbers,
+                signed,
+                false,
+                false,
+                vec![number!("12"), number!("1"), number!("2"), text!("ⅠⅡ⅓")],
+            );
+        }
+
+        let broad_float_tokens = vec![
+            number!("12"),
+            number!("1"),
+            number!("2"),
+            number!("1"),
+            number!("2"),
+            number!("0.3333333333333333"),
+        ];
+
+        for (signed, no_exp) in [(false, true), (true, true), (false, false), (true, false)] {
+            assert_case(
+                broad_unicode_numbers,
+                signed,
+                true,
+                no_exp,
+                broad_float_tokens.clone(),
+            );
+        }
+    }
 }
