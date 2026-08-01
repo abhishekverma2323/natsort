@@ -170,3 +170,87 @@ Expected: ['value1', 'value01', 'value1.0', 'value1.00', 'value1e0']
 presort_equivalent_values
 Input:    ['a1', 'a1.45', 'a01', 'a1.4500']
 Expected: ['a01', 'a1', 'a1.45', 'a1.4500']
+
+lowercase_first_basic
+Input:    ['Apple', 'corn', 'Corn', 'Banana', 'apple', 'banana']
+Expected: ['apple', 'banana', 'corn', 'Apple', 'Banana', 'Corn']
+
+group_letters_basic
+Input:    ['Apple', 'corn', 'Corn', 'Banana', 'apple', 'banana']
+Expected: ['Apple', 'apple', 'Banana', 'banana', 'Corn', 'corn']
+
+group_letters_lowercase_first
+Input:    ['Apple', 'corn', 'Corn', 'Banana', 'apple', 'banana']
+Expected: ['apple', 'Apple', 'banana', 'Banana', 'corn', 'Corn']
+
+capital_first_default
+Input:    ['apple', 'Apple', 'banana', 'Banana', 'corn', 'Corn']
+Expected: ['Apple', 'Banana', 'Corn', 'apple', 'banana', 'corn']
+
+capital_first_lowercase_first
+Input:    ['Apple', 'corn', 'Corn', 'Banana', 'apple', 'banana']
+Expected: ['apple', 'banana', 'corn', 'Apple', 'Banana', 'Corn']
+
+ignore_case_sharp_s
+Input:    ['straße10', 'STRASSE2', 'Strasse1', 'strasse3']
+Expected: ['Strasse1', 'STRASSE2', 'strasse3', 'straße10']
+
+ignore_case_greek_sigma
+Input:    ['Σ10', 'ς2', 'σ1']
+Expected: ['σ1', 'ς2', 'Σ10']
+
+ignore_case_kelvin_sign
+Input:    ['K10', 'k2', 'K1']
+Expected: ['K1', 'k2', 'K10']
+
+ignore_case_lowercase_first
+Input:    ['Apple10', 'apple2', 'APPLE1', 'aPpLe3']
+Expected: ['APPLE1', 'apple2', 'aPpLe3', 'Apple10']
+
+group_letters_ignore_case
+Input:    ['Apple10', 'apple2', 'APPLE1', 'aPpLe3']
+Expected: ['APPLE1', 'apple2', 'aPpLe3', 'Apple10']
+
+canonical_normalization_equivalent
+Input:    ['café10', 'café2', 'café1']
+Expected: ['café1', 'café2', 'café10']
+
+canonical_normalization_ring
+Input:    ['Å10', 'Å2', 'Å1', 'A2']
+Expected: ['A2', 'Å1', 'Å2', 'Å10']
+
+compatibility_normalize_ligature
+Input:    ['ﬀile10', 'ffile2', 'ﬀile1']
+Expected: ['ﬀile1', 'ffile2', 'ﬀile10']
+
+compatibility_normalize_fullwidth_letters
+Input:    ['Ａ10', 'A2', 'Ａ1']
+Expected: ['Ａ1', 'A2', 'Ａ10']
+
+compatibility_normalize_circled_letters
+Input:    ['Ⓐ10', 'A2', 'Ⓐ1']
+Expected: ['Ⓐ1', 'A2', 'Ⓐ10']
+
+compatibility_normalize_numbers
+Input:    ['item²', 'item2', 'item①', 'item1']
+Expected: ['item①', 'item1', 'item²', 'item2']
+
+lowercase_first_with_numbers
+Input:    ['A10', 'a2', 'A1', 'a1']
+Expected: ['a1', 'a2', 'A1', 'A10']
+
+group_letters_with_numbers
+Input:    ['A10', 'a2', 'A1', 'a1']
+Expected: ['A1', 'A10', 'a1', 'a2']
+
+path_lowercase_first
+Input:    ['Folder10/File2', 'folder2/file10', 'Folder2/file1', 'folder2/File2']
+Expected: ['folder2/file10', 'folder2/File2', 'Folder2/file1', 'Folder10/File2']
+
+path_group_letters
+Input:    ['Folder10/File2', 'folder2/file10', 'Folder2/file1', 'folder2/File2']
+Expected: ['Folder2/file1', 'Folder10/File2', 'folder2/File2', 'folder2/file10']
+
+path_ignore_case_unicode
+Input:    ['Straße10/File2', 'STRASSE2/file10', 'strasse2/File1']
+Expected: ['strasse2/File1', 'STRASSE2/file10', 'Straße10/File2']

@@ -385,5 +385,202 @@ def main() -> None:
         ns.FLOAT | ns.PRESORT,
     )
 
+    show_case(
+        "lowercase_first_basic",
+        ["Apple", "corn", "Corn", "Banana", "apple", "banana"],
+        ns.LOWERCASEFIRST,
+    )
+
+    show_case(
+        "group_letters_basic",
+        ["Apple", "corn", "Corn", "Banana", "apple", "banana"],
+        ns.GROUPLETTERS,
+    )
+
+    show_case(
+        "group_letters_lowercase_first",
+        ["Apple", "corn", "Corn", "Banana", "apple", "banana"],
+        ns.GROUPLETTERS | ns.LOWERCASEFIRST,
+    )
+
+    show_case(
+        "capital_first_default",
+        ["apple", "Apple", "banana", "Banana", "corn", "Corn"],
+        ns.CAPITALFIRST,
+    )
+
+    show_case(
+        "capital_first_lowercase_first",
+        ["Apple", "corn", "Corn", "Banana", "apple", "banana"],
+        ns.CAPITALFIRST | ns.LOWERCASEFIRST,
+    )
+
+    show_case(
+        "ignore_case_sharp_s",
+        [
+            "straße10",
+            "STRASSE2",
+            "Strasse1",
+            "strasse3",
+        ],
+        ns.IGNORECASE,
+    )
+
+    show_case(
+        "ignore_case_greek_sigma",
+        [
+            "Σ10",
+            "ς2",
+            "σ1",
+        ],
+        ns.IGNORECASE,
+    )
+
+    show_case(
+        "ignore_case_kelvin_sign",
+        [
+            "K10",
+            "k2",
+            "K1",
+        ],
+        ns.IGNORECASE,
+    )
+
+    show_case(
+        "ignore_case_lowercase_first",
+        [
+            "Apple10",
+            "apple2",
+            "APPLE1",
+            "aPpLe3",
+        ],
+        ns.IGNORECASE | ns.LOWERCASEFIRST,
+    )
+
+    show_case(
+        "group_letters_ignore_case",
+        [
+            "Apple10",
+            "apple2",
+            "APPLE1",
+            "aPpLe3",
+        ],
+        ns.GROUPLETTERS | ns.IGNORECASE,
+    )
+
+    show_case(
+        "canonical_normalization_equivalent",
+        [
+            "café10",
+            "cafe\u03012",
+            "café1",
+        ],
+    )
+
+    show_case(
+        "canonical_normalization_ring",
+        [
+            "Å10",
+            "A\u030A2",
+            "Å1",
+            "A2",
+        ],
+    )
+
+    show_case(
+        "compatibility_normalize_ligature",
+        [
+            "ﬀile10",
+            "ffile2",
+            "ﬀile1",
+        ],
+        ns.COMPATIBILITYNORMALIZE,
+    )
+
+    show_case(
+        "compatibility_normalize_fullwidth_letters",
+        [
+            "Ａ10",
+            "A2",
+            "Ａ1",
+        ],
+        ns.COMPATIBILITYNORMALIZE,
+    )
+
+    show_case(
+        "compatibility_normalize_circled_letters",
+        [
+            "Ⓐ10",
+            "A2",
+            "Ⓐ1",
+        ],
+        ns.COMPATIBILITYNORMALIZE,
+    )
+
+    show_case(
+        "compatibility_normalize_numbers",
+        [
+            "item²",
+            "item2",
+            "item①",
+            "item1",
+        ],
+        ns.COMPATIBILITYNORMALIZE,
+    )
+
+    show_case(
+        "lowercase_first_with_numbers",
+        [
+            "A10",
+            "a2",
+            "A1",
+            "a1",
+        ],
+        ns.LOWERCASEFIRST,
+    )
+
+    show_case(
+        "group_letters_with_numbers",
+        [
+            "A10",
+            "a2",
+            "A1",
+            "a1",
+        ],
+        ns.GROUPLETTERS,
+    )
+
+    show_case(
+        "path_lowercase_first",
+        [
+            "Folder10/File2",
+            "folder2/file10",
+            "Folder2/file1",
+            "folder2/File2",
+        ],
+        ns.PATH | ns.LOWERCASEFIRST,
+    )
+
+    show_case(
+        "path_group_letters",
+        [
+            "Folder10/File2",
+            "folder2/file10",
+            "Folder2/file1",
+            "folder2/File2",
+        ],
+        ns.PATH | ns.GROUPLETTERS,
+    )
+
+    show_case(
+        "path_ignore_case_unicode",
+        [
+            "Straße10/File2",
+            "STRASSE2/file10",
+            "strasse2/File1",
+        ],
+        ns.PATH | ns.IGNORECASE,
+    )
+
 if __name__ == "__main__":
     main()

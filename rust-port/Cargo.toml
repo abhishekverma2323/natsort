@@ -5,3 +5,6 @@ edition = "2024"
 
 [dependencies]
 grift_unicode = "1.4.0"
+
+unicode-casefold = "0.2.0"
+unicode-normalization = "0.1.25"

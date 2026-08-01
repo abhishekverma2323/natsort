@@ -1,5 +1,8 @@
 use crate::options::SortOptions;
+use crate::path::path_components;
+use crate::text::{prepare_input, transform_text_component};
 use crate::token::{Token, tokenize};
+
 use std::cmp::Ordering;
 
 #[derive(Debug)]
@@ -123,20 +126,43 @@ fn compare_tokens(left: &[Token], right: &[Token]) -> Ordering {
     left.len().cmp(&right.len())
 }
 
-fn is_path_separator(character: char) -> bool {
-    matches!(character, '/' | '\\')
+fn transform_text_tokens(mut tokens: Vec<Token>, options: SortOptions) -> Vec<Token> {
+    for token in &mut tokens {
+        if let Token::Text(text) = token {
+            *text = transform_text_component(text, options);
+        }
+    }
+
+    tokens
 }
 
 fn compare_natural_strings(left: &str, right: &str, options: SortOptions) -> Ordering {
-    let left_tokens = tokenize(left, options.signed, options.float, options.no_exp);
+    let left_prepared = prepare_input(left, options);
+    let right_prepared = prepare_input(right, options);
 
-    let right_tokens = tokenize(right, options.signed, options.float, options.no_exp);
+    let left_tokens = tokenize(
+        &left_prepared,
+        options.signed,
+        options.float,
+        options.no_exp,
+    );
+
+    let right_tokens = tokenize(
+        &right_prepared,
+        options.signed,
+        options.float,
+        options.no_exp,
+    );
+
+    let left_tokens = transform_text_tokens(left_tokens, options);
+
+    let right_tokens = transform_text_tokens(right_tokens, options);
+
     compare_tokens(&left_tokens, &right_tokens)
 }
-
 fn compare_path_strings(left: &str, right: &str, options: SortOptions) -> Ordering {
-    let left_components: Vec<&str> = left.split(is_path_separator).collect();
-    let right_components: Vec<&str> = right.split(is_path_separator).collect();
+    let left_components = path_components(left);
+    let right_components = path_components(right);
 
     for (left_component, right_component) in left_components.iter().zip(right_components.iter()) {
         let ordering = compare_natural_strings(left_component, right_component, options);
@@ -167,22 +193,10 @@ where
     }
 
     result.sort_by(|left, right| {
-        let left_value = if options.ignore_case {
-            left.as_ref().to_lowercase()
-        } else {
-            left.as_ref().to_string()
-        };
-
-        let right_value = if options.ignore_case {
-            right.as_ref().to_lowercase()
-        } else {
-            right.as_ref().to_string()
-        };
-
         let ordering = if options.path {
-            compare_path_strings(&left_value, &right_value, options)
+            compare_path_strings(left.as_ref(), right.as_ref(), options)
         } else {
-            compare_natural_strings(&left_value, &right_value, options)
+            compare_natural_strings(left.as_ref(), right.as_ref(), options)
         };
 
         if options.reverse {
@@ -722,4 +736,319 @@ mod tests {
             vec!["a01", "a1", "a1.45", "a1.4500"]
         );
     }
+
+    #[test]
+    fn sorts_non_decimal_unicode_digits() {
+        let input = vec!["value②", "value①", "value10", "value2"];
+
+        assert_eq!(
+            natsorted(&input),
+            vec!["value①", "value②", "value2", "value10"]
+        );
+    }
+
+    #[test]
+    fn sorts_broader_unicode_numeric_characters_in_float_mode() {
+        let input = vec!["valueⅡ", "value⅓", "value2", "value1"];
+        let options = SortOptions::new().float(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["value⅓", "value1", "valueⅡ", "value2"]
+        );
+    }
+
+    #[test]
+    fn sorts_mixed_unicode_numeric_characters() {
+        let input = vec!["value١٠", "value②", "value३", "value1"];
+        let options = SortOptions::new().float(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["value1", "value②", "value३", "value١٠"]
+        );
+    }
+
+    #[test]
+    fn sorts_complex_filesystem_paths_like_python() {
+        let input = vec![
+            "/p/Folder (10)/file.tar.gz",
+            "/p/Folder (1)/file (1).tar.gz",
+            "/p/Folder/file.x1.9.tar.gz",
+            "/p/Folder (1)/file.tar.gz",
+            "/p/Folder/file.x1.10.tar.gz",
+        ];
+
+        let options = SortOptions::new().float(true).path(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec![
+                "/p/Folder/file.x1.10.tar.gz",
+                "/p/Folder/file.x1.9.tar.gz",
+                "/p/Folder (1)/file.tar.gz",
+                "/p/Folder (1)/file (1).tar.gz",
+                "/p/Folder (10)/file.tar.gz",
+            ]
+        );
+    }
+
+    #[test]
+    fn sorts_path_extension_regression_case() {
+        let input = vec![
+            "Try.Me.Bug - 09 - One.Two.Three.[text].mkv",
+            "Try.Me.Bug - 07 - One.Two.5.[text].mkv",
+            "Try.Me.Bug - 08 - One.Two.Three[text].mkv",
+        ];
+
+        let options = SortOptions::new().path(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec![
+                "Try.Me.Bug - 07 - One.Two.5.[text].mkv",
+                "Try.Me.Bug - 08 - One.Two.Three[text].mkv",
+                "Try.Me.Bug - 09 - One.Two.Three.[text].mkv",
+            ]
+        );
+    }
+
+    #[test]
+    fn path_mode_separates_version_from_extensions() {
+        let input = vec!["file.x1.9.tar.gz", "file.x1.10.tar.gz", "file.x1.2.tar.gz"];
+
+        let options = SortOptions::new().float(true).path(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["file.x1.10.tar.gz", "file.x1.2.tar.gz", "file.x1.9.tar.gz",]
+        );
+    }
+
+    #[test]
+    fn sorts_rooted_paths_naturally() {
+        let input = vec![
+            "/folder10/file.txt",
+            "/folder2/file.txt",
+            "/folder1/file.txt",
+        ];
+
+        let options = SortOptions::new().path(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec![
+                "/folder1/file.txt",
+                "/folder2/file.txt",
+                "/folder10/file.txt",
+            ]
+        );
+    }
+
+    #[test]
+    fn sorts_parent_paths_before_children() {
+        let input = vec!["folder2/file10.txt", "folder2", "folder2/file2.txt"];
+
+        let options = SortOptions::new().path(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["folder2", "folder2/file2.txt", "folder2/file10.txt",]
+        );
+    }
+
+    #[test]
+    fn combines_path_and_ignore_case_options() {
+        let input = vec!["Folder/file10.txt", "folder/File2.txt", "FOLDER/file1.txt"];
+
+        let options = SortOptions::new().path(true).ignore_case(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["FOLDER/file1.txt", "folder/File2.txt", "Folder/file10.txt",]
+        );
+    }
+
+    macro_rules! text_sort_case {
+        (
+        $name:ident,
+        $input:expr,
+        $options:expr,
+        $expected:expr
+    ) => {
+            #[test]
+            fn $name() {
+                let input = $input;
+
+                assert_eq!(natsorted_with_options(&input, $options,), $expected,);
+            }
+        };
+    }
+
+    text_sort_case!(
+        sorts_lowercase_first,
+        ["Apple", "corn", "Corn", "Banana", "apple", "banana"],
+        SortOptions::new().lowercase_first(true),
+        vec!["apple", "banana", "corn", "Apple", "Banana", "Corn"]
+    );
+
+    text_sort_case!(
+        sorts_grouped_letters,
+        ["Apple", "corn", "Corn", "Banana", "apple", "banana"],
+        SortOptions::new().group_letters(true),
+        vec!["Apple", "apple", "Banana", "banana", "Corn", "corn"]
+    );
+
+    text_sort_case!(
+        sorts_grouped_letters_lowercase_first,
+        ["Apple", "corn", "Corn", "Banana", "apple", "banana"],
+        SortOptions::new().group_letters(true).lowercase_first(true),
+        vec!["apple", "Apple", "banana", "Banana", "corn", "Corn"]
+    );
+
+    text_sort_case!(
+        sorts_capitals_first,
+        ["apple", "Apple", "banana", "Banana", "corn", "Corn"],
+        SortOptions::new().capital_first(true),
+        vec!["Apple", "Banana", "Corn", "apple", "banana", "corn"]
+    );
+
+    text_sort_case!(
+        combines_capital_and_lowercase_first,
+        ["Apple", "corn", "Corn", "Banana", "apple", "banana"],
+        SortOptions::new().capital_first(true).lowercase_first(true),
+        vec!["apple", "banana", "corn", "Apple", "Banana", "Corn"]
+    );
+
+    text_sort_case!(
+        case_folds_sharp_s,
+        ["straße10", "STRASSE2", "Strasse1", "strasse3"],
+        SortOptions::new().ignore_case(true),
+        vec!["Strasse1", "STRASSE2", "strasse3", "straße10"]
+    );
+
+    text_sort_case!(
+        case_folds_greek_sigma,
+        ["Σ10", "ς2", "σ1"],
+        SortOptions::new().ignore_case(true),
+        vec!["σ1", "ς2", "Σ10"]
+    );
+
+    text_sort_case!(
+        case_folds_kelvin_sign,
+        ["K10", "k2", "K1"],
+        SortOptions::new().ignore_case(true),
+        vec!["K1", "k2", "K10"]
+    );
+
+    text_sort_case!(
+        combines_ignore_case_and_lowercase_first,
+        ["Apple10", "apple2", "APPLE1", "aPpLe3"],
+        SortOptions::new().ignore_case(true).lowercase_first(true),
+        vec!["APPLE1", "apple2", "aPpLe3", "Apple10"]
+    );
+
+    text_sort_case!(
+        combines_group_letters_and_ignore_case,
+        ["Apple10", "apple2", "APPLE1", "aPpLe3"],
+        SortOptions::new().group_letters(true).ignore_case(true),
+        vec!["APPLE1", "apple2", "aPpLe3", "Apple10"]
+    );
+
+    text_sort_case!(
+        canonically_normalizes_equivalent_text,
+        ["café10", "cafe\u{301}2", "café1"],
+        SortOptions::new(),
+        vec!["café1", "cafe\u{301}2", "café10"]
+    );
+
+    text_sort_case!(
+        canonically_normalizes_ring_characters,
+        ["Å10", "A\u{30A}2", "Å1", "A2"],
+        SortOptions::new(),
+        vec!["A2", "Å1", "A\u{30A}2", "Å10"]
+    );
+
+    text_sort_case!(
+        compatibility_normalizes_ligatures,
+        ["ﬀile10", "ffile2", "ﬀile1"],
+        SortOptions::new().compatibility_normalize(true),
+        vec!["ﬀile1", "ffile2", "ﬀile10"]
+    );
+
+    text_sort_case!(
+        compatibility_normalizes_fullwidth_letters,
+        ["Ａ10", "A2", "Ａ1"],
+        SortOptions::new().compatibility_normalize(true),
+        vec!["Ａ1", "A2", "Ａ10"]
+    );
+
+    text_sort_case!(
+        compatibility_normalizes_circled_letters,
+        ["Ⓐ10", "A2", "Ⓐ1"],
+        SortOptions::new().compatibility_normalize(true),
+        vec!["Ⓐ1", "A2", "Ⓐ10"]
+    );
+
+    text_sort_case!(
+        compatibility_normalizes_numbers,
+        ["item²", "item2", "item①", "item1"],
+        SortOptions::new().compatibility_normalize(true),
+        vec!["item①", "item1", "item²", "item2"]
+    );
+
+    text_sort_case!(
+        sorts_lowercase_first_with_numbers,
+        ["A10", "a2", "A1", "a1"],
+        SortOptions::new().lowercase_first(true),
+        vec!["a1", "a2", "A1", "A10"]
+    );
+
+    text_sort_case!(
+        sorts_group_letters_with_numbers,
+        ["A10", "a2", "A1", "a1"],
+        SortOptions::new().group_letters(true),
+        vec!["A1", "A10", "a1", "a2"]
+    );
+
+    text_sort_case!(
+        sorts_paths_lowercase_first,
+        [
+            "Folder10/File2",
+            "folder2/file10",
+            "Folder2/file1",
+            "folder2/File2",
+        ],
+        SortOptions::new().path(true).lowercase_first(true),
+        vec![
+            "folder2/file10",
+            "folder2/File2",
+            "Folder2/file1",
+            "Folder10/File2",
+        ]
+    );
+
+    text_sort_case!(
+        sorts_paths_with_grouped_letters,
+        [
+            "Folder10/File2",
+            "folder2/file10",
+            "Folder2/file1",
+            "folder2/File2",
+        ],
+        SortOptions::new().path(true).group_letters(true),
+        vec![
+            "Folder2/file1",
+            "Folder10/File2",
+            "folder2/File2",
+            "folder2/file10",
+        ]
+    );
+
+    text_sort_case!(
+        sorts_unicode_paths_ignoring_case,
+        ["Straße10/File2", "STRASSE2/file10", "strasse2/File1",],
+        SortOptions::new().path(true).ignore_case(true),
+        vec!["strasse2/File1", "STRASSE2/file10", "Straße10/File2",]
+    );
 }

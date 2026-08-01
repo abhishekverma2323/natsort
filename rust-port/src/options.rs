@@ -1,6 +1,10 @@
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
 pub struct SortOptions {
     pub ignore_case: bool,
+    pub lowercase_first: bool,
+    pub group_letters: bool,
+    pub capital_first: bool,
+    pub compatibility_normalize: bool,
     pub reverse: bool,
     pub signed: bool,
     pub float: bool,
@@ -13,6 +17,10 @@ impl SortOptions {
     pub const fn new() -> Self {
         Self {
             ignore_case: false,
+            lowercase_first: false,
+            group_letters: false,
+            capital_first: false,
+            compatibility_normalize: false,
             reverse: false,
             signed: false,
             float: false,
@@ -24,6 +32,26 @@ impl SortOptions {
 
     pub const fn ignore_case(mut self, enabled: bool) -> Self {
         self.ignore_case = enabled;
+        self
+    }
+
+    pub const fn lowercase_first(mut self, enabled: bool) -> Self {
+        self.lowercase_first = enabled;
+        self
+    }
+
+    pub const fn group_letters(mut self, enabled: bool) -> Self {
+        self.group_letters = enabled;
+        self
+    }
+
+    pub const fn capital_first(mut self, enabled: bool) -> Self {
+        self.capital_first = enabled;
+        self
+    }
+
+    pub const fn compatibility_normalize(mut self, enabled: bool) -> Self {
+        self.compatibility_normalize = enabled;
         self
     }
 

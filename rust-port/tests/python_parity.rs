@@ -455,3 +455,318 @@ fn matches_python_presort_equivalent_value_sorting() {
         vec!["a01", "a1", "a1.45", "a1.4500"]
     );
 }
+
+#[test]
+fn matches_python_unicode_digit_character_sorting() {
+    let input = vec!["value②", "value①", "value10", "value2"];
+
+    assert_eq!(
+        natsorted(&input),
+        vec!["value①", "value②", "value2", "value10"]
+    );
+}
+
+#[test]
+fn matches_python_unicode_numeric_character_float_sorting() {
+    let input = vec!["valueⅡ", "value⅓", "value2", "value1"];
+    let options = SortOptions::new().float(true);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec!["value⅓", "value1", "valueⅡ", "value2"]
+    );
+}
+
+#[test]
+fn matches_python_mixed_unicode_numeric_character_sorting() {
+    let input = vec!["value١٠", "value②", "value३", "value1"];
+    let options = SortOptions::new().float(true);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec!["value1", "value②", "value३", "value١٠"]
+    );
+}
+
+#[test]
+fn sorts_complex_filesystem_paths_like_python() {
+    let input = vec![
+        "/p/Folder (10)/file.tar.gz",
+        "/p/Folder (1)/file (1).tar.gz",
+        "/p/Folder/file.x1.9.tar.gz",
+        "/p/Folder (1)/file.tar.gz",
+        "/p/Folder/file.x1.10.tar.gz",
+    ];
+
+    let options = SortOptions::new().float(true).path(true);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec![
+            "/p/Folder/file.x1.10.tar.gz",
+            "/p/Folder/file.x1.9.tar.gz",
+            "/p/Folder (1)/file.tar.gz",
+            "/p/Folder (1)/file (1).tar.gz",
+            "/p/Folder (10)/file.tar.gz",
+        ]
+    );
+}
+
+#[test]
+fn sorts_path_extension_regression_case() {
+    let input = vec![
+        "Try.Me.Bug - 09 - One.Two.Three.[text].mkv",
+        "Try.Me.Bug - 07 - One.Two.5.[text].mkv",
+        "Try.Me.Bug - 08 - One.Two.Three[text].mkv",
+    ];
+
+    let options = SortOptions::new().path(true);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec![
+            "Try.Me.Bug - 07 - One.Two.5.[text].mkv",
+            "Try.Me.Bug - 08 - One.Two.Three[text].mkv",
+            "Try.Me.Bug - 09 - One.Two.Three.[text].mkv",
+        ]
+    );
+}
+
+#[test]
+fn path_mode_separates_version_from_extensions() {
+    let input = vec!["file.x1.9.tar.gz", "file.x1.10.tar.gz", "file.x1.2.tar.gz"];
+
+    let options = SortOptions::new().float(true).path(true);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec!["file.x1.10.tar.gz", "file.x1.2.tar.gz", "file.x1.9.tar.gz",]
+    );
+}
+
+#[test]
+fn sorts_rooted_paths_naturally() {
+    let input = vec![
+        "/folder10/file.txt",
+        "/folder2/file.txt",
+        "/folder1/file.txt",
+    ];
+
+    let options = SortOptions::new().path(true);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec![
+            "/folder1/file.txt",
+            "/folder2/file.txt",
+            "/folder10/file.txt",
+        ]
+    );
+}
+
+#[test]
+fn sorts_parent_paths_before_children() {
+    let input = vec!["folder2/file10.txt", "folder2", "folder2/file2.txt"];
+
+    let options = SortOptions::new().path(true);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec!["folder2", "folder2/file2.txt", "folder2/file10.txt",]
+    );
+}
+
+#[test]
+fn combines_path_and_ignore_case_options() {
+    let input = vec!["Folder/file10.txt", "folder/File2.txt", "FOLDER/file1.txt"];
+
+    let options = SortOptions::new().path(true).ignore_case(true);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec!["FOLDER/file1.txt", "folder/File2.txt", "Folder/file10.txt",]
+    );
+}
+
+macro_rules! python_text_parity_case {
+    (
+        $name:ident,
+        $input:expr,
+        $options:expr,
+        $expected:expr
+    ) => {
+        #[test]
+        fn $name() {
+            let input = $input;
+
+            assert_eq!(natsorted_with_options(&input, $options,), $expected,);
+        }
+    };
+}
+
+python_text_parity_case!(
+    matches_python_lowercase_first_sorting,
+    ["Apple", "corn", "Corn", "Banana", "apple", "banana"],
+    SortOptions::new().lowercase_first(true),
+    vec!["apple", "banana", "corn", "Apple", "Banana", "Corn"]
+);
+
+python_text_parity_case!(
+    matches_python_group_letters_sorting,
+    ["Apple", "corn", "Corn", "Banana", "apple", "banana"],
+    SortOptions::new().group_letters(true),
+    vec!["Apple", "apple", "Banana", "banana", "Corn", "corn"]
+);
+
+python_text_parity_case!(
+    matches_python_group_letters_lowercase_first_sorting,
+    ["Apple", "corn", "Corn", "Banana", "apple", "banana"],
+    SortOptions::new().group_letters(true).lowercase_first(true),
+    vec!["apple", "Apple", "banana", "Banana", "corn", "Corn"]
+);
+
+python_text_parity_case!(
+    matches_python_capital_first_sorting,
+    ["apple", "Apple", "banana", "Banana", "corn", "Corn"],
+    SortOptions::new().capital_first(true),
+    vec!["Apple", "Banana", "Corn", "apple", "banana", "corn"]
+);
+
+python_text_parity_case!(
+    matches_python_capital_and_lowercase_first_sorting,
+    ["Apple", "corn", "Corn", "Banana", "apple", "banana"],
+    SortOptions::new().capital_first(true).lowercase_first(true),
+    vec!["apple", "banana", "corn", "Apple", "Banana", "Corn"]
+);
+
+python_text_parity_case!(
+    matches_python_sharp_s_casefold_sorting,
+    ["straße10", "STRASSE2", "Strasse1", "strasse3"],
+    SortOptions::new().ignore_case(true),
+    vec!["Strasse1", "STRASSE2", "strasse3", "straße10"]
+);
+
+python_text_parity_case!(
+    matches_python_greek_sigma_casefold_sorting,
+    ["Σ10", "ς2", "σ1"],
+    SortOptions::new().ignore_case(true),
+    vec!["σ1", "ς2", "Σ10"]
+);
+
+python_text_parity_case!(
+    matches_python_kelvin_sign_casefold_sorting,
+    ["K10", "k2", "K1"],
+    SortOptions::new().ignore_case(true),
+    vec!["K1", "k2", "K10"]
+);
+
+python_text_parity_case!(
+    matches_python_ignore_case_lowercase_first_sorting,
+    ["Apple10", "apple2", "APPLE1", "aPpLe3"],
+    SortOptions::new().ignore_case(true).lowercase_first(true),
+    vec!["APPLE1", "apple2", "aPpLe3", "Apple10"]
+);
+
+python_text_parity_case!(
+    matches_python_group_letters_ignore_case_sorting,
+    ["Apple10", "apple2", "APPLE1", "aPpLe3"],
+    SortOptions::new().group_letters(true).ignore_case(true),
+    vec!["APPLE1", "apple2", "aPpLe3", "Apple10"]
+);
+
+python_text_parity_case!(
+    matches_python_canonical_normalization_sorting,
+    ["café10", "cafe\u{301}2", "café1"],
+    SortOptions::new(),
+    vec!["café1", "cafe\u{301}2", "café10"]
+);
+
+python_text_parity_case!(
+    matches_python_canonical_ring_normalization_sorting,
+    ["Å10", "A\u{30A}2", "Å1", "A2"],
+    SortOptions::new(),
+    vec!["A2", "Å1", "A\u{30A}2", "Å10"]
+);
+
+python_text_parity_case!(
+    matches_python_ligature_compatibility_normalization,
+    ["ﬀile10", "ffile2", "ﬀile1"],
+    SortOptions::new().compatibility_normalize(true),
+    vec!["ﬀile1", "ffile2", "ﬀile10"]
+);
+
+python_text_parity_case!(
+    matches_python_fullwidth_compatibility_normalization,
+    ["Ａ10", "A2", "Ａ1"],
+    SortOptions::new().compatibility_normalize(true),
+    vec!["Ａ1", "A2", "Ａ10"]
+);
+
+python_text_parity_case!(
+    matches_python_circled_letter_compatibility_normalization,
+    ["Ⓐ10", "A2", "Ⓐ1"],
+    SortOptions::new().compatibility_normalize(true),
+    vec!["Ⓐ1", "A2", "Ⓐ10"]
+);
+
+python_text_parity_case!(
+    matches_python_number_compatibility_normalization,
+    ["item²", "item2", "item①", "item1"],
+    SortOptions::new().compatibility_normalize(true),
+    vec!["item①", "item1", "item²", "item2"]
+);
+
+python_text_parity_case!(
+    matches_python_lowercase_first_numeric_sorting,
+    ["A10", "a2", "A1", "a1"],
+    SortOptions::new().lowercase_first(true),
+    vec!["a1", "a2", "A1", "A10"]
+);
+
+python_text_parity_case!(
+    matches_python_group_letters_numeric_sorting,
+    ["A10", "a2", "A1", "a1"],
+    SortOptions::new().group_letters(true),
+    vec!["A1", "A10", "a1", "a2"]
+);
+
+python_text_parity_case!(
+    matches_python_path_lowercase_first_sorting,
+    [
+        "Folder10/File2",
+        "folder2/file10",
+        "Folder2/file1",
+        "folder2/File2",
+    ],
+    SortOptions::new().path(true).lowercase_first(true),
+    vec![
+        "folder2/file10",
+        "folder2/File2",
+        "Folder2/file1",
+        "Folder10/File2",
+    ]
+);
+
+python_text_parity_case!(
+    matches_python_path_group_letters_sorting,
+    [
+        "Folder10/File2",
+        "folder2/file10",
+        "Folder2/file1",
+        "folder2/File2",
+    ],
+    SortOptions::new().path(true).group_letters(true),
+    vec![
+        "Folder2/file1",
+        "Folder10/File2",
+        "folder2/File2",
+        "folder2/file10",
+    ]
+);
+
+python_text_parity_case!(
+    matches_python_unicode_path_ignore_case_sorting,
+    ["Straße10/File2", "STRASSE2/file10", "strasse2/File1",],
+    SortOptions::new().path(true).ignore_case(true),
+    vec!["strasse2/File1", "STRASSE2/file10", "Straße10/File2",]
+);

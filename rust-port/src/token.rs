@@ -1,3 +1,4 @@
+use crate::unicode_numeric::{unicode_digit_value, unicode_numeric_value};
 use grift_unicode::digit_value;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -7,7 +8,7 @@ pub(crate) enum Token {
 }
 
 fn is_decimal_digit(character: char) -> bool {
-    digit_value(character).is_some()
+    digit_value(character).is_some() && unicode_numeric_value(character).is_none()
 }
 
 fn push_normalized_digit(output: &mut String, character: char) {
@@ -19,10 +20,52 @@ fn push_normalized_digit(output: &mut String, character: char) {
     output.push(ascii_digit);
 }
 
+fn standalone_unicode_number_value(character: char, float: bool) -> Option<f64> {
+    if float {
+        unicode_numeric_value(character)
+    } else {
+        unicode_digit_value(character).map(f64::from)
+    }
+}
+
+fn consume_standalone_unicode_number(
+    chars: &[char],
+    index: &mut usize,
+    signed: bool,
+    float: bool,
+) -> Option<String> {
+    let mut value_index = *index;
+    let mut sign = 1.0;
+
+    if signed {
+        match chars.get(value_index) {
+            Some('+') => {
+                value_index += 1;
+            }
+            Some('-') => {
+                sign = -1.0;
+                value_index += 1;
+            }
+            _ => {}
+        }
+    }
+
+    let character = *chars.get(value_index)?;
+    let value = standalone_unicode_number_value(character, float)?;
+
+    *index = value_index + 1;
+
+    Some((value * sign).to_string())
+}
+
 fn starts_unsigned_number(chars: &[char], index: usize, float: bool) -> bool {
     let current = chars[index];
 
     if is_decimal_digit(current) {
+        return true;
+    }
+
+    if standalone_unicode_number_value(current, float).is_some() {
         return true;
     }
 
@@ -88,6 +131,10 @@ fn consume_number(
     float: bool,
     no_exp: bool,
 ) -> String {
+    if let Some(number) = consume_standalone_unicode_number(chars, index, signed, float) {
+        return number;
+    }
+
     let mut number = String::new();
 
     if signed && matches!(chars[*index], '+' | '-') {
@@ -510,6 +557,65 @@ mod tests {
             vec![
                 Token::Text("value".to_string()),
                 Token::Number("-12".to_string()),
+            ]
+        );
+    }
+
+    #[test]
+    fn tokenizes_non_decimal_unicode_digit_in_integer_mode() {
+        let result = tokenize("value②", false, false, false);
+
+        assert_eq!(
+            result,
+            vec![
+                Token::Text("value".to_string()),
+                Token::Number("2".to_string()),
+            ]
+        );
+    }
+
+    #[test]
+    fn tokenizes_roman_numeral_in_float_mode() {
+        let result = tokenize("valueⅡ", false, true, false);
+
+        assert_eq!(
+            result,
+            vec![
+                Token::Text("value".to_string()),
+                Token::Number("2".to_string()),
+            ]
+        );
+    }
+
+    #[test]
+    fn tokenizes_unicode_fraction_in_float_mode() {
+        let result = tokenize("value⅓", false, true, false);
+
+        assert_eq!(
+            result,
+            vec![
+                Token::Text("value".to_string()),
+                Token::Number("0.3333333333333333".to_string()),
+            ]
+        );
+    }
+
+    #[test]
+    fn keeps_unicode_fraction_as_text_in_integer_mode() {
+        let result = tokenize("value⅓", false, false, false);
+
+        assert_eq!(result, vec![Token::Text("value⅓".to_string())]);
+    }
+
+    #[test]
+    fn tokenizes_signed_unicode_numeric_character() {
+        let result = tokenize("value-Ⅱ", true, true, false);
+
+        assert_eq!(
+            result,
+            vec![
+                Token::Text("value".to_string()),
+                Token::Number("-2".to_string()),
             ]
         );
     }
