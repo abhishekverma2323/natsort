@@ -82,6 +82,6 @@ jobs:
             python3 -m venv .venv
             . .venv/bin/activate
             pip install --upgrade pip
-            pip install pytest pytest-mock hypothesis setuptools_scm
+            pip install pytest pytest-mock "hypothesis==6.155.0" setuptools_scm
             pip install -e .
             python -m pytest --hypothesis-profile=slow-tests
