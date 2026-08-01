@@ -2,6 +2,7 @@ mod api;
 mod decode;
 mod options;
 mod path;
+mod separator;
 mod sort;
 mod text;
 mod token;

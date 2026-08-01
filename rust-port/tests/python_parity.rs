@@ -1349,3 +1349,160 @@ fn matches_python_decoder_mixed_value_indexes() {
         Ok(vec![2, 1, 0])
     );
 }
+
+#[test]
+fn matches_python_num_after_basic_sorting() {
+    let input = ["73", "5039", "Banana", "apple", "corn", "~~~~~~"];
+
+    let options = SortOptions::new().num_after(true);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec!["Banana", "apple", "corn", "~~~~~~", "73", "5039",]
+    );
+}
+
+#[test]
+fn matches_python_num_after_mixed_direct_values() {
+    let input = vec![
+        NaturalValue::from("0"),
+        NaturalValue::from(1.5),
+        NaturalValue::from("2"),
+        NaturalValue::from(3),
+        NaturalValue::from("ä"),
+        NaturalValue::from("Ä"),
+        NaturalValue::from("b"),
+        NaturalValue::from("Z"),
+    ];
+
+    let options = SortOptions::new().num_after(true);
+
+    assert_eq!(
+        natsorted_values_with_options(&input, options),
+        vec![
+            NaturalValue::from("Ä"),
+            NaturalValue::from("Z"),
+            NaturalValue::from("ä"),
+            NaturalValue::from("b"),
+            NaturalValue::from("0"),
+            NaturalValue::from(1.5),
+            NaturalValue::from("2"),
+            NaturalValue::from(3),
+        ]
+    );
+}
+
+#[test]
+fn matches_python_num_after_ignore_case() {
+    let input = ["10", "Apple", "apple", "2", "Banana", "banana"];
+
+    let options = SortOptions::new().num_after(true).ignore_case(true);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec!["Apple", "apple", "Banana", "banana", "2", "10",]
+    );
+}
+
+#[test]
+fn matches_python_num_after_group_letters() {
+    let input = ["10", "Apple", "apple", "2", "Banana", "banana"];
+
+    let options = SortOptions::new().num_after(true).group_letters(true);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec!["Apple", "apple", "Banana", "banana", "2", "10",]
+    );
+}
+
+#[test]
+fn matches_python_num_after_path_sorting() {
+    let input = ["10", "folder10/file", "folder2/file", "2", "apple"];
+
+    let options = SortOptions::new().num_after(true).path(true);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec!["apple", "folder2/file", "folder10/file", "2", "10",]
+    );
+}
+
+#[test]
+fn matches_python_num_after_signed_values() {
+    let input = vec![
+        NaturalValue::from(-10),
+        NaturalValue::from("value-2"),
+        NaturalValue::from(2),
+        NaturalValue::from("apple"),
+        NaturalValue::from("value1"),
+    ];
+
+    let options = SortOptions::new().num_after(true).signed(true);
+
+    assert_eq!(
+        natsorted_values_with_options(&input, options),
+        vec![
+            NaturalValue::from("apple"),
+            NaturalValue::from("value-2"),
+            NaturalValue::from("value1"),
+            NaturalValue::from(-10),
+            NaturalValue::from(2),
+        ]
+    );
+}
+
+#[test]
+fn matches_python_num_after_float_values() {
+    let input = vec![
+        NaturalValue::from(1.5),
+        NaturalValue::from("value1.25"),
+        NaturalValue::from(2),
+        NaturalValue::from("apple"),
+        NaturalValue::from("value1.5"),
+    ];
+
+    let options = SortOptions::new().num_after(true).float(true);
+
+    assert_eq!(
+        natsorted_values_with_options(&input, options),
+        vec![
+            NaturalValue::from("apple"),
+            NaturalValue::from("value1.25"),
+            NaturalValue::from("value1.5"),
+            NaturalValue::from(1.5),
+            NaturalValue::from(2),
+        ]
+    );
+}
+
+#[test]
+fn matches_python_num_after_reverse() {
+    let input = ["73", "5039", "Banana", "apple", "corn", "~~~~~~"];
+
+    let options = SortOptions::new().num_after(true).reverse(true);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec!["5039", "73", "~~~~~~", "corn", "apple", "Banana",]
+    );
+}
+
+#[test]
+fn matches_python_num_after_indexes() {
+    let input = vec![
+        NaturalValue::from("73"),
+        NaturalValue::from("5039"),
+        NaturalValue::from("Banana"),
+        NaturalValue::from("apple"),
+        NaturalValue::from("corn"),
+        NaturalValue::from("~~~~~~"),
+    ];
+
+    let options = SortOptions::new().num_after(true);
+
+    assert_eq!(
+        index_natsorted_values_with_options(&input, options,),
+        vec![2, 3, 4, 5, 0, 1]
+    );
+}

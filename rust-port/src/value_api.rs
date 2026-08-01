@@ -636,4 +636,23 @@ mod tests {
             Err(DecodeError::InvalidUtf8 { .. })
         ));
     }
+
+    #[test]
+    fn value_indexes_support_num_after() {
+        let input = vec![
+            text("73"),
+            text("5039"),
+            text("Banana"),
+            text("apple"),
+            text("corn"),
+            text("~~~~~~"),
+        ];
+
+        let options = SortOptions::new().num_after(true);
+
+        assert_eq!(
+            index_natsorted_values_with_options(&input, options,),
+            vec![2, 3, 4, 5, 0, 1]
+        );
+    }
 }

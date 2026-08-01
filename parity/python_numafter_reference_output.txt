@@ -1,0 +1,84 @@
+
+numafter_basic
+Input:    ['73', '5039', 'Banana', 'apple', 'corn', '~~~~~~']
+Expected: ['Banana', 'apple', 'corn', '~~~~~~', '73', '5039']
+
+numafter_default_comparison
+Input:    ['73', '5039', 'Banana', 'apple', 'corn', '~~~~~~']
+Expected: ['73', '5039', 'Banana', 'apple', 'corn', '~~~~~~']
+
+numafter_mixed_direct_values
+Input:    ['0', 1.5, '2', 3, 'ä', 'Ä', 'b', 'Z']
+Expected: ['Ä', 'Z', 'ä', 'b', '0', 1.5, '2', 3]
+
+numafter_capital_first
+Input:    ['0', 1.5, '2', 3, 'ä', 'Ä', 'b', 'Z']
+Expected: ['Ä', 'Z', 'ä', 'b', '0', 1.5, '2', 3]
+
+numafter_ignore_case
+Input:    ['10', 'Apple', 'apple', '2', 'Banana', 'banana']
+Expected: ['Apple', 'apple', 'Banana', 'banana', '2', '10']
+
+numafter_group_letters
+Input:    ['10', 'Apple', 'apple', '2', 'Banana', 'banana']
+Expected: ['Apple', 'apple', 'Banana', 'banana', '2', '10']
+
+numafter_path
+Input:    ['10', 'folder10/file', 'folder2/file', '2', 'apple']
+Expected: ['apple', 'folder2/file', 'folder10/file', '2', '10']
+
+numafter_signed
+Input:    [-10, 'value-2', 2, 'apple', 'value1']
+Expected: ['apple', 'value-2', 'value1', -10, 2]
+
+numafter_float
+Input:    [1.5, 'value1.25', 2, 'apple', 'value1.5']
+Expected: ['apple', 'value1.25', 'value1.5', 1.5, 2]
+
+numafter_reverse
+Input:    ['73', '5039', 'Banana', 'apple', 'corn', '~~~~~~']
+Expected: ['5039', '73', '~~~~~~', 'corn', 'apple', 'Banana']
+
+numafter_indexes
+Input:    ['73', '5039', 'Banana', 'apple', 'corn', '~~~~~~']
+Expected: [2, 3, 4, 5, 0, 1]
+
+default_key_'apple'
+Input:    'apple'
+Expected: ('apple',)
+
+numafter_key_'apple'
+Input:    'apple'
+Expected: ('apple',)
+
+default_key_'73'
+Input:    '73'
+Expected: ('', 73)
+
+numafter_key_'73'
+Input:    '73'
+Expected: ('\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff', 73)
+
+default_key_73
+Input:    73
+Expected: ('', 73)
+
+numafter_key_73
+Input:    73
+Expected: ('\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff\U0010ffff', 73)
+
+default_key_'file2'
+Input:    'file2'
+Expected: ('file', 2)
+
+numafter_key_'file2'
+Input:    'file2'
+Expected: ('file', 2)
+
+default_key_'~~~~~~'
+Input:    '~~~~~~'
+Expected: ('~~~~~~',)
+
+numafter_key_'~~~~~~'
+Input:    '~~~~~~'
+Expected: ('~~~~~~',)

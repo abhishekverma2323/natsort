@@ -1,5 +1,6 @@
 use crate::options::SortOptions;
 use crate::path::path_components;
+use crate::separator::NUM_AFTER_SEPARATOR;
 use crate::text::{prepare_input, transform_text_component};
 use crate::token::{Token, tokenize};
 
@@ -141,7 +142,13 @@ pub(crate) fn string_key_tokens(input: &str, options: SortOptions) -> Vec<Token>
 
     let tokens = tokenize(&prepared, options.signed, options.float, options.no_exp);
 
-    transform_text_tokens(tokens, options)
+    let mut tokens = transform_text_tokens(tokens, options);
+
+    if options.num_after && matches!(tokens.first(), Some(Token::Number(_))) {
+        tokens.insert(0, Token::Text(NUM_AFTER_SEPARATOR.to_string()));
+    }
+
+    tokens
 }
 
 pub(crate) fn string_key_components(input: &str, options: SortOptions) -> Vec<Vec<Token>> {
@@ -1078,6 +1085,78 @@ mod tests {
         assert_eq!(
             natsorted_with_options(&input, options),
             vec!["a1.4500", "a1.45", "a1", "a01"]
+        );
+    }
+
+    #[test]
+    fn num_after_places_pure_numbers_after_text() {
+        let input = vec!["73", "5039", "Banana", "apple", "corn", "~~~~~~"];
+
+        let options = SortOptions::new().num_after(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["Banana", "apple", "corn", "~~~~~~", "73", "5039",]
+        );
+    }
+
+    #[test]
+    fn num_after_preserves_embedded_numbers() {
+        let input = vec!["file10", "10", "file2", "2", "apple"];
+
+        let options = SortOptions::new().num_after(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["apple", "file2", "file10", "2", "10",]
+        );
+    }
+
+    #[test]
+    fn num_after_combines_with_ignore_case() {
+        let input = vec!["10", "Apple", "apple", "2", "Banana", "banana"];
+
+        let options = SortOptions::new().num_after(true).ignore_case(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["Apple", "apple", "Banana", "banana", "2", "10",]
+        );
+    }
+
+    #[test]
+    fn num_after_combines_with_group_letters() {
+        let input = vec!["10", "Apple", "apple", "2", "Banana", "banana"];
+
+        let options = SortOptions::new().num_after(true).group_letters(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["Apple", "apple", "Banana", "banana", "2", "10",]
+        );
+    }
+
+    #[test]
+    fn num_after_combines_with_path_mode() {
+        let input = vec!["10", "folder10/file", "folder2/file", "2", "apple"];
+
+        let options = SortOptions::new().num_after(true).path(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["apple", "folder2/file", "folder10/file", "2", "10",]
+        );
+    }
+
+    #[test]
+    fn reverse_num_after_matches_python() {
+        let input = vec!["73", "5039", "Banana", "apple", "corn", "~~~~~~"];
+
+        let options = SortOptions::new().num_after(true).reverse(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["5039", "73", "~~~~~~", "corn", "apple", "Banana",]
         );
     }
 }

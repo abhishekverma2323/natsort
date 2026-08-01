@@ -1,6 +1,6 @@
-use std::cmp::Ordering;
-
+use crate::separator::numeric_prefix;
 use num_bigint::BigInt;
+use std::cmp::Ordering;
 
 use crate::options::SortOptions;
 use crate::sort::{compare_numeric_strings, string_key_components};
@@ -242,8 +242,15 @@ fn text_key(input: &str, options: SortOptions) -> NaturalKey {
     }
 }
 
-fn numeric_atomic_key(number: NumericKey, marker: Option<&str>) -> NaturalKey {
-    let mut atoms = vec![KeyAtom::Text(String::new()), KeyAtom::Number(number)];
+fn numeric_atomic_key(
+    number: NumericKey,
+    marker: Option<&str>,
+    options: SortOptions,
+) -> NaturalKey {
+    let mut atoms = vec![
+        KeyAtom::Text(numeric_prefix(options).to_string()),
+        KeyAtom::Number(number),
+    ];
 
     if let Some(marker) = marker {
         atoms.push(KeyAtom::Text(marker.to_string()));
@@ -262,7 +269,7 @@ fn wrap_for_path(key: NaturalKey, options: SortOptions) -> NaturalKey {
 
 fn integer_key(value: &BigInt, options: SortOptions) -> NaturalKey {
     wrap_for_path(
-        numeric_atomic_key(NumericKey::Finite(value.to_string()), None),
+        numeric_atomic_key(NumericKey::Finite(value.to_string()), None, options),
         options,
     )
 }
@@ -270,22 +277,22 @@ fn integer_key(value: &BigInt, options: SortOptions) -> NaturalKey {
 fn float_key(value: f64, options: SortOptions) -> NaturalKey {
     let key = if options.nan_last {
         if value.is_nan() {
-            numeric_atomic_key(NumericKey::PositiveInfinity, Some("3"))
+            numeric_atomic_key(NumericKey::PositiveInfinity, Some("3"), options)
         } else if value == f64::INFINITY {
-            numeric_atomic_key(NumericKey::PositiveInfinity, Some("1"))
+            numeric_atomic_key(NumericKey::PositiveInfinity, Some("1"), options)
         } else if value == f64::NEG_INFINITY {
-            numeric_atomic_key(NumericKey::NegativeInfinity, None)
+            numeric_atomic_key(NumericKey::NegativeInfinity, None, options)
         } else {
-            numeric_atomic_key(NumericKey::Finite(value.to_string()), None)
+            numeric_atomic_key(NumericKey::Finite(value.to_string()), None, options)
         }
     } else if value.is_nan() {
-        numeric_atomic_key(NumericKey::NegativeInfinity, Some("1"))
+        numeric_atomic_key(NumericKey::NegativeInfinity, Some("1"), options)
     } else if value == f64::NEG_INFINITY {
-        numeric_atomic_key(NumericKey::NegativeInfinity, Some("3"))
+        numeric_atomic_key(NumericKey::NegativeInfinity, Some("3"), options)
     } else if value == f64::INFINITY {
-        numeric_atomic_key(NumericKey::PositiveInfinity, None)
+        numeric_atomic_key(NumericKey::PositiveInfinity, None, options)
     } else {
-        numeric_atomic_key(NumericKey::Finite(value.to_string()), None)
+        numeric_atomic_key(NumericKey::Finite(value.to_string()), None, options)
     };
 
     wrap_for_path(key, options)
@@ -298,7 +305,7 @@ fn none_key(options: SortOptions) -> NaturalKey {
         NumericKey::NegativeInfinity
     };
 
-    wrap_for_path(numeric_atomic_key(infinity, Some("2")), options)
+    wrap_for_path(numeric_atomic_key(infinity, Some("2"), options), options)
 }
 
 pub fn natsort_key_with_options(value: &NaturalValue, options: SortOptions) -> NaturalKey {
@@ -855,5 +862,116 @@ mod tests {
             natsort_key_with_options(&NaturalValue::from(b"A10".as_slice()), options,),
             natsort_key(&NaturalValue::from(b"A10".as_slice())),
         );
+    }
+
+    #[test]
+    fn num_after_places_direct_numbers_after_text() {
+        let input = vec![
+            NaturalValue::from("0"),
+            NaturalValue::from(1.5),
+            NaturalValue::from("2"),
+            NaturalValue::from(3),
+            NaturalValue::from("ä"),
+            NaturalValue::from("Ä"),
+            NaturalValue::from("b"),
+            NaturalValue::from("Z"),
+        ];
+
+        let options = SortOptions::new().num_after(true);
+
+        assert_eq!(
+            natsorted_values_with_options(&input, options),
+            vec![
+                NaturalValue::from("Ä"),
+                NaturalValue::from("Z"),
+                NaturalValue::from("ä"),
+                NaturalValue::from("b"),
+                NaturalValue::from("0"),
+                NaturalValue::from(1.5),
+                NaturalValue::from("2"),
+                NaturalValue::from(3),
+            ]
+        );
+    }
+
+    #[test]
+    fn num_after_combines_with_signed_values() {
+        let input = vec![
+            NaturalValue::from(-10),
+            NaturalValue::from("value-2"),
+            NaturalValue::from(2),
+            NaturalValue::from("apple"),
+            NaturalValue::from("value1"),
+        ];
+
+        let options = SortOptions::new().num_after(true).signed(true);
+
+        assert_eq!(
+            natsorted_values_with_options(&input, options),
+            vec![
+                NaturalValue::from("apple"),
+                NaturalValue::from("value-2"),
+                NaturalValue::from("value1"),
+                NaturalValue::from(-10),
+                NaturalValue::from(2),
+            ]
+        );
+    }
+
+    #[test]
+    fn num_after_combines_with_float_values() {
+        let input = vec![
+            NaturalValue::from(1.5),
+            NaturalValue::from("value1.25"),
+            NaturalValue::from(2),
+            NaturalValue::from("apple"),
+            NaturalValue::from("value1.5"),
+        ];
+
+        let options = SortOptions::new().num_after(true).float(true);
+
+        assert_eq!(
+            natsorted_values_with_options(&input, options),
+            vec![
+                NaturalValue::from("apple"),
+                NaturalValue::from("value1.25"),
+                NaturalValue::from("value1.5"),
+                NaturalValue::from(1.5),
+                NaturalValue::from(2),
+            ]
+        );
+    }
+
+    #[test]
+    fn num_after_numeric_string_and_integer_keys_are_equal() {
+        let options = SortOptions::new().num_after(true);
+
+        assert_eq!(
+            natsort_key_with_options(&NaturalValue::from("73"), options,),
+            natsort_key_with_options(&NaturalValue::from(73), options,),
+        );
+    }
+
+    #[test]
+    fn num_after_places_text_key_before_direct_number_key() {
+        let options = SortOptions::new().num_after(true);
+
+        let text_key = natsort_key_with_options(&NaturalValue::from("apple"), options);
+
+        let number_key = natsort_key_with_options(&NaturalValue::from(73), options);
+
+        assert!(text_key < number_key);
+    }
+
+    #[test]
+    fn num_after_does_not_change_embedded_number_key() {
+        let default_key = natsort_key(&NaturalValue::from("file2"));
+
+        let num_after_key = natsort_key_with_options(
+            &NaturalValue::from("file2"),
+            SortOptions::new().num_after(true),
+        );
+
+        assert_eq!(default_key, num_after_key);
     }
 }

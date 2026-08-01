@@ -12,6 +12,7 @@ pub struct SortOptions {
     pub path: bool,
     pub presort: bool,
     pub nan_last: bool,
+    pub num_after: bool,
 }
 
 impl SortOptions {
@@ -29,7 +30,13 @@ impl SortOptions {
             path: false,
             presort: false,
             nan_last: false,
+            num_after: false,
         }
+    }
+
+    pub const fn num_after(mut self, enabled: bool) -> Self {
+        self.num_after = enabled;
+        self
     }
 
     pub const fn nan_last(mut self, enabled: bool) -> Self {
