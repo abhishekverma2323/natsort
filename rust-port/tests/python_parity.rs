@@ -1,4 +1,194 @@
-use rust_port::{SortOptions, natsorted, natsorted_with_options};
+use rust_port::{
+    Decoder, NaturalValue, SortOptions, as_ascii, as_utf8, index_natsorted, index_natsorted_values,
+    index_natsorted_values_with_decoder, index_natsorted_values_with_options,
+    index_natsorted_with_options, index_realsorted, index_realsorted_values, natsorted,
+    natsorted_by_key, natsorted_by_key_with_options, natsorted_values,
+    natsorted_values_with_decoder, natsorted_values_with_options, natsorted_with_options,
+    order_by_index, realsorted, realsorted_values, realsorted_with_options,
+};
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+struct ApiRecord {
+    name: &'static str,
+    id: &'static str,
+}
+
+fn natural_text(value: &str) -> NaturalValue {
+    NaturalValue::from(value)
+}
+
+fn natural_sequence(values: Vec<NaturalValue>) -> NaturalValue {
+    NaturalValue::Sequence(values)
+}
+
+#[test]
+fn matches_python_realsorted_basic() {
+    let input = vec!["num5.10", "num-3", "num5.3", "num2"];
+
+    assert_eq!(
+        realsorted(&input),
+        vec!["num-3", "num2", "num5.10", "num5.3"]
+    );
+}
+
+#[test]
+fn matches_python_realsorted_reverse() {
+    let input = vec!["num5.10", "num-3", "num5.3", "num2"];
+
+    assert_eq!(
+        realsorted_with_options(&input, SortOptions::new().reverse(true),),
+        vec!["num5.3", "num5.10", "num2", "num-3"]
+    );
+}
+
+#[test]
+fn matches_python_index_natsorted_basic() {
+    assert_eq!(index_natsorted(&["num3", "num5", "num2"]), vec![2, 0, 1]);
+}
+
+#[test]
+fn matches_python_index_natsorted_reverse() {
+    let input = ["num3", "num5", "num2"];
+
+    assert_eq!(
+        index_natsorted_with_options(&input, SortOptions::new().reverse(true),),
+        vec![1, 0, 2]
+    );
+}
+
+#[test]
+fn matches_python_index_realsorted_basic() {
+    let input = ["num5.10", "num-3", "num5.3", "num2"];
+
+    assert_eq!(index_realsorted(&input), vec![1, 3, 0, 2]);
+}
+
+#[test]
+fn matches_python_order_by_index_primary() {
+    let values = ["num3", "num5", "num2"];
+
+    assert_eq!(
+        order_by_index(&values, &[2, 0, 1]),
+        vec!["num2", "num3", "num5"]
+    );
+}
+
+#[test]
+fn matches_python_order_by_index_secondary() {
+    let values = ["foo", "bar", "baz"];
+
+    assert_eq!(
+        order_by_index(&values, &[2, 0, 1]),
+        vec!["baz", "foo", "bar"]
+    );
+}
+
+#[test]
+fn matches_python_natsorted_with_key() {
+    let input = vec![
+        ApiRecord {
+            name: "file10",
+            id: "10",
+        },
+        ApiRecord {
+            name: "file2",
+            id: "2",
+        },
+        ApiRecord {
+            name: "file1",
+            id: "1",
+        },
+    ];
+
+    let sorted = natsorted_by_key(&input, |record| record.name);
+
+    let ids: Vec<&str> = sorted.iter().map(|record| record.id).collect();
+
+    assert_eq!(ids, vec!["1", "2", "10"]);
+}
+
+#[test]
+fn matches_python_natsorted_with_key_reverse() {
+    let input = vec![
+        ApiRecord {
+            name: "file10",
+            id: "10",
+        },
+        ApiRecord {
+            name: "file2",
+            id: "2",
+        },
+        ApiRecord {
+            name: "file1",
+            id: "1",
+        },
+    ];
+
+    let sorted = natsorted_by_key_with_options(
+        &input,
+        |record| record.name,
+        SortOptions::new().reverse(true),
+    );
+
+    let ids: Vec<&str> = sorted.iter().map(|record| record.id).collect();
+
+    assert_eq!(ids, vec!["10", "2", "1"]);
+}
+
+#[test]
+fn matches_python_key_sort_stability() {
+    let input = vec![
+        ApiRecord {
+            name: "file01",
+            id: "first",
+        },
+        ApiRecord {
+            name: "file1",
+            id: "second",
+        },
+        ApiRecord {
+            name: "file001",
+            id: "third",
+        },
+    ];
+
+    let sorted = natsorted_by_key(&input, |record| record.name);
+
+    let ids: Vec<&str> = sorted.iter().map(|record| record.id).collect();
+
+    assert_eq!(ids, vec!["first", "second", "third"]);
+}
+
+#[test]
+fn matches_python_index_equivalent_value_stability() {
+    let input = ["file01", "file1", "file001"];
+
+    assert_eq!(index_natsorted(&input), vec![0, 1, 2]);
+}
+
+#[test]
+fn matches_python_index_presort() {
+    let input = ["a1", "a1.45", "a01", "a1.4500"];
+
+    let options = SortOptions::new().float(true).presort(true);
+
+    assert_eq!(
+        index_natsorted_with_options(&input, options),
+        vec![2, 0, 1, 3]
+    );
+}
+
+#[test]
+fn matches_python_index_presort_reverse() {
+    let input = ["a1", "a1.45", "a01", "a1.4500"];
+
+    let options = SortOptions::new().float(true).presort(true).reverse(true);
+
+    assert_eq!(
+        index_natsorted_with_options(&input, options),
+        vec![3, 1, 0, 2]
+    );
+}
 
 #[test]
 fn matches_python_basic_natural_sort() {
@@ -770,3 +960,392 @@ python_text_parity_case!(
     SortOptions::new().path(true).ignore_case(true),
     vec!["strasse2/File1", "STRASSE2/file10", "Straße10/File2",]
 );
+
+#[test]
+fn matches_python_mixed_text_and_integer_sorting() {
+    let input = vec![natural_text("a2"), 3.into(), natural_text("a1"), 2.into()];
+
+    assert_eq!(
+        natsorted_values(&input),
+        vec![2.into(), 3.into(), natural_text("a1"), natural_text("a2"),]
+    );
+}
+
+#[test]
+fn matches_python_numeric_string_and_integer_sorting() {
+    let input = vec![natural_text("10"), 2.into(), natural_text("1"), 11.into()];
+
+    assert_eq!(
+        natsorted_values(&input),
+        vec![natural_text("1"), 2.into(), natural_text("10"), 11.into(),]
+    );
+}
+
+#[test]
+fn matches_python_signed_mixed_value_sorting() {
+    let input = vec![
+        natural_text("value5"),
+        (-3).into(),
+        natural_text("value-2"),
+        1.into(),
+        natural_text("value1"),
+    ];
+
+    assert_eq!(
+        realsorted_values(&input),
+        vec![
+            (-3).into(),
+            1.into(),
+            natural_text("value-2"),
+            natural_text("value1"),
+            natural_text("value5"),
+        ]
+    );
+}
+
+#[test]
+fn matches_python_direct_numeric_sorting() {
+    let input = vec![5.1.into(), (-3.0).into(), 5.3.into(), 2.into()];
+
+    assert_eq!(
+        natsorted_values(&input),
+        vec![(-3.0).into(), 2.into(), 5.1.into(), 5.3.into(),]
+    );
+}
+
+#[test]
+fn matches_python_infinity_sorting() {
+    let input = vec![
+        f64::INFINITY.into(),
+        5.into(),
+        f64::NEG_INFINITY.into(),
+        0.into(),
+    ];
+
+    assert_eq!(
+        natsorted_values(&input),
+        vec![
+            f64::NEG_INFINITY.into(),
+            0.into(),
+            5.into(),
+            f64::INFINITY.into(),
+        ]
+    );
+}
+
+#[test]
+fn matches_python_none_and_nan_default_sorting() {
+    let input = vec![
+        3.into(),
+        NaturalValue::None,
+        f64::NAN.into(),
+        f64::NEG_INFINITY.into(),
+        2.into(),
+    ];
+
+    let sorted = natsorted_values(&input);
+
+    assert!(matches!(
+        sorted[0],
+        NaturalValue::Float(value) if value.is_nan()
+    ));
+    assert_eq!(sorted[1], NaturalValue::None);
+    assert_eq!(sorted[2], NaturalValue::Float(f64::NEG_INFINITY),);
+}
+
+#[test]
+fn matches_python_none_and_nan_last_sorting() {
+    let input = vec![
+        3.into(),
+        NaturalValue::None,
+        f64::NAN.into(),
+        f64::INFINITY.into(),
+        2.into(),
+    ];
+
+    let options = SortOptions::new().nan_last(true);
+
+    let sorted = natsorted_values_with_options(&input, options);
+
+    assert_eq!(sorted[0], 2.into());
+    assert_eq!(sorted[1], 3.into());
+    assert_eq!(sorted[2], NaturalValue::Float(f64::INFINITY),);
+    assert_eq!(sorted[3], NaturalValue::None);
+    assert!(matches!(
+        sorted[4],
+        NaturalValue::Float(value) if value.is_nan()
+    ));
+}
+
+#[test]
+fn matches_python_nested_string_sequence_sorting() {
+    let input = vec![
+        natural_sequence(vec![natural_text("a10"), natural_text("b2")]),
+        natural_sequence(vec![natural_text("a2"), natural_text("b10")]),
+        natural_sequence(vec![natural_text("a2"), natural_text("b2")]),
+    ];
+
+    assert_eq!(
+        natsorted_values(&input),
+        vec![
+            natural_sequence(vec![natural_text("a2"), natural_text("b2"),]),
+            natural_sequence(vec![natural_text("a2"), natural_text("b10"),]),
+            natural_sequence(vec![natural_text("a10"), natural_text("b2"),]),
+        ]
+    );
+}
+
+#[test]
+fn matches_python_nested_mixed_sequence_sorting() {
+    let input = vec![
+        natural_sequence(vec![natural_text("a2"), 10.into()]),
+        natural_sequence(vec![natural_text("a2"), 2.into()]),
+        natural_sequence(vec![natural_text("a1"), 20.into()]),
+    ];
+
+    assert_eq!(
+        natsorted_values(&input),
+        vec![
+            natural_sequence(vec![natural_text("a1"), 20.into(),]),
+            natural_sequence(vec![natural_text("a2"), 2.into(),]),
+            natural_sequence(vec![natural_text("a2"), 10.into(),]),
+        ]
+    );
+}
+
+#[test]
+fn matches_python_bytes_default_sorting() {
+    let input = vec![
+        NaturalValue::from(b"a10".as_slice()),
+        NaturalValue::from(b"a2".as_slice()),
+        NaturalValue::from(b"A1".as_slice()),
+    ];
+
+    assert_eq!(
+        natsorted_values(&input),
+        vec![
+            NaturalValue::from(b"A1".as_slice()),
+            NaturalValue::from(b"a10".as_slice()),
+            NaturalValue::from(b"a2".as_slice()),
+        ]
+    );
+}
+
+#[test]
+fn matches_python_bytes_ignore_case_sorting() {
+    let input = vec![
+        NaturalValue::from(b"a10".as_slice()),
+        NaturalValue::from(b"A2".as_slice()),
+        NaturalValue::from(b"a1".as_slice()),
+    ];
+
+    let options = SortOptions::new().ignore_case(true);
+
+    assert_eq!(
+        natsorted_values_with_options(&input, options),
+        vec![
+            NaturalValue::from(b"a1".as_slice()),
+            NaturalValue::from(b"a10".as_slice()),
+            NaturalValue::from(b"A2".as_slice()),
+        ]
+    );
+}
+
+#[test]
+fn matches_python_bytes_path_mode() {
+    let input = vec![
+        NaturalValue::from(b"folder10/file".as_slice()),
+        NaturalValue::from(b"folder2/file".as_slice()),
+        NaturalValue::from(b"folder1/file".as_slice()),
+    ];
+
+    let options = SortOptions::new().path(true);
+
+    assert_eq!(
+        natsorted_values_with_options(&input, options),
+        vec![
+            NaturalValue::from(b"folder1/file".as_slice(),),
+            NaturalValue::from(b"folder10/file".as_slice(),),
+            NaturalValue::from(b"folder2/file".as_slice(),),
+        ]
+    );
+}
+
+#[test]
+fn matches_python_mixed_bytes_string_decoder_sorting() {
+    let input = vec![
+        NaturalValue::from(b"a10".as_slice()),
+        NaturalValue::from("a2"),
+        NaturalValue::from(b"a1".as_slice()),
+    ];
+
+    assert_eq!(
+        natsorted_values_with_decoder(&input, Decoder::utf8(),),
+        Ok(vec![
+            NaturalValue::from(b"a1".as_slice()),
+            NaturalValue::from("a2"),
+            NaturalValue::from(b"a10".as_slice()),
+        ])
+    );
+}
+
+#[test]
+fn matches_python_ascii_decoder() {
+    assert_eq!(
+        as_ascii(&NaturalValue::from(b"natural10".as_slice())),
+        Ok(NaturalValue::from("natural10")),
+    );
+}
+
+#[test]
+fn matches_python_utf8_decoder() {
+    assert_eq!(
+        as_utf8(&NaturalValue::from("café".as_bytes())),
+        Ok(NaturalValue::from("café")),
+    );
+}
+
+#[test]
+fn matches_python_decoder_non_bytes_passthrough() {
+    let value = NaturalValue::from(123);
+
+    assert_eq!(as_utf8(&value), Ok(value));
+}
+
+#[test]
+fn matches_python_invalid_utf8_error() {
+    assert!(as_utf8(&NaturalValue::from([0xFF].as_slice())).is_err());
+}
+
+#[test]
+fn matches_python_mixed_value_indexes() {
+    let input = vec![
+        NaturalValue::from("a2"),
+        3.into(),
+        NaturalValue::from("a1"),
+        2.into(),
+    ];
+
+    assert_eq!(index_natsorted_values(&input), vec![3, 1, 2, 0]);
+}
+
+#[test]
+fn matches_python_numeric_string_and_integer_indexes() {
+    let input = vec![
+        NaturalValue::from("10"),
+        2.into(),
+        NaturalValue::from("1"),
+        11.into(),
+    ];
+
+    assert_eq!(index_natsorted_values(&input), vec![2, 1, 0, 3]);
+}
+
+#[test]
+fn matches_python_signed_mixed_value_indexes() {
+    let input = vec![
+        NaturalValue::from("value5"),
+        (-3).into(),
+        NaturalValue::from("value-2"),
+        1.into(),
+        NaturalValue::from("value1"),
+    ];
+
+    assert_eq!(index_realsorted_values(&input), vec![1, 3, 2, 4, 0]);
+}
+
+#[test]
+fn matches_python_direct_numeric_value_indexes() {
+    let input = vec![5.1.into(), (-3.0).into(), 5.3.into(), 2.into()];
+
+    assert_eq!(index_natsorted_values(&input), vec![1, 3, 0, 2]);
+}
+
+#[test]
+fn matches_python_infinity_value_indexes() {
+    let input = vec![
+        f64::INFINITY.into(),
+        5.into(),
+        f64::NEG_INFINITY.into(),
+        0.into(),
+    ];
+
+    assert_eq!(index_natsorted_values(&input), vec![2, 3, 1, 0]);
+}
+
+#[test]
+fn matches_python_none_and_nan_default_indexes() {
+    let input = vec![
+        3.into(),
+        NaturalValue::None,
+        f64::NAN.into(),
+        f64::NEG_INFINITY.into(),
+        2.into(),
+    ];
+
+    assert_eq!(index_natsorted_values(&input), vec![2, 1, 3, 4, 0]);
+}
+
+#[test]
+fn matches_python_none_and_nan_last_indexes() {
+    let input = vec![
+        3.into(),
+        NaturalValue::None,
+        f64::NAN.into(),
+        f64::INFINITY.into(),
+        2.into(),
+    ];
+    let options = SortOptions::new().nan_last(true);
+
+    assert_eq!(
+        index_natsorted_values_with_options(&input, options),
+        vec![4, 0, 3, 1, 2]
+    );
+}
+
+#[test]
+fn matches_python_nested_sequence_indexes() {
+    let input = vec![
+        NaturalValue::Sequence(vec![NaturalValue::from("a10"), NaturalValue::from("b2")]),
+        NaturalValue::Sequence(vec![NaturalValue::from("a2"), NaturalValue::from("b10")]),
+        NaturalValue::Sequence(vec![NaturalValue::from("a2"), NaturalValue::from("b2")]),
+    ];
+
+    assert_eq!(index_natsorted_values(&input), vec![2, 1, 0]);
+}
+
+#[test]
+fn matches_python_nested_mixed_sequence_indexes() {
+    let input = vec![
+        NaturalValue::Sequence(vec![NaturalValue::from("a2"), 10.into()]),
+        NaturalValue::Sequence(vec![NaturalValue::from("a2"), 2.into()]),
+        NaturalValue::Sequence(vec![NaturalValue::from("a1"), 20.into()]),
+    ];
+
+    assert_eq!(index_natsorted_values(&input), vec![2, 1, 0]);
+}
+
+#[test]
+fn matches_python_byte_value_indexes() {
+    let input = vec![
+        NaturalValue::from(b"a10".as_slice()),
+        NaturalValue::from(b"a2".as_slice()),
+        NaturalValue::from(b"A1".as_slice()),
+    ];
+
+    assert_eq!(index_natsorted_values(&input), vec![2, 0, 1]);
+}
+
+#[test]
+fn matches_python_decoder_mixed_value_indexes() {
+    let input = vec![
+        NaturalValue::from(b"a10".as_slice()),
+        NaturalValue::from("a2"),
+        NaturalValue::from(b"a1".as_slice()),
+    ];
+
+    assert_eq!(
+        index_natsorted_values_with_decoder(&input, Decoder::utf8()),
+        Ok(vec![2, 1, 0])
+    );
+}

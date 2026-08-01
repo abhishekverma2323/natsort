@@ -1,0 +1,52 @@
+
+realsorted_basic
+Input:    ['num5.10', 'num-3', 'num5.3', 'num2']
+Expected: ['num-3', 'num2', 'num5.10', 'num5.3']
+
+realsorted_reverse
+Input:    ['num5.10', 'num-3', 'num5.3', 'num2']
+Expected: ['num5.3', 'num5.10', 'num2', 'num-3']
+
+index_natsorted_basic
+Input:    ['num3', 'num5', 'num2']
+Expected: [2, 0, 1]
+
+index_natsorted_reverse
+Input:    ['num3', 'num5', 'num2']
+Expected: [1, 0, 2]
+
+index_realsorted_basic
+Input:    ['num5.10', 'num-3', 'num5.3', 'num2']
+Expected: [1, 3, 0, 2]
+
+order_by_index_primary
+Input:    {'values': ['num3', 'num5', 'num2'], 'indexes': [2, 0, 1]}
+Expected: ['num2', 'num3', 'num5']
+
+order_by_index_secondary
+Input:    {'values': ['foo', 'bar', 'baz'], 'indexes': [2, 0, 1]}
+Expected: ['baz', 'foo', 'bar']
+
+natsorted_with_key
+Input:    [{'name': 'file10', 'id': 10}, {'name': 'file2', 'id': 2}, {'name': 'file1', 'id': 1}]
+Expected: [{'name': 'file1', 'id': 1}, {'name': 'file2', 'id': 2}, {'name': 'file10', 'id': 10}]
+
+natsorted_with_key_reverse
+Input:    [{'name': 'file10', 'id': 10}, {'name': 'file2', 'id': 2}, {'name': 'file1', 'id': 1}]
+Expected: [{'name': 'file10', 'id': 10}, {'name': 'file2', 'id': 2}, {'name': 'file1', 'id': 1}]
+
+key_sort_stability
+Input:    [{'name': 'file01', 'id': 'first'}, {'name': 'file1', 'id': 'second'}, {'name': 'file001', 'id': 'third'}]
+Expected: [{'name': 'file01', 'id': 'first'}, {'name': 'file1', 'id': 'second'}, {'name': 'file001', 'id': 'third'}]
+
+index_equivalent_value_stability
+Input:    ['file01', 'file1', 'file001']
+Expected: [0, 1, 2]
+
+index_presort
+Input:    ['a1', 'a1.45', 'a01', 'a1.4500']
+Expected: [2, 0, 1, 3]
+
+index_presort_reverse
+Input:    ['a1', 'a1.45', 'a01', 'a1.4500']
+Expected: [3, 1, 0, 2]

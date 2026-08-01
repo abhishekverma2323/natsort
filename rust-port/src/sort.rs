@@ -95,7 +95,7 @@ fn compare_digit_sequences(left: &NumericParts, right: &NumericParts) -> Orderin
     Ordering::Equal
 }
 
-fn compare_numeric_strings(left: &str, right: &str) -> Ordering {
+pub(crate) fn compare_numeric_strings(left: &str, right: &str) -> Ordering {
     let left_parts = parse_numeric_parts(left);
     let right_parts = parse_numeric_parts(right);
 
@@ -126,7 +126,7 @@ fn compare_tokens(left: &[Token], right: &[Token]) -> Ordering {
     left.len().cmp(&right.len())
 }
 
-fn transform_text_tokens(mut tokens: Vec<Token>, options: SortOptions) -> Vec<Token> {
+pub(crate) fn transform_text_tokens(mut tokens: Vec<Token>, options: SortOptions) -> Vec<Token> {
     for token in &mut tokens {
         if let Token::Text(text) = token {
             *text = transform_text_component(text, options);
@@ -136,27 +136,28 @@ fn transform_text_tokens(mut tokens: Vec<Token>, options: SortOptions) -> Vec<To
     tokens
 }
 
+pub(crate) fn string_key_tokens(input: &str, options: SortOptions) -> Vec<Token> {
+    let prepared = prepare_input(input, options);
+
+    let tokens = tokenize(&prepared, options.signed, options.float, options.no_exp);
+
+    transform_text_tokens(tokens, options)
+}
+
+pub(crate) fn string_key_components(input: &str, options: SortOptions) -> Vec<Vec<Token>> {
+    if options.path {
+        path_components(input)
+            .iter()
+            .map(|component| string_key_tokens(component, options))
+            .collect()
+    } else {
+        vec![string_key_tokens(input, options)]
+    }
+}
+
 fn compare_natural_strings(left: &str, right: &str, options: SortOptions) -> Ordering {
-    let left_prepared = prepare_input(left, options);
-    let right_prepared = prepare_input(right, options);
-
-    let left_tokens = tokenize(
-        &left_prepared,
-        options.signed,
-        options.float,
-        options.no_exp,
-    );
-
-    let right_tokens = tokenize(
-        &right_prepared,
-        options.signed,
-        options.float,
-        options.no_exp,
-    );
-
-    let left_tokens = transform_text_tokens(left_tokens, options);
-
-    let right_tokens = transform_text_tokens(right_tokens, options);
+    let left_tokens = string_key_tokens(left, options);
+    let right_tokens = string_key_tokens(right, options);
 
     compare_tokens(&left_tokens, &right_tokens)
 }
@@ -175,6 +176,18 @@ fn compare_path_strings(left: &str, right: &str, options: SortOptions) -> Orderi
     left_components.len().cmp(&right_components.len())
 }
 
+pub(crate) fn compare_strings_with_options(
+    left: &str,
+    right: &str,
+    options: SortOptions,
+) -> Ordering {
+    if options.path {
+        compare_path_strings(left, right, options)
+    } else {
+        compare_natural_strings(left, right, options)
+    }
+}
+
 pub fn natsorted<T>(items: &[T]) -> Vec<T>
 where
     T: AsRef<str> + Clone,
@@ -189,15 +202,19 @@ where
     let mut result = items.to_vec();
 
     if options.presort {
-        result.sort_by(|left, right| left.as_ref().cmp(right.as_ref()));
+        result.sort_by(|left, right| {
+            let ordering = left.as_ref().cmp(right.as_ref());
+
+            if options.reverse {
+                ordering.reverse()
+            } else {
+                ordering
+            }
+        });
     }
 
     result.sort_by(|left, right| {
-        let ordering = if options.path {
-            compare_path_strings(left.as_ref(), right.as_ref(), options)
-        } else {
-            compare_natural_strings(left.as_ref(), right.as_ref(), options)
-        };
+        let ordering = compare_strings_with_options(left.as_ref(), right.as_ref(), options);
 
         if options.reverse {
             ordering.reverse()
@@ -1051,4 +1068,16 @@ mod tests {
         SortOptions::new().path(true).ignore_case(true),
         vec!["strasse2/File1", "STRASSE2/file10", "Straße10/File2",]
     );
+
+    #[test]
+    fn reverse_presort_matches_python_ordering() {
+        let input = vec!["a1", "a1.45", "a01", "a1.4500"];
+
+        let options = SortOptions::new().float(true).presort(true).reverse(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["a1.4500", "a1.45", "a1", "a01"]
+        );
+    }
 }

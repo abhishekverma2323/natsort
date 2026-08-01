@@ -11,6 +11,7 @@ pub struct SortOptions {
     pub no_exp: bool,
     pub path: bool,
     pub presort: bool,
+    pub nan_last: bool,
 }
 
 impl SortOptions {
@@ -27,7 +28,13 @@ impl SortOptions {
             no_exp: false,
             path: false,
             presort: false,
+            nan_last: false,
         }
+    }
+
+    pub const fn nan_last(mut self, enabled: bool) -> Self {
+        self.nan_last = enabled;
+        self
     }
 
     pub const fn ignore_case(mut self, enabled: bool) -> Self {
