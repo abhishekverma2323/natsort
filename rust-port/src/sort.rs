@@ -416,4 +416,57 @@ mod tests {
             ]
         );
     }
+
+    #[test]
+    fn sorts_arabic_indic_digits() {
+        let input = vec!["file١٠", "file٢", "file١"];
+
+        assert_eq!(natsorted(&input), vec!["file١", "file٢", "file١٠"]);
+    }
+
+    #[test]
+    fn sorts_devanagari_digits() {
+        let input = vec!["file१०", "file२", "file१"];
+
+        assert_eq!(natsorted(&input), vec!["file१", "file२", "file१०"]);
+    }
+
+    #[test]
+    fn sorts_fullwidth_digits() {
+        let input = vec!["file１０", "file２", "file１"];
+
+        assert_eq!(natsorted(&input), vec!["file１", "file２", "file１０"]);
+    }
+
+    #[test]
+    fn sorts_mixed_unicode_digit_scripts() {
+        let input = vec!["file10", "file٢", "file३", "file１"];
+
+        assert_eq!(
+            natsorted(&input),
+            vec!["file１", "file٢", "file३", "file10"]
+        );
+    }
+
+    #[test]
+    fn sorts_signed_unicode_integers() {
+        let input = vec!["value-१०", "value२", "value-१"];
+        let options = SortOptions::new().signed(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["value-१०", "value-१", "value२"]
+        );
+    }
+
+    #[test]
+    fn sorts_unicode_decimal_values() {
+        let input = vec!["value١.٥", "value١.٢٥", "value٢.٠"];
+        let options = SortOptions::new().float(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["value١.٢٥", "value١.٥", "value٢.٠"]
+        );
+    }
 }

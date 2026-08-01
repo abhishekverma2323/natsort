@@ -1,13 +1,28 @@
+use grift_unicode::digit_value;
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub(crate) enum Token {
     Text(String),
     Number(String),
 }
 
+fn is_decimal_digit(character: char) -> bool {
+    digit_value(character).is_some()
+}
+
+fn push_normalized_digit(output: &mut String, character: char) {
+    let value = digit_value(character).expect("character must be a Unicode decimal digit");
+
+    let ascii_digit =
+        char::from_digit(value, 10).expect("Unicode decimal digit value must be between 0 and 9");
+
+    output.push(ascii_digit);
+}
+
 fn starts_number(chars: &[char], index: usize, signed: bool) -> bool {
     let current = chars[index];
 
-    if current.is_ascii_digit() {
+    if is_decimal_digit(current) {
         return true;
     }
 
@@ -15,7 +30,7 @@ fn starts_number(chars: &[char], index: usize, signed: bool) -> bool {
         && matches!(current, '+' | '-')
         && chars
             .get(index + 1)
-            .is_some_and(|next| next.is_ascii_digit())
+            .is_some_and(|next| is_decimal_digit(*next))
 }
 
 fn consume_number(chars: &[char], index: &mut usize, signed: bool, float: bool) -> String {
@@ -28,8 +43,8 @@ fn consume_number(chars: &[char], index: &mut usize, signed: bool, float: bool) 
     }
 
     // Consume the integer part.
-    while *index < chars.len() && chars[*index].is_ascii_digit() {
-        number.push(chars[*index]);
+    while *index < chars.len() && is_decimal_digit(chars[*index]) {
+        push_normalized_digit(&mut number, chars[*index]);
         *index += 1;
     }
 
@@ -39,13 +54,13 @@ fn consume_number(chars: &[char], index: &mut usize, signed: bool, float: bool) 
         && chars[*index] == '.'
         && chars
             .get(*index + 1)
-            .is_some_and(|next| next.is_ascii_digit())
+            .is_some_and(|next| is_decimal_digit(*next))
     {
         number.push('.');
         *index += 1;
 
-        while *index < chars.len() && chars[*index].is_ascii_digit() {
-            number.push(chars[*index]);
+        while *index < chars.len() && is_decimal_digit(chars[*index]) {
+            push_normalized_digit(&mut number, chars[*index]);
             *index += 1;
         }
     }

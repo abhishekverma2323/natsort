@@ -3,5 +3,14 @@
 version = 4
 
 [[package]]
+name = "grift_unicode"
+version = "1.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0fd8f5e693edbbcb708d99f258a3d7413c68eb39b6972b5ffbaa7d16e036e8b0"
+
+[[package]]
 name = "rust-port"
 version = "0.1.0"
+dependencies = [
+ "grift_unicode",
+]

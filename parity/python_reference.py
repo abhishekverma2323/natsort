@@ -111,5 +111,62 @@ def main() -> None:
         ["file-10", "file_2", "file.1", "file-2"],
     )
 
+    show_case(
+        "unicode_arabic_indic_digits",
+        [
+            "file١٠",
+            "file٢",
+            "file١",
+        ],
+    )
+
+    show_case(
+        "unicode_devanagari_digits",
+        [
+            "file१०",
+            "file२",
+            "file१",
+        ],
+    )
+
+    show_case(
+        "unicode_fullwidth_digits",
+        [
+            "file１０",
+            "file２",
+            "file１",
+        ],
+    )
+
+    show_case(
+        "mixed_unicode_digit_scripts",
+        [
+            "file10",
+            "file٢",
+            "file३",
+            "file１",
+        ],
+    )
+
+    show_case(
+        "unicode_signed_integers",
+        [
+            "value-१०",
+            "value२",
+            "value-१",
+        ],
+        ns.SIGNED,
+    )
+
+    show_case(
+        "unicode_decimal_values",
+        [
+            "value١.٥",
+            "value١.٢٥",
+            "value٢.٠",
+        ],
+        ns.FLOAT,
+    )
+
 if __name__ == "__main__":
     main()

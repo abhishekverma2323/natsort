@@ -66,3 +66,27 @@ Expected: ['value5E-1', 'value10', 'value2e2', 'value1E3']
 punctuation_and_separators
 Input:    ['file-10', 'file_2', 'file.1', 'file-2']
 Expected: ['file-2', 'file-10', 'file.1', 'file_2']
+
+unicode_arabic_indic_digits
+Input:    ['file١٠', 'file٢', 'file١']
+Expected: ['file١', 'file٢', 'file١٠']
+
+unicode_devanagari_digits
+Input:    ['file१०', 'file२', 'file१']
+Expected: ['file१', 'file२', 'file१०']
+
+unicode_fullwidth_digits
+Input:    ['file１０', 'file２', 'file１']
+Expected: ['file１', 'file２', 'file１０']
+
+mixed_unicode_digit_scripts
+Input:    ['file10', 'file٢', 'file३', 'file１']
+Expected: ['file１', 'file٢', 'file३', 'file10']
+
+unicode_signed_integers
+Input:    ['value-१०', 'value२', 'value-१']
+Expected: ['value-१०', 'value-१', 'value२']
+
+unicode_decimal_values
+Input:    ['value١.٥', 'value١.٢٥', 'value٢.٠']
+Expected: ['value١.٢٥', 'value١.٥', 'value٢.٠']
