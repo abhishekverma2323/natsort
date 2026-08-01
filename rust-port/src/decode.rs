@@ -1,3 +1,10 @@
+//! Byte-decoding adapters for natural-value sorting.
+//!
+//! `NaturalValue::Bytes` and `NaturalValue::Text` are distinct Rust variants.
+//! Sorting without a decoder does not implicitly reinterpret bytes as text.
+//! Use `Decoder` with `natsorted_values_with_decoder` when Python-style
+//! `key=decoder(...)` text semantics are required for mixed bytes and strings.
+
 use std::error::Error;
 use std::fmt;
 
@@ -7,6 +14,7 @@ use crate::value::{NaturalKey, NaturalValue, natsort_key_with_options};
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum DecodeEncoding {
     Ascii,
+    Latin1,
     Utf8,
 }
 
@@ -24,6 +32,10 @@ impl Decoder {
         Self::new(DecodeEncoding::Ascii)
     }
 
+    pub const fn latin1() -> Self {
+        Self::new(DecodeEncoding::Latin1)
+    }
+
     pub const fn utf8() -> Self {
         Self::new(DecodeEncoding::Utf8)
     }
@@ -37,6 +49,8 @@ impl Decoder {
             NaturalValue::Bytes(bytes) => {
                 let decoded = match self.encoding {
                     DecodeEncoding::Ascii => decode_ascii_bytes(bytes)?,
+
+                    DecodeEncoding::Latin1 => decode_latin1_bytes(bytes),
 
                     DecodeEncoding::Utf8 => decode_utf8_bytes(bytes)?,
                 };
@@ -109,6 +123,8 @@ pub fn decoder(encoding: &str) -> Result<Decoder, UnsupportedEncodingError> {
     match normalized.as_str() {
         "ascii" => Ok(Decoder::ascii()),
 
+        "latin1" | "iso88591" | "l1" => Ok(Decoder::latin1()),
+
         "utf8" => Ok(Decoder::utf8()),
 
         _ => Err(UnsupportedEncodingError {
@@ -128,6 +144,10 @@ pub fn decode_ascii_bytes(bytes: &[u8]) -> Result<String, DecodeError> {
     }
 
     Ok(bytes.iter().map(|byte| char::from(*byte)).collect())
+}
+
+pub fn decode_latin1_bytes(bytes: &[u8]) -> String {
+    bytes.iter().copied().map(char::from).collect()
 }
 
 pub fn decode_utf8_bytes(bytes: &[u8]) -> Result<String, DecodeError> {
@@ -233,9 +253,9 @@ mod tests {
     #[test]
     fn rejects_unknown_encoding() {
         assert_eq!(
-            decoder("latin1"),
+            decoder("utf16"),
             Err(UnsupportedEncodingError {
-                encoding: "latin1".to_string(),
+                encoding: "utf16".to_string(),
             })
         );
     }
@@ -399,6 +419,55 @@ mod tests {
         assert_eq!(
             natsorted_values_with_decoder(&input, Decoder::utf8(),),
             Ok(Vec::new()),
+        );
+    }
+
+    #[test]
+    fn creates_latin1_decoder_and_common_aliases() {
+        for alias in [
+            "latin1",
+            "latin-1",
+            "latin_1",
+            "ISO-8859-1",
+            "iso_8859_1",
+            "l1",
+        ] {
+            assert_eq!(decoder(alias), Ok(Decoder::latin1()), "alias={alias}");
+        }
+
+        assert_eq!(Decoder::latin1().encoding(), DecodeEncoding::Latin1);
+    }
+
+    #[test]
+    fn decodes_latin1_bytes_without_loss() {
+        assert_eq!(
+            decode_latin1_bytes(&[b'c', b'a', b'f', 0xE9]),
+            "café".to_string(),
+        );
+        assert_eq!(decode_latin1_bytes(&[0xFF]), "ÿ".to_string());
+    }
+
+    #[test]
+    fn latin1_decoder_preserves_non_byte_values() {
+        let values = [
+            NaturalValue::from(123),
+            NaturalValue::from(12.5),
+            NaturalValue::None,
+            text("café"),
+        ];
+
+        for value in values {
+            assert_eq!(Decoder::latin1().decode(&value), Ok(value));
+        }
+    }
+
+    #[test]
+    fn latin1_decoder_sorts_mixed_bytes_and_text() {
+        let input = vec![bytes(b"caf\xe910"), text("café2"), bytes(b"caf\xe91")];
+
+        assert_eq!(
+            natsorted_values_with_decoder(&input, Decoder::latin1()),
+            Ok(vec![bytes(b"caf\xe91"), text("café2"), bytes(b"caf\xe910"),]),
         );
     }
 }

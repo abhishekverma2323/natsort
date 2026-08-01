@@ -2179,3 +2179,31 @@ fn matches_python_cli_invalid_number_type_exit_code() {
             .contains("invalid choice: 'decimal'")
     );
 }
+
+#[test]
+fn matches_python_latin1_decoder() {
+    let encoded = NaturalValue::from([b'c', b'a', b'f', 0xE9].as_slice());
+
+    assert_eq!(
+        Decoder::latin1().decode(&encoded),
+        Ok(NaturalValue::from("café")),
+    );
+}
+
+#[test]
+fn matches_python_latin1_decoder_sorting() {
+    let input = vec![
+        NaturalValue::from(b"caf\xe910".as_slice()),
+        NaturalValue::from("café2"),
+        NaturalValue::from(b"caf\xe91".as_slice()),
+    ];
+
+    assert_eq!(
+        natsorted_values_with_decoder(&input, Decoder::latin1()),
+        Ok(vec![
+            NaturalValue::from(b"caf\xe91".as_slice()),
+            NaturalValue::from("café2"),
+            NaturalValue::from(b"caf\xe910".as_slice()),
+        ]),
+    );
+}
