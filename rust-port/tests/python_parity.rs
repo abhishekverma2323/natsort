@@ -2269,3 +2269,26 @@ fn lazy_order_by_index_reports_errors_only_when_reached() {
         })),
     );
 }
+
+#[test]
+fn matches_python_czech_locale_bug_regression_140() {
+    let input = vec!["Aš", "Cheb", "Česko", "Cibulov", "Znojmo", "Žilina"];
+    let options = SortOptions::new().locale_profile(LocaleProfile::CzechCzechia);
+
+    assert_eq!(
+        humansorted_with_options(&input, options),
+        vec!["Aš", "Cibulov", "Česko", "Cheb", "Znojmo", "Žilina"],
+    );
+}
+
+#[test]
+fn matches_python_czech_locale_identifier_aliases() {
+    assert_eq!(
+        LocaleProfile::from_identifier("cs_CZ.UTF-8"),
+        LocaleProfile::CzechCzechia,
+    );
+    assert_eq!(
+        LocaleProfile::from_identifier("Czech_Czechia.1250"),
+        LocaleProfile::CzechCzechia,
+    );
+}

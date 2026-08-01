@@ -12,6 +12,7 @@ pub enum LocaleProfile {
     C,
     EnglishIndia,
     EnglishUnitedStates,
+    CzechCzechia,
     GermanGermany,
     FrenchFrance,
 }
@@ -30,12 +31,14 @@ const INDIAN_GROUPING: &[u8] = &[3, 2, 0];
 static SYSTEM_COLLATOR: OnceLock<CollatorBorrowed<'static>> = OnceLock::new();
 static EN_IN_COLLATOR: OnceLock<CollatorBorrowed<'static>> = OnceLock::new();
 static EN_US_COLLATOR: OnceLock<CollatorBorrowed<'static>> = OnceLock::new();
+static CS_CZ_COLLATOR: OnceLock<CollatorBorrowed<'static>> = OnceLock::new();
 static DE_DE_COLLATOR: OnceLock<CollatorBorrowed<'static>> = OnceLock::new();
 static FR_FR_COLLATOR: OnceLock<CollatorBorrowed<'static>> = OnceLock::new();
 
 static SYSTEM_NUMERIC_COLLATOR: OnceLock<CollatorBorrowed<'static>> = OnceLock::new();
 static EN_IN_NUMERIC_COLLATOR: OnceLock<CollatorBorrowed<'static>> = OnceLock::new();
 static EN_US_NUMERIC_COLLATOR: OnceLock<CollatorBorrowed<'static>> = OnceLock::new();
+static CS_CZ_NUMERIC_COLLATOR: OnceLock<CollatorBorrowed<'static>> = OnceLock::new();
 static DE_DE_NUMERIC_COLLATOR: OnceLock<CollatorBorrowed<'static>> = OnceLock::new();
 static FR_FR_NUMERIC_COLLATOR: OnceLock<CollatorBorrowed<'static>> = OnceLock::new();
 
@@ -65,6 +68,14 @@ impl LocaleProfile {
             return Self::EnglishIndia;
         }
 
+        if normalized == "cs"
+            || normalized.starts_with("cs-")
+            || normalized.contains("czech-czechia")
+            || normalized.contains("czech-czech-republic")
+        {
+            return Self::CzechCzechia;
+        }
+
         if normalized.starts_with("de") || normalized.contains("german-germany") {
             return Self::GermanGermany;
         }
@@ -82,6 +93,7 @@ impl LocaleProfile {
             Self::C => "C".to_string(),
             Self::EnglishIndia => "en-IN".to_string(),
             Self::EnglishUnitedStates => "en-US".to_string(),
+            Self::CzechCzechia => "cs-CZ".to_string(),
             Self::GermanGermany => "de-DE".to_string(),
             Self::FrenchFrance => "fr-FR".to_string(),
         }
@@ -104,6 +116,14 @@ impl LocaleProfile {
                 decimal_point: '.',
                 thousands_separator: ",",
                 grouping: INDIAN_GROUPING,
+            };
+        }
+
+        if normalized.starts_with("cs") {
+            return LocaleSymbols {
+                decimal_point: ',',
+                thousands_separator: "\u{00A0}",
+                grouping: WESTERN_GROUPING,
             };
         }
 
@@ -146,7 +166,7 @@ fn grouping_candidates(profile: LocaleProfile) -> &'static [char] {
     let identifier = profile.identifier();
     let normalized = normalized_identifier(&identifier);
 
-    if normalized.starts_with("fr") {
+    if normalized.starts_with("fr") || normalized.starts_with("cs") {
         &['\u{202F}', '\u{00A0}', ' ']
     } else if normalized.starts_with("de-ch") {
         &['\'', '\u{2019}']
@@ -315,6 +335,7 @@ fn collator(profile: LocaleProfile) -> &'static CollatorBorrowed<'static> {
         LocaleProfile::EnglishUnitedStates => {
             EN_US_COLLATOR.get_or_init(|| build_collator("en-US"))
         }
+        LocaleProfile::CzechCzechia => CS_CZ_COLLATOR.get_or_init(|| build_collator("cs-CZ")),
         LocaleProfile::GermanGermany => DE_DE_COLLATOR.get_or_init(|| build_collator("de-DE")),
         LocaleProfile::FrenchFrance => FR_FR_COLLATOR.get_or_init(|| build_collator("fr-FR")),
     }
@@ -332,6 +353,9 @@ fn numeric_collator(profile: LocaleProfile) -> &'static CollatorBorrowed<'static
         }
         LocaleProfile::EnglishUnitedStates => {
             EN_US_NUMERIC_COLLATOR.get_or_init(|| build_numeric_collator("en-US"))
+        }
+        LocaleProfile::CzechCzechia => {
+            CS_CZ_NUMERIC_COLLATOR.get_or_init(|| build_numeric_collator("cs-CZ"))
         }
         LocaleProfile::GermanGermany => {
             DE_DE_NUMERIC_COLLATOR.get_or_init(|| build_numeric_collator("de-DE"))
@@ -521,6 +545,60 @@ mod tests {
         assert!(
             locale_sort_key("~~~~~~", LocaleProfile::EnglishUnitedStates)
                 < locale_sort_key(&separator, LocaleProfile::EnglishUnitedStates)
+        );
+    }
+
+    #[test]
+    fn parses_czech_locale_identifiers() {
+        for identifier in [
+            "cs",
+            "cs_CZ",
+            "cs-CZ.UTF-8",
+            "Czech_Czechia.1250",
+            "Czech_Czech_Republic.1250",
+        ] {
+            assert_eq!(
+                LocaleProfile::from_identifier(identifier),
+                LocaleProfile::CzechCzechia,
+                "identifier={identifier}",
+            );
+        }
+
+        assert_eq!(LocaleProfile::CzechCzechia.identifier(), "cs-CZ");
+    }
+
+    #[test]
+    fn exposes_czech_numeric_symbols() {
+        assert_eq!(
+            LocaleProfile::CzechCzechia.symbols(),
+            LocaleSymbols {
+                decimal_point: ',',
+                thousands_separator: "\u{00A0}",
+                grouping: &[3, 0],
+            },
+        );
+    }
+
+    #[test]
+    fn matches_python_czech_locale_regression_140() {
+        let mut actual = vec!["Aš", "Cheb", "Česko", "Cibulov", "Znojmo", "Žilina"];
+
+        actual.sort_by(|left, right| {
+            locale_sort_key(left, LocaleProfile::CzechCzechia)
+                .cmp(&locale_sort_key(right, LocaleProfile::CzechCzechia))
+        });
+
+        assert_eq!(
+            actual,
+            vec!["Aš", "Cibulov", "Česko", "Cheb", "Znojmo", "Žilina"],
+        );
+    }
+
+    #[test]
+    fn czech_numeric_collator_orders_embedded_numbers_naturally() {
+        assert!(
+            locale_numeric_sort_key("soubor2", LocaleProfile::CzechCzechia)
+                < locale_numeric_sort_key("soubor10", LocaleProfile::CzechCzechia)
         );
     }
 }

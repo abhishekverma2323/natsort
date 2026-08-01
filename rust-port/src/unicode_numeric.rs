@@ -387,4 +387,71 @@ mod tests {
         assert_eq!(unicode_digit_value('A'), None);
         assert_eq!(unicode_numeric_value('A'), None);
     }
+
+    #[test]
+    fn exhaustively_validates_generated_unicode_numeric_tables() {
+        use grift_unicode::digit_value;
+
+        let mut generated_digit_count = 0usize;
+        let mut generated_numeric_count = 0usize;
+        let mut decimal_digit_count = 0usize;
+
+        for code_point in 0..=0x10FFFF {
+            let Some(character) = char::from_u32(code_point) else {
+                continue;
+            };
+
+            let digit = unicode_digit_value(character);
+            let numeric = unicode_numeric_value(character);
+
+            if let Some(value) = digit {
+                generated_digit_count += 1;
+
+                assert!(
+                    value <= 9,
+                    "non-decimal digit U+{code_point:04X} has invalid value {value}",
+                );
+                assert_eq!(
+                    numeric,
+                    Some(f64::from(value)),
+                    "digit and numeric tables disagree for U+{code_point:04X}",
+                );
+            }
+
+            if let Some(value) = numeric {
+                generated_numeric_count += 1;
+
+                assert!(
+                    value.is_finite(),
+                    "numeric table contains a non-finite value for U+{code_point:04X}",
+                );
+            }
+
+            if let Some(value) = digit_value(character)
+                && numeric.is_none()
+            {
+                decimal_digit_count += 1;
+
+                assert!(
+                    value <= 9,
+                    "decimal digit U+{code_point:04X} has invalid value {value}",
+                );
+            }
+        }
+
+        // Exact generated collection sizes from the Python natsort Unicode
+        // tables that also back numeric_regex_chooser.
+        assert_eq!(generated_digit_count, 128);
+        assert_eq!(generated_numeric_count, 1_242);
+        assert!(decimal_digit_count > 0);
+    }
+
+    #[test]
+    fn validates_representative_unicode_numeric_categories() {
+        assert_eq!(unicode_numeric_value('\u{0F33}'), Some(-0.5));
+        assert_eq!(unicode_digit_value('①'), Some(1));
+        assert_eq!(unicode_numeric_value('⅓'), Some(1.0 / 3.0));
+        assert_eq!(unicode_numeric_value('Ⅻ'), Some(12.0));
+        assert_eq!(unicode_numeric_value('京'), Some(1e16));
+    }
 }
