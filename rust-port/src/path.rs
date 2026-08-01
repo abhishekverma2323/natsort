@@ -99,7 +99,7 @@ pub(crate) fn path_components(input: &str) -> Vec<String> {
 
     let mut raw_components: Vec<&str> = input
         .split(is_path_separator)
-        .filter(|component| !component.is_empty())
+        .filter(|component| !component.is_empty() && *component != ".")
         .collect();
 
     let Some(base) = raw_components.pop() else {
@@ -156,6 +156,24 @@ mod tests {
         for input in [".", "./", "./././", ".\\"] {
             assert_eq!(path_components(input), vec!["."]);
         }
+    }
+
+    #[test]
+    fn removes_current_directory_components_from_paths() {
+        assert_eq!(
+            path_components(r".\folder10\file2.txt"),
+            vec!["folder10", "file2", ".txt"]
+        );
+
+        assert_eq!(
+            path_components("./folder10/file2.txt"),
+            vec!["folder10", "file2", ".txt"]
+        );
+
+        assert_eq!(
+            path_components("folder10/./file2.txt"),
+            vec!["folder10", "file2", ".txt"]
+        );
     }
 
     #[test]
