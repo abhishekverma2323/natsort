@@ -1,300 +1,368 @@
 # natsort Rust Port
 
-A Rust implementation of the core natural-sorting behavior provided by the Python [`natsort`](https://github.com/SethMMorton/natsort) project.
+A behavior-focused Rust migration of
+[`SethMMorton/natsort`](https://github.com/SethMMorton/natsort), developed for
+the **Port Mortem 2026 — Python → Rust** track.
 
-This port is being developed for the **Port Mortem 2026 Hackathon** under the **Python → Rust** migration track.
+The original Python implementation remains in the repository root and acts as
+the behavioral oracle. The Rust crate lives in `rust-port/`.
 
-## Project Structure
+## Results at a glance
 
-The original Python project remains in the repository root.
+- Natural sorting for integers, arbitrary-precision decimals, signs, and
+  scientific notation.
+- Unicode decimal, digit, and numeric-character handling.
+- Locale-aware, path-aware, and operating-system-aware sorting.
+- Typed mixed-value APIs for text, bytes, numbers, `None`, NaN, infinities,
+  and nested sequences.
+- ASCII, UTF-8, and Latin-1 decoding paths.
+- Python-compatible CLI behavior, including stdin, NUL-delimited input,
+  filters, exclusions, ranges, whitespace preservation, paths, reverse order,
+  and numeric modes.
+- Direct `Path`/`PathBuf` sorting APIs.
+- Eager and lazy `order_by_index` APIs.
+- Linux and Windows CI plus deterministic Python-vs-Rust differential fuzzing.
+- Rust faster in all 15 committed benchmark configurations.
 
-The Rust implementation is located in:
+Latest verified evidence:
 
 ```text
-rust-port/
-├── Cargo.toml
-├── README.md
-├── src/
-│   ├── lib.rs
-│   ├── options.rs
-│   ├── sort.rs
-│   └── token.rs
-└── tests/
-    └── python_parity.rs
+377 Rust library tests passed
+176 Python-reference parity tests passed
+1,000 / 1,000 local deterministic differential cases passed
+200 / 200 deterministic differential cases run in CI
+0 failures
 ```
 
-## Implemented Features
+## Build and verify
 
-The current Rust implementation supports:
+From the repository root:
 
-* Basic natural sorting
-* Multiple numeric components
-* Plain-text sorting
-* Arbitrary-precision integers
-* Leading-zero handling
-* Case-insensitive sorting
-* Reverse sorting
-* Signed integers
-* Arbitrary-precision decimal numbers
-* Scientific notation
-* Combined signed and floating-point sorting
-* Python-to-Rust parity tests
+```bash
+cd rust-port
 
-## Public API
-
-The crate exposes:
-
-```rust
-pub use options::SortOptions;
-pub use sort::{natsorted, natsorted_with_options};
+cargo fmt --all -- --check
+cargo test --all-targets
+cargo clippy --all-targets -- -D warnings
+cargo build --release --bin natsort
 ```
 
-### Basic Natural Sorting
+The release CLI is written to:
+
+```text
+rust-port/target/release/natsort
+```
+
+On Windows it is:
+
+```text
+rust-port\target\release\natsort.exe
+```
+
+## Quick start
+
+### Basic natural sorting
 
 ```rust
 use rust_port::natsorted;
 
-fn main() {
-    let input = vec!["file10", "file2", "file1"];
-    let result = natsorted(&input);
+let input = ["file10", "file2", "file1"];
+let output = natsorted(&input);
 
-    assert_eq!(result, vec!["file1", "file2", "file10"]);
-}
+assert_eq!(output, vec!["file1", "file2", "file10"]);
 ```
 
-### Case-Insensitive Sorting
+### Signed floating-point sorting
+
+```rust
+use rust_port::{realsorted, SortOptions};
+
+let input = ["value5.10", "value-3", "value5.3", "value2"];
+let output = realsorted(&input);
+
+assert_eq!(
+    output,
+    vec!["value-3", "value2", "value5.10", "value5.3"],
+);
+```
+
+Additional options use the builder API:
 
 ```rust
 use rust_port::{natsorted_with_options, SortOptions};
 
-fn main() {
-    let input = vec!["File10", "file2", "FILE1"];
+let input = ["FILE10", "file2", "File1"];
 
-    let options = SortOptions::new().ignore_case(true);
-    let result = natsorted_with_options(&input, options);
+let options = SortOptions::new()
+    .ignore_case(true)
+    .reverse(false);
 
-    assert_eq!(result, vec!["FILE1", "file2", "File10"]);
-}
+let output = natsorted_with_options(&input, options);
+
+assert_eq!(output, vec!["File1", "file2", "FILE10"]);
 ```
 
-### Reverse Sorting
+### Direct path sorting
 
 ```rust
-use rust_port::{natsorted_with_options, SortOptions};
+use std::path::PathBuf;
 
-fn main() {
-    let input = vec!["file1", "file10", "file2"];
+use rust_port::natsorted_paths;
 
-    let options = SortOptions::new().reverse(true);
-    let result = natsorted_with_options(&input, options);
+let input = vec![
+    PathBuf::from("folder/file10.txt"),
+    PathBuf::from("folder/file2.txt"),
+    PathBuf::from("folder/file1.txt"),
+];
 
-    assert_eq!(result, vec!["file10", "file2", "file1"]);
-}
+let output = natsorted_paths(&input);
+
+assert_eq!(
+    output,
+    vec![
+        PathBuf::from("folder/file1.txt"),
+        PathBuf::from("folder/file2.txt"),
+        PathBuf::from("folder/file10.txt"),
+    ],
+);
 ```
 
-### Signed Integer Sorting
+### Mixed typed values
 
 ```rust
-use rust_port::{natsorted_with_options, SortOptions};
+use rust_port::{natsorted_values, NaturalValue};
 
-fn main() {
-    let input = vec!["value5", "value-2", "value1", "value-10"];
+let input = vec![
+    NaturalValue::from("a2"),
+    NaturalValue::from(3),
+    NaturalValue::from("a1"),
+    NaturalValue::from(2),
+];
 
-    let options = SortOptions::new().signed(true);
-    let result = natsorted_with_options(&input, options);
+let output = natsorted_values(&input);
 
-    assert_eq!(
-        result,
-        vec!["value-10", "value-2", "value1", "value5"]
-    );
-}
+assert_eq!(
+    output,
+    vec![
+        NaturalValue::from(2),
+        NaturalValue::from(3),
+        NaturalValue::from("a1"),
+        NaturalValue::from("a2"),
+    ],
+);
 ```
 
-### Decimal Sorting
+### Explicit byte decoding
 
 ```rust
-use rust_port::{natsorted_with_options, SortOptions};
+use rust_port::{
+    decoder,
+    natsorted_values_with_decoder,
+    NaturalValue,
+};
 
-fn main() {
-    let input = vec!["value1.5", "value1.25", "value10.01", "value2.0"];
+let input = vec![
+    NaturalValue::from(&b"caf\xe9-10"[..]),
+    NaturalValue::from(&b"caf\xe9-2"[..]),
+];
 
-    let options = SortOptions::new().float(true);
-    let result = natsorted_with_options(&input, options);
+let latin1 = decoder("latin1").expect("Latin-1 is supported");
+let output =
+    natsorted_values_with_decoder(&input, latin1).expect("valid Latin-1");
 
-    assert_eq!(
-        result,
-        vec!["value1.25", "value1.5", "value2.0", "value10.01"]
-    );
-}
+assert_eq!(output.len(), 2);
 ```
 
-### Scientific Notation
+### Lazy index ordering
 
 ```rust
-use rust_port::{natsorted_with_options, SortOptions};
+use rust_port::order_by_index_iter;
 
-fn main() {
-    let input = vec![
-        "value1e3",
-        "value2.5e2",
-        "value4.2e-3",
-        "value1",
-        "value10",
-    ];
+let values = ["num3", "num5", "num2"];
+let indexes = [2, 0, 1];
 
-    let options = SortOptions::new().float(true);
-    let result = natsorted_with_options(&input, options);
+let output: Vec<_> =
+    order_by_index_iter(&values, &indexes).collect();
 
-    assert_eq!(
-        result,
-        vec![
-            "value4.2e-3",
-            "value1",
-            "value10",
-            "value2.5e2",
-            "value1e3",
-        ]
-    );
-}
+assert_eq!(output, vec!["num2", "num3", "num5"]);
 ```
 
-### Combining Options
+## CLI examples
 
-Options use a builder-style API and can be combined:
+Sort positional arguments:
 
-```rust
-use rust_port::{natsorted_with_options, SortOptions};
-
-fn main() {
-    let input = vec![
-        "Value1.5",
-        "value-2.25",
-        "VALUE-10.5",
-        "value0.25",
-    ];
-
-    let options = SortOptions::new()
-        .ignore_case(true)
-        .signed(true)
-        .float(true)
-        .reverse(false);
-
-    let result = natsorted_with_options(&input, options);
-
-    assert_eq!(
-        result,
-        vec![
-            "VALUE-10.5",
-            "value-2.25",
-            "value0.25",
-            "Value1.5",
-        ]
-    );
-}
+```bash
+cargo run --bin natsort -- file10 file2 file1
 ```
 
-## Arbitrary-Precision Numeric Comparison
-
-The implementation does not parse numeric tokens into fixed-width integer or floating-point types.
-
-Numeric values are compared using normalized strings, which allows the Rust port to handle values larger than `u64`, `u128`, or the exact precision range of `f64`.
-
-Examples include:
+Output:
 
 ```text
-999999999999999999999999
--184467440737095516160000
-1.000000000000000000000001
-1.25e100
+file1
+file2
+file10
 ```
 
-## Python Parity Verification
+Read from stdin:
 
-Reference outputs are generated using the original Python implementation:
-
-```text
-parity/python_reference.py
-parity/python_reference_output.txt
+```bash
+printf 'file10\nfile2\nfile1\n' |
+  cargo run --quiet --bin natsort
 ```
 
-Rust integration tests based on those outputs are located in:
+Real-number sorting:
 
-```text
-rust-port/tests/python_parity.rs
+```bash
+cargo run --quiet --bin natsort -- \
+  --number-type real \
+  value5.10 value-3 value5.3 value2
 ```
 
-The parity suite currently covers:
+Path sorting:
 
-* Basic natural sorting
-* Leading zeros
-* Very large integers
-* Signed integers
-* Decimal numbers
-* Scientific notation
-* Signed floating-point numbers
-* Case-insensitive sorting
-* Reverse sorting
+```bash
+cargo run --quiet --bin natsort -- \
+  --paths \
+  folder/file10.txt folder/file2.txt folder/file1.txt
+```
 
-## Running the Tests
+See the complete CLI:
 
-From WSL or another Linux environment:
+```bash
+cargo run --quiet --bin natsort -- --help
+```
+
+## Public API groups
+
+| Area | Main APIs |
+|---|---|
+| String sorting | `natsorted`, `realsorted`, `humansorted` |
+| Options | `SortOptions`, `AlgorithmFlags` |
+| Key generation | `natsort_key`, `natsort_keygen`, typed key variants |
+| Index sorting | `index_natsorted`, `index_realsorted`, locale/value variants |
+| Path objects | `natsorted_paths`, `index_natsorted_paths` |
+| Mixed values | `NaturalValue`, `natsorted_values`, value-key APIs |
+| Decoding | `Decoder`, `decoder`, decoder-enabled value sorting |
+| OS sorting | `os_sorted`, `os_sort_key`, `OsSortOptions`, index/key variants |
+| Reordering | `order_by_index`, `try_order_by_index`, lazy iterator variants |
+| CLI integration | `run_cli`, `CliOptions`, `NumericRange` |
+
+Most API families also provide an explicit `_with_options` form.
+
+## Validation
+
+### Rust and Python-reference tests
 
 ```bash
 cd rust-port
-cargo fmt --check
-cargo test
-cargo clippy -- -D warnings
+cargo test --all-targets
 ```
 
-Current verified test status:
+The integration suite in `rust-port/tests/python_parity.rs` uses reference
+outputs and behavior captured from the original Python implementation.
 
-```text
-35 Rust unit tests passed
-9 Python parity integration tests passed
-0 failed
-```
+### Deterministic differential fuzzing
 
-## Python Baseline
+A Python controller generates randomized inputs, asks the Python package for
+the expected order, runs the Rust CLI, and compares the complete output.
 
-The original Python test suite can be run from the repository root:
+Local extended run:
 
 ```bash
-python -m pytest
+python parity/differential_fuzz.py \
+  --cases 1000 \
+  --seed 20260801
 ```
 
-Verified original Python baseline:
+CI-bounded run:
+
+```bash
+python parity/differential_fuzz.py \
+  --cases 200 \
+  --seed 20260801 \
+  --python-oracle python
+```
+
+On failure, the exact seed, case, mode, arguments, input, expected output, and
+actual output are written to:
 
 ```text
-344 tests passed
+parity/differential_fuzz_failure.json
 ```
 
-## Current Limitations
+## Performance
 
-This is an incremental migration of the original Python project.
+The committed benchmark compares in-process Python and Rust sorting on the
+same deterministic UTF-8 datasets. Loading, process startup, and compilation
+are outside the timed region.
 
-The current Rust implementation focuses on core natural-sorting and numeric behavior. The following Python `natsort` capabilities are not yet fully implemented:
+Median speedup by mode:
 
-* Locale-aware sorting
-* Operating-system path sorting
-* Unicode numeric categories
-* Bytes-specific sorting behavior
-* NaN and infinity handling
-* All original `ns` enum combinations
-* Python-compatible key-generator APIs
-* Command-line interface parity
+| Mode | Median Rust speedup |
+|---|---:|
+| Default | 2.12× |
+| Float | 4.10× |
+| Real | 4.47× |
+| Path | 5.04× |
+| Locale | 1.67× |
 
-## Migration Approach
+Rust was faster in all 15 measured mode/size combinations from 1,000 through
+50,000 entries.
 
-The project follows an incremental migration strategy:
+Full methodology and raw results:
 
-1. Preserve the original Python implementation.
-2. Establish the Python test baseline.
-3. Implement isolated Rust sorting components.
-4. Add unit tests for each migrated behavior.
-5. Generate outputs from the Python implementation.
-6. Lock those outputs into Rust parity tests.
-7. Expand support feature by feature without breaking existing behavior.
+- `parity/BENCHMARK_RESULTS.md`
+- `parity/benchmark_results.json`
+
+## Architecture
+
+See [`ARCHITECTURE.md`](ARCHITECTURE.md) for module responsibilities, sorting
+data flow, design decisions, and migration boundaries.
+
+## Compatibility contract
+
+This project targets observable sorting behavior rather than reproducing
+Python internals or Python tuple representations.
+
+Intentional Rust-specific differences include:
+
+- Typed `NaturalValue` and `NaturalKey` representations instead of arbitrary
+  Python objects and tuple-shaped keys.
+- Rust error types and panic/`Result` pairs instead of Python exceptions.
+- Explicit decoder-enabled APIs for bytes/text interoperability.
+- Dedicated path APIs; non-UTF-8 paths are converted with
+  `Path::to_string_lossy` because the sorting engine is text based.
+- Python-only internal factories, profiling helpers, and pytest fixtures are
+  not exposed as Rust public APIs.
+- Supported built-in decoders are ASCII, UTF-8, and Latin-1 rather than the
+  complete Python codec registry.
+
+The detailed mapping is maintained in:
+
+```text
+parity/PYTHON_TEST_COVERAGE.md
+```
+
+## Repository map
+
+```text
+natsort/
+├── natsort/                         # Original Python implementation
+├── tests/                           # Original Python tests
+├── rust-port/
+│   ├── src/                         # Rust library and CLI
+│   ├── tests/python_parity.rs       # Python-reference parity tests
+│   ├── README.md
+│   └── ARCHITECTURE.md
+├── parity/
+│   ├── differential_fuzz.py
+│   ├── PYTHON_TEST_COVERAGE.md
+│   ├── BENCHMARK_RESULTS.md
+│   └── benchmark_results.json
+└── PORT_MORTEM_2026.md              # Hackathon submission guide
+```
 
 ## License
 
-The original project is licensed under the MIT License. This Rust port follows the repository’s existing licensing terms.
+The original repository is MIT licensed. This migration follows the existing
+repository license.
