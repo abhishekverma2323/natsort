@@ -1,5 +1,6 @@
 mod api;
 mod decode;
+mod locale;
 mod options;
 mod path;
 mod separator;
@@ -11,11 +12,14 @@ mod value;
 mod value_api;
 
 pub use value_api::{
-    index_natsorted_by_value_key, index_natsorted_by_value_key_with_options,
-    index_natsorted_values, index_natsorted_values_with_decoder,
-    index_natsorted_values_with_decoder_and_options, index_natsorted_values_with_options,
-    index_realsorted_by_value_key, index_realsorted_by_value_key_with_options,
-    index_realsorted_values, index_realsorted_values_with_options, natsorted_by_value_key,
+    humansorted_by_value_key, humansorted_by_value_key_with_options,
+    index_humansorted_by_value_key, index_humansorted_by_value_key_with_options,
+    index_humansorted_values, index_humansorted_values_with_options, index_natsorted_by_value_key,
+    index_natsorted_by_value_key_with_options, index_natsorted_values,
+    index_natsorted_values_with_decoder, index_natsorted_values_with_decoder_and_options,
+    index_natsorted_values_with_options, index_realsorted_by_value_key,
+    index_realsorted_by_value_key_with_options, index_realsorted_values,
+    index_realsorted_values_with_options, natsorted_by_value_key,
     natsorted_by_value_key_with_options, realsorted_by_value_key,
     realsorted_by_value_key_with_options,
 };
@@ -26,17 +30,21 @@ pub use decode::{
     natsorted_values_with_decoder_and_options,
 };
 
+pub use locale::{LocaleProfile, LocaleSymbols, system_locale_identifier};
+
 pub use value::{
-    KeyAtom, NaturalKey, NaturalKeyGenerator, NaturalValue, NumericKey, natsort_key,
-    natsort_key_with_options, natsort_keygen, natsort_keygen_with_options, natsorted_values,
-    natsorted_values_with_options, realsorted_values, realsorted_values_with_options,
+    KeyAtom, NaturalKey, NaturalKeyGenerator, NaturalValue, NumericKey, humansorted_values,
+    humansorted_values_with_options, natsort_key, natsort_key_with_options, natsort_keygen,
+    natsort_keygen_with_options, natsorted_values, natsorted_values_with_options,
+    realsorted_values, realsorted_values_with_options,
 };
 
 pub use api::{
-    OrderByIndexError, index_natsorted, index_natsorted_with_options, index_realsorted,
-    index_realsorted_with_options, natsorted_by_key, natsorted_by_key_with_options, order_by_index,
-    realsorted, realsorted_by_key, realsorted_by_key_with_options, realsorted_with_options,
-    try_order_by_index,
+    OrderByIndexError, humansorted, humansorted_by_key, humansorted_by_key_with_options,
+    humansorted_with_options, index_humansorted, index_humansorted_with_options, index_natsorted,
+    index_natsorted_with_options, index_realsorted, index_realsorted_with_options,
+    natsorted_by_key, natsorted_by_key_with_options, order_by_index, realsorted, realsorted_by_key,
+    realsorted_by_key_with_options, realsorted_with_options, try_order_by_index,
 };
 
 pub use options::SortOptions;

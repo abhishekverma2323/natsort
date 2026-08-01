@@ -1,3 +1,5 @@
+use crate::locale::LocaleProfile;
+
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq)]
 pub struct SortOptions {
     pub ignore_case: bool,
@@ -13,6 +15,9 @@ pub struct SortOptions {
     pub presort: bool,
     pub nan_last: bool,
     pub num_after: bool,
+    pub locale_alpha: bool,
+    pub locale_numeric: bool,
+    pub locale_profile: LocaleProfile,
 }
 
 impl SortOptions {
@@ -31,6 +36,9 @@ impl SortOptions {
             presort: false,
             nan_last: false,
             num_after: false,
+            locale_alpha: false,
+            locale_numeric: false,
+            locale_profile: LocaleProfile::System,
         }
     }
 
@@ -96,6 +104,27 @@ impl SortOptions {
 
     pub const fn presort(mut self, enabled: bool) -> Self {
         self.presort = enabled;
+        self
+    }
+
+    pub const fn locale_alpha(mut self, enabled: bool) -> Self {
+        self.locale_alpha = enabled;
+        self
+    }
+
+    pub const fn locale_numeric(mut self, enabled: bool) -> Self {
+        self.locale_numeric = enabled;
+        self
+    }
+
+    pub const fn locale(mut self, enabled: bool) -> Self {
+        self.locale_alpha = enabled;
+        self.locale_numeric = enabled;
+        self
+    }
+
+    pub const fn locale_profile(mut self, profile: LocaleProfile) -> Self {
+        self.locale_profile = profile;
         self
     }
 }

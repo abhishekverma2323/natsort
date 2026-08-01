@@ -1,6 +1,7 @@
 use unicode_casefold::UnicodeCaseFold;
 use unicode_normalization::UnicodeNormalization;
 
+use crate::locale::normalize_localized_numbers;
 use crate::options::SortOptions;
 
 fn normalize_input(input: &str, compatibility_normalize: bool) -> String {
@@ -8,6 +9,14 @@ fn normalize_input(input: &str, compatibility_normalize: bool) -> String {
         input.nfkd().collect()
     } else {
         input.nfd().collect()
+    }
+}
+
+fn compose_input(input: &str, compatibility_normalize: bool) -> String {
+    if compatibility_normalize {
+        input.nfkc().collect()
+    } else {
+        input.nfc().collect()
     }
 }
 
@@ -44,22 +53,38 @@ fn group_letters(input: &str) -> String {
 
 pub(crate) fn prepare_input(input: &str, options: SortOptions) -> String {
     let normalized = normalize_input(input, options.compatibility_normalize);
+    let dumb_locale = options.locale_alpha && options.locale_profile.uses_dumb_collation();
+    let should_swap_case = options.lowercase_first ^ dumb_locale;
 
-    let case_ordered = if options.lowercase_first {
+    let case_ordered = if should_swap_case {
         swap_case(&normalized)
     } else {
         normalized
     };
 
-    if options.ignore_case {
+    let case_transformed = if options.ignore_case {
         case_fold(&case_ordered)
     } else {
         case_ordered
+    };
+
+    let number_transformed = if options.locale_numeric {
+        normalize_localized_numbers(&case_transformed, options.locale_profile, options.float)
+    } else {
+        case_transformed
+    };
+
+    if options.locale_alpha {
+        compose_input(&number_transformed, options.compatibility_normalize)
+    } else {
+        number_transformed
     }
 }
 
 pub(crate) fn transform_text_component(input: &str, options: SortOptions) -> String {
-    if options.group_letters {
+    let dumb_locale = options.locale_alpha && options.locale_profile.uses_dumb_collation();
+
+    if options.group_letters || dumb_locale {
         group_letters(input)
     } else {
         input.to_string()
@@ -69,6 +94,7 @@ pub(crate) fn transform_text_component(input: &str, options: SortOptions) -> Str
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::locale::LocaleProfile;
 
     #[test]
     fn applies_canonical_decomposition() {
@@ -148,5 +174,54 @@ mod tests {
         let options = SortOptions::new().ignore_case(true);
 
         assert_eq!(prepare_input("Straße", options), "strasse",);
+    }
+
+    #[test]
+    fn c_locale_applies_python_dumb_locale_swap() {
+        let options = SortOptions::new()
+            .locale_alpha(true)
+            .locale_profile(LocaleProfile::C);
+
+        assert_eq!(prepare_input("Apple", options), "aPPLE");
+    }
+
+    #[test]
+    fn c_locale_groups_letters_like_python() {
+        let options = SortOptions::new()
+            .locale_alpha(true)
+            .locale_profile(LocaleProfile::C);
+
+        let prepared = prepare_input("Apple", options);
+
+        assert_eq!(transform_text_component(&prepared, options), "aapPpPlLeE");
+    }
+
+    #[test]
+    fn locale_alpha_recomposes_unicode_before_collation() {
+        let options = SortOptions::new()
+            .locale_alpha(true)
+            .locale_profile(LocaleProfile::EnglishUnitedStates);
+
+        assert_eq!(prepare_input("Äpfel", options), "Äpfel");
+    }
+
+    #[test]
+    fn english_locale_removes_thousands_separator() {
+        let options = SortOptions::new()
+            .locale_numeric(true)
+            .float(true)
+            .locale_profile(LocaleProfile::EnglishUnitedStates);
+
+        assert_eq!(prepare_input("1,234.50", options), "1234.50");
+    }
+
+    #[test]
+    fn german_locale_switches_decimal_separator() {
+        let options = SortOptions::new()
+            .locale_numeric(true)
+            .float(true)
+            .locale_profile(LocaleProfile::GermanGermany);
+
+        assert_eq!(prepare_input("1.234,50", options), "1234.50");
     }
 }

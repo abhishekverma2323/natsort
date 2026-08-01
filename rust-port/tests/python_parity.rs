@@ -1,10 +1,11 @@
 use rust_port::{
-    Decoder, NaturalValue, SortOptions, as_ascii, as_utf8, index_natsorted, index_natsorted_values,
+    Decoder, LocaleProfile, NaturalValue, SortOptions, as_ascii, as_utf8, humansorted_with_options,
+    index_humansorted_with_options, index_natsorted, index_natsorted_values,
     index_natsorted_values_with_decoder, index_natsorted_values_with_options,
-    index_natsorted_with_options, index_realsorted, index_realsorted_values, natsorted,
-    natsorted_by_key, natsorted_by_key_with_options, natsorted_values,
-    natsorted_values_with_decoder, natsorted_values_with_options, natsorted_with_options,
-    order_by_index, realsorted, realsorted_values, realsorted_with_options,
+    index_natsorted_with_options, index_realsorted, index_realsorted_values,
+    natsort_key_with_options, natsorted, natsorted_by_key, natsorted_by_key_with_options,
+    natsorted_values, natsorted_values_with_decoder, natsorted_values_with_options,
+    natsorted_with_options, order_by_index, realsorted, realsorted_values, realsorted_with_options,
 };
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -1504,5 +1505,175 @@ fn matches_python_num_after_indexes() {
     assert_eq!(
         index_natsorted_values_with_options(&input, options,),
         vec![2, 3, 4, 5, 0, 1]
+    );
+}
+
+#[test]
+fn matches_python_english_locale_alpha() {
+    let input = [
+        "Apple", "apple", "Äpfel", "äpfel", "Banana", "banana", "Öl", "Oase", "Zebra",
+    ];
+    let options = SortOptions::new()
+        .locale_alpha(true)
+        .locale_profile(LocaleProfile::EnglishUnitedStates);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec![
+            "äpfel", "Äpfel", "apple", "Apple", "banana", "Banana", "Oase", "Öl", "Zebra",
+        ]
+    );
+}
+
+#[test]
+fn matches_python_c_locale_alpha() {
+    let input = [
+        "Apple", "apple", "Äpfel", "äpfel", "Banana", "banana", "Öl", "Oase", "Zebra",
+    ];
+    let options = SortOptions::new()
+        .locale_alpha(true)
+        .locale_profile(LocaleProfile::C);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec![
+            "apple", "Apple", "banana", "Banana", "Oase", "Zebra", "äpfel", "Äpfel", "Öl",
+        ]
+    );
+}
+
+#[test]
+fn matches_python_english_human_natural_sort() {
+    let input = [
+        "file10", "File2", "file1", "Äpfel20", "Äpfel3", "apple11", "apple2", "Öl5", "Oase4",
+    ];
+    let options = SortOptions::new().locale_profile(LocaleProfile::EnglishUnitedStates);
+
+    assert_eq!(
+        humansorted_with_options(&input, options),
+        vec![
+            "Äpfel3", "Äpfel20", "apple2", "apple11", "file1", "file10", "File2", "Oase4", "Öl5",
+        ]
+    );
+}
+
+#[test]
+fn matches_python_english_human_indexes() {
+    let input = [
+        "file10", "File2", "file1", "Äpfel20", "Äpfel3", "apple11", "apple2", "Öl5", "Oase4",
+    ];
+    let options = SortOptions::new().locale_profile(LocaleProfile::EnglishUnitedStates);
+
+    assert_eq!(
+        index_humansorted_with_options(&input, options),
+        vec![4, 3, 6, 5, 2, 0, 1, 8, 7],
+    );
+}
+
+#[test]
+fn matches_python_english_localized_numbers() {
+    let input = ["1,234.50", "12.50", "2.75", "1,000.25", "10.25"];
+    let options = SortOptions::new()
+        .float(true)
+        .locale_numeric(true)
+        .locale_profile(LocaleProfile::EnglishUnitedStates);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec!["2.75", "10.25", "12.50", "1,000.25", "1,234.50"]
+    );
+}
+
+#[test]
+fn matches_python_german_localized_numbers() {
+    let input = ["1.234,50", "12,50", "2,75", "1.000,25", "10,25"];
+    let options = SortOptions::new()
+        .float(true)
+        .locale_numeric(true)
+        .locale_profile(LocaleProfile::GermanGermany);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec!["2,75", "10,25", "12,50", "1.000,25", "1.234,50"]
+    );
+}
+
+#[test]
+fn matches_python_french_localized_numbers() {
+    let input = [
+        "1\u{202F}234,50",
+        "12,50",
+        "2,75",
+        "1\u{202F}000,25",
+        "10,25",
+    ];
+    let options = SortOptions::new()
+        .float(true)
+        .locale_numeric(true)
+        .locale_profile(LocaleProfile::FrenchFrance);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec![
+            "2,75",
+            "10,25",
+            "12,50",
+            "1\u{202F}000,25",
+            "1\u{202F}234,50",
+        ]
+    );
+}
+
+#[test]
+fn matches_python_mixed_english_locale_sort() {
+    let input = ["1,000.50", "Apple2", "10.25", "apple10", "2.50", "Äpfel1"];
+    let options = SortOptions::new()
+        .float(true)
+        .locale(true)
+        .locale_profile(LocaleProfile::EnglishUnitedStates);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec!["2.50", "10.25", "1,000.50", "Äpfel1", "apple10", "Apple2"]
+    );
+}
+
+#[test]
+fn matches_python_mixed_english_locale_indexes() {
+    let input = ["1,000.50", "Apple2", "10.25", "apple10", "2.50", "Äpfel1"];
+    let options = SortOptions::new()
+        .float(true)
+        .locale(true)
+        .locale_profile(LocaleProfile::EnglishUnitedStates);
+
+    assert_eq!(
+        index_natsorted_with_options(&input, options),
+        vec![4, 2, 0, 5, 3, 1]
+    );
+}
+
+#[test]
+fn locale_key_equates_english_localized_number_and_direct_number() {
+    let options = SortOptions::new()
+        .float(true)
+        .locale(true)
+        .locale_profile(LocaleProfile::EnglishUnitedStates);
+
+    assert_eq!(
+        natsort_key_with_options(&NaturalValue::from("1,234.50"), options),
+        natsort_key_with_options(&NaturalValue::from(1234.5), options),
+    );
+}
+
+#[test]
+fn locale_key_equates_german_localized_number_and_direct_number() {
+    let options = SortOptions::new()
+        .float(true)
+        .locale(true)
+        .locale_profile(LocaleProfile::GermanGermany);
+
+    assert_eq!(
+        natsort_key_with_options(&NaturalValue::from("1.234,50"), options),
+        natsort_key_with_options(&NaturalValue::from(1234.5), options),
     );
 }

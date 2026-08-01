@@ -18,6 +18,12 @@ fn real_options(mut options: SortOptions) -> SortOptions {
     options
 }
 
+fn human_options(mut options: SortOptions) -> SortOptions {
+    options.locale_alpha = true;
+    options.locale_numeric = true;
+    options
+}
+
 fn sort_value_indexes(items: &[NaturalValue], options: SortOptions) -> Vec<usize> {
     let keys: Vec<NaturalKey> = items
         .iter()
@@ -62,6 +68,17 @@ pub fn index_realsorted_values_with_options(
     options: SortOptions,
 ) -> Vec<usize> {
     sort_value_indexes(items, real_options(options))
+}
+
+pub fn index_humansorted_values(items: &[NaturalValue]) -> Vec<usize> {
+    index_humansorted_values_with_options(items, SortOptions::new())
+}
+
+pub fn index_humansorted_values_with_options(
+    items: &[NaturalValue],
+    options: SortOptions,
+) -> Vec<usize> {
+    sort_value_indexes(items, human_options(options))
 }
 
 fn values_from_key<T, F>(items: &[T], mut key: F) -> Vec<NaturalValue>
@@ -116,6 +133,26 @@ where
     natsorted_by_value_key_with_options(items, key, real_options(options))
 }
 
+pub fn humansorted_by_value_key<T, F>(items: &[T], key: F) -> Vec<T>
+where
+    T: Clone,
+    F: FnMut(&T) -> NaturalValue,
+{
+    humansorted_by_value_key_with_options(items, key, SortOptions::new())
+}
+
+pub fn humansorted_by_value_key_with_options<T, F>(
+    items: &[T],
+    key: F,
+    options: SortOptions,
+) -> Vec<T>
+where
+    T: Clone,
+    F: FnMut(&T) -> NaturalValue,
+{
+    natsorted_by_value_key_with_options(items, key, human_options(options))
+}
+
 pub fn index_natsorted_by_value_key<T, F>(items: &[T], key: F) -> Vec<usize>
 where
     F: FnMut(&T) -> NaturalValue,
@@ -151,6 +188,24 @@ where
     F: FnMut(&T) -> NaturalValue,
 {
     index_natsorted_by_value_key_with_options(items, key, real_options(options))
+}
+
+pub fn index_humansorted_by_value_key<T, F>(items: &[T], key: F) -> Vec<usize>
+where
+    F: FnMut(&T) -> NaturalValue,
+{
+    index_humansorted_by_value_key_with_options(items, key, SortOptions::new())
+}
+
+pub fn index_humansorted_by_value_key_with_options<T, F>(
+    items: &[T],
+    key: F,
+    options: SortOptions,
+) -> Vec<usize>
+where
+    F: FnMut(&T) -> NaturalValue,
+{
+    index_natsorted_by_value_key_with_options(items, key, human_options(options))
 }
 
 pub fn index_natsorted_values_with_decoder(
@@ -653,6 +708,91 @@ mod tests {
         assert_eq!(
             index_natsorted_values_with_options(&input, options,),
             vec![2, 3, 4, 5, 0, 1]
+        );
+    }
+
+    #[test]
+    fn human_value_indexes_match_python_locale_order() {
+        use crate::locale::LocaleProfile;
+
+        let input = vec![
+            text("file10"),
+            text("File2"),
+            text("file1"),
+            text("Äpfel20"),
+            text("Äpfel3"),
+            text("apple11"),
+            text("apple2"),
+            text("Öl5"),
+            text("Oase4"),
+        ];
+        let options = SortOptions::new().locale_profile(LocaleProfile::EnglishUnitedStates);
+
+        assert_eq!(
+            index_humansorted_values_with_options(&input, options),
+            vec![4, 3, 6, 5, 2, 0, 1, 8, 7],
+        );
+    }
+
+    #[test]
+    fn human_value_key_sort_supports_localized_numbers() {
+        use crate::locale::LocaleProfile;
+
+        let records = vec![
+            Record {
+                id: "large",
+                key: text("1,000.50"),
+            },
+            Record {
+                id: "small",
+                key: text("2.50"),
+            },
+            Record {
+                id: "medium",
+                key: text("10.25"),
+            },
+        ];
+        let options = SortOptions::new()
+            .float(true)
+            .locale_profile(LocaleProfile::EnglishUnitedStates);
+
+        assert_eq!(
+            ids(&humansorted_by_value_key_with_options(
+                &records,
+                |record| record.key.clone(),
+                options,
+            )),
+            vec!["small", "medium", "large"],
+        );
+    }
+
+    #[test]
+    fn human_value_key_indexes_are_stable() {
+        use crate::locale::LocaleProfile;
+
+        let records = vec![
+            Record {
+                id: "first",
+                key: text("apple2"),
+            },
+            Record {
+                id: "second",
+                key: text("apple02"),
+            },
+            Record {
+                id: "third",
+                key: text("apple2"),
+            },
+        ];
+        let options = SortOptions::new().locale_profile(LocaleProfile::EnglishUnitedStates);
+
+        assert_eq!(
+            index_humansorted_by_value_key_with_options(
+                &records,
+                |record| record.key.clone(),
+                options,
+            ),
+            vec![0, 1, 2],
         );
     }
 }

@@ -1,3 +1,4 @@
+use crate::locale::locale_sort_key;
 use crate::separator::numeric_prefix;
 use num_bigint::BigInt;
 use std::cmp::Ordering;
@@ -145,6 +146,7 @@ impl Ord for NumericKey {
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum KeyAtom {
     Text(String),
+    LocaleText(Vec<u8>),
     Number(NumericKey),
     Bytes(Vec<u8>),
 }
@@ -183,17 +185,28 @@ impl Ord for NaturalKey {
     }
 }
 
-fn token_atoms(tokens: &[Token]) -> Vec<KeyAtom> {
+fn text_atom(value: &str, options: SortOptions) -> KeyAtom {
+    if options.locale_alpha {
+        KeyAtom::LocaleText(locale_sort_key(value, options.locale_profile))
+    } else {
+        KeyAtom::Text(value.to_string())
+    }
+}
+
+fn token_atoms(tokens: &[Token], options: SortOptions) -> Vec<KeyAtom> {
     let mut atoms: Vec<KeyAtom> = tokens
         .iter()
         .map(|token| match token {
-            Token::Text(value) => KeyAtom::Text(value.clone()),
+            Token::Text(value) => text_atom(value, options),
             Token::Number(value) => KeyAtom::Number(NumericKey::Finite(value.clone())),
         })
         .collect();
 
-    if !matches!(atoms.first(), Some(KeyAtom::Text(_))) {
-        atoms.insert(0, KeyAtom::Text(String::new()));
+    if !matches!(
+        atoms.first(),
+        Some(KeyAtom::Text(_) | KeyAtom::LocaleText(_))
+    ) {
+        atoms.insert(0, text_atom("", options));
     }
 
     atoms
@@ -230,7 +243,7 @@ fn text_key(input: &str, options: SortOptions) -> NaturalKey {
         NaturalKey::Sequence(
             components
                 .iter()
-                .map(|component| NaturalKey::Atomic(token_atoms(component)))
+                .map(|component| NaturalKey::Atomic(token_atoms(component, options)))
                 .collect(),
         )
     } else {
@@ -238,7 +251,7 @@ fn text_key(input: &str, options: SortOptions) -> NaturalKey {
             .first()
             .expect("non-path string key has one component");
 
-        NaturalKey::Atomic(token_atoms(tokens))
+        NaturalKey::Atomic(token_atoms(tokens, options))
     }
 }
 
@@ -248,12 +261,12 @@ fn numeric_atomic_key(
     options: SortOptions,
 ) -> NaturalKey {
     let mut atoms = vec![
-        KeyAtom::Text(numeric_prefix(options).to_string()),
+        text_atom(numeric_prefix(options), options),
         KeyAtom::Number(number),
     ];
 
     if let Some(marker) = marker {
-        atoms.push(KeyAtom::Text(marker.to_string()));
+        atoms.push(text_atom(marker, options));
     }
 
     NaturalKey::Atomic(atoms)
@@ -366,6 +379,12 @@ fn real_options(mut options: SortOptions) -> SortOptions {
     options
 }
 
+fn human_options(mut options: SortOptions) -> SortOptions {
+    options.locale_alpha = true;
+    options.locale_numeric = true;
+    options
+}
+
 pub fn natsorted_values(items: &[NaturalValue]) -> Vec<NaturalValue> {
     natsorted_values_with_options(items, SortOptions::new())
 }
@@ -418,6 +437,17 @@ pub fn realsorted_values_with_options(
     options: SortOptions,
 ) -> Vec<NaturalValue> {
     natsorted_values_with_options(items, real_options(options))
+}
+
+pub fn humansorted_values(items: &[NaturalValue]) -> Vec<NaturalValue> {
+    humansorted_values_with_options(items, SortOptions::new())
+}
+
+pub fn humansorted_values_with_options(
+    items: &[NaturalValue],
+    options: SortOptions,
+) -> Vec<NaturalValue> {
+    natsorted_values_with_options(items, human_options(options))
 }
 
 #[cfg(test)]
@@ -973,5 +1003,64 @@ mod tests {
         );
 
         assert_eq!(default_key, num_after_key);
+    }
+
+    #[test]
+    fn human_sort_matches_locale_options() {
+        use crate::locale::LocaleProfile;
+
+        let input = vec![text("Apple"), text("apple"), text("Äpfel"), text("banana")];
+
+        let options = SortOptions::new().locale_profile(LocaleProfile::EnglishUnitedStates);
+
+        assert_eq!(
+            humansorted_values_with_options(&input, options),
+            natsorted_values_with_options(&input, options.locale(true)),
+        );
+    }
+
+    #[test]
+    fn locale_key_equates_localized_string_and_direct_number() {
+        use crate::locale::LocaleProfile;
+
+        let options = SortOptions::new()
+            .float(true)
+            .locale(true)
+            .locale_profile(LocaleProfile::EnglishUnitedStates);
+
+        assert_eq!(
+            natsort_key_with_options(&text("1,234.50"), options),
+            natsort_key_with_options(&NaturalValue::from(1234.5), options),
+        );
+    }
+
+    #[test]
+    fn human_sort_handles_mixed_localized_values() {
+        use crate::locale::LocaleProfile;
+
+        let input = vec![
+            text("1,000.50"),
+            text("Apple2"),
+            text("10.25"),
+            text("apple10"),
+            text("2.50"),
+            text("Äpfel1"),
+        ];
+
+        let options = SortOptions::new()
+            .float(true)
+            .locale_profile(LocaleProfile::EnglishUnitedStates);
+
+        assert_eq!(
+            humansorted_values_with_options(&input, options),
+            vec![
+                text("2.50"),
+                text("10.25"),
+                text("1,000.50"),
+                text("Äpfel1"),
+                text("apple10"),
+                text("Apple2"),
+            ]
+        );
     }
 }

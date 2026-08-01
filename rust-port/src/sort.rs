@@ -1,3 +1,4 @@
+use crate::locale::locale_sort_key;
 use crate::options::SortOptions;
 use crate::path::path_components;
 use crate::separator::NUM_AFTER_SEPARATOR;
@@ -110,11 +111,18 @@ pub(crate) fn compare_numeric_strings(left: &str, right: &str) -> Ordering {
     }
 }
 
-fn compare_tokens(left: &[Token], right: &[Token]) -> Ordering {
+fn compare_tokens(left: &[Token], right: &[Token], options: SortOptions) -> Ordering {
     for (left_token, right_token) in left.iter().zip(right.iter()) {
         let ordering = match (left_token, right_token) {
             (Token::Number(a), Token::Number(b)) => compare_numeric_strings(a, b),
-            (Token::Text(a), Token::Text(b)) => a.cmp(b),
+            (Token::Text(a), Token::Text(b)) => {
+                if options.locale_alpha {
+                    locale_sort_key(a, options.locale_profile)
+                        .cmp(&locale_sort_key(b, options.locale_profile))
+                } else {
+                    a.cmp(b)
+                }
+            }
             (Token::Text(_), Token::Number(_)) => Ordering::Less,
             (Token::Number(_), Token::Text(_)) => Ordering::Greater,
         };
@@ -144,8 +152,14 @@ pub(crate) fn string_key_tokens(input: &str, options: SortOptions) -> Vec<Token>
 
     let mut tokens = transform_text_tokens(tokens, options);
 
-    if options.num_after && matches!(tokens.first(), Some(Token::Number(_))) {
-        tokens.insert(0, Token::Text(NUM_AFTER_SEPARATOR.to_string()));
+    if matches!(tokens.first(), Some(Token::Number(_))) {
+        let prefix = if options.num_after {
+            NUM_AFTER_SEPARATOR
+        } else {
+            ""
+        };
+
+        tokens.insert(0, Token::Text(prefix.to_string()));
     }
 
     tokens
@@ -166,7 +180,7 @@ fn compare_natural_strings(left: &str, right: &str, options: SortOptions) -> Ord
     let left_tokens = string_key_tokens(left, options);
     let right_tokens = string_key_tokens(right, options);
 
-    compare_tokens(&left_tokens, &right_tokens)
+    compare_tokens(&left_tokens, &right_tokens, options)
 }
 fn compare_path_strings(left: &str, right: &str, options: SortOptions) -> Ordering {
     let left_components = path_components(left);
@@ -1158,5 +1172,132 @@ mod tests {
             natsorted_with_options(&input, options),
             vec!["5039", "73", "~~~~~~", "corn", "apple", "Banana",]
         );
+    }
+
+    #[test]
+    fn sorts_english_locale_alpha_like_python() {
+        use crate::locale::LocaleProfile;
+
+        let input = vec![
+            "Apple", "apple", "Äpfel", "äpfel", "Banana", "banana", "Öl", "Oase", "Zebra",
+        ];
+
+        let options = SortOptions::new()
+            .locale_alpha(true)
+            .locale_profile(LocaleProfile::EnglishUnitedStates);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec![
+                "äpfel", "Äpfel", "apple", "Apple", "banana", "Banana", "Oase", "Öl", "Zebra",
+            ]
+        );
+    }
+
+    #[test]
+    fn sorts_c_locale_alpha_like_python() {
+        use crate::locale::LocaleProfile;
+
+        let input = vec![
+            "Apple", "apple", "Äpfel", "äpfel", "Banana", "banana", "Öl", "Oase", "Zebra",
+        ];
+
+        let options = SortOptions::new()
+            .locale_alpha(true)
+            .locale_profile(LocaleProfile::C);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec![
+                "apple", "Apple", "banana", "Banana", "Oase", "Zebra", "äpfel", "Äpfel", "Öl",
+            ]
+        );
+    }
+
+    #[test]
+    fn sorts_localized_english_numbers() {
+        use crate::locale::LocaleProfile;
+
+        let input = vec!["1,234.50", "12.50", "2.75", "1,000.25", "10.25"];
+
+        let options = SortOptions::new()
+            .float(true)
+            .locale_numeric(true)
+            .locale_profile(LocaleProfile::EnglishUnitedStates);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["2.75", "10.25", "12.50", "1,000.25", "1,234.50"]
+        );
+    }
+
+    #[test]
+    fn sorts_localized_german_numbers() {
+        use crate::locale::LocaleProfile;
+
+        let input = vec!["1.234,50", "12,50", "2,75", "1.000,25", "10,25"];
+
+        let options = SortOptions::new()
+            .float(true)
+            .locale_numeric(true)
+            .locale_profile(LocaleProfile::GermanGermany);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["2,75", "10,25", "12,50", "1.000,25", "1.234,50"]
+        );
+    }
+
+    #[test]
+    fn sorts_localized_french_numbers() {
+        use crate::locale::LocaleProfile;
+
+        let input = vec![
+            "1\u{202F}234,50",
+            "12,50",
+            "2,75",
+            "1\u{202F}000,25",
+            "10,25",
+        ];
+
+        let options = SortOptions::new()
+            .float(true)
+            .locale_numeric(true)
+            .locale_profile(LocaleProfile::FrenchFrance);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec![
+                "2,75",
+                "10,25",
+                "12,50",
+                "1\u{202F}000,25",
+                "1\u{202F}234,50",
+            ]
+        );
+    }
+
+    #[test]
+    fn combines_locale_alpha_and_numeric_sorting() {
+        use crate::locale::LocaleProfile;
+
+        let input = vec!["1,000.50", "Apple2", "10.25", "apple10", "2.50", "Äpfel1"];
+
+        let options = SortOptions::new()
+            .float(true)
+            .locale(true)
+            .locale_profile(LocaleProfile::EnglishUnitedStates);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["2.50", "10.25", "1,000.50", "Äpfel1", "apple10", "Apple2"]
+        );
+    }
+
+    #[test]
+    fn default_places_pure_numeric_strings_before_text() {
+        let input = vec!["apple", "10", "2", "banana"];
+
+        assert_eq!(natsorted(&input), vec!["2", "10", "apple", "banana"]);
     }
 }

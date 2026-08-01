@@ -1,0 +1,287 @@
+original_locale: 'LC_COLLATE=C;LC_CTYPE=English_India.1252;LC_MONETARY=C;LC_NUMERIC=C;LC_TIME=C'
+
+================================================================================
+requested_locale: ''
+active_locale: 'English_India.1252'
+decimal_point: '.'
+thousands_sep: ','
+grouping: [3, 2, 0]
+default_alpha: ['Apple', 'Äpfel', 'Banana', 'Oase', 'Öl', 'Zebra', 'apple', 'äpfel', 'banana']
+locale_alpha: ['äpfel', 'Äpfel', 'apple', 'Apple', 'banana', 'Banana', 'Oase', 'Öl', 'Zebra']
+humansorted_alpha: ['äpfel', 'Äpfel', 'apple', 'Apple', 'banana', 'Banana', 'Oase', 'Öl', 'Zebra']
+default_natural: ['Äpfel3', 'Äpfel20', 'File2', 'Oase4', 'Öl5', 'apple2', 'apple11', 'file1', 'file10']
+locale_natural: ['Äpfel3', 'Äpfel20', 'apple2', 'apple11', 'file1', 'file10', 'File2', 'Oase4', 'Öl5']
+humansorted_natural: ['Äpfel3', 'Äpfel20', 'apple2', 'apple11', 'file1', 'file10', 'File2', 'Oase4', 'Öl5']
+index_humansorted_natural: [4, 3, 6, 5, 2, 0, 1, 8, 7]
+localized_numbers_input: ['1,234.50', '12.50', '2.75', '1,000.25', '10.25']
+localized_numbers_default: ['1,000.25', '1,234.50', '2.75', '10.25', '12.50']
+localized_numbers_localenum: ['2.75', '10.25', '12.50', '1,000.25', '1,234.50']
+localized_numbers_locale: ['2.75', '10.25', '12.50', '1,000.25', '1,234.50']
+mixed_locale_input: ['1,000.50', 'Apple2', '10.25', 'apple10', '2.50', 'Äpfel1']
+mixed_locale_sorted: ['2.50', '10.25', '1,000.50', 'Äpfel1', 'apple10', 'Apple2']
+mixed_locale_indexes: [4, 2, 0, 5, 3, 1]
+locale_key_Apple2: ('\x0e\x02\x0e~\x0e~\x0eH\x0e!\x01\x01\x12\x01\x01', 2.0)
+locale_key_apple10: ('\x0e\x02\x0e~\x0e~\x0eH\x0e!\x01\x01\x01\x01', 10.0)
+locale_key_Äpfel1: ('\x0e\x02\x0e~\x0e#\x0e!\x0eH\x01\x13\x01\x12\x01\x01', 1.0)
+locale_key_1,234.50: ('', 1234.5)
+locale_key_2.50: ('', 2.5)
+
+================================================================================
+requested_locale: 'C'
+active_locale: 'C'
+decimal_point: '.'
+thousands_sep: ''
+grouping: []
+default_alpha: ['Apple', 'Äpfel', 'Banana', 'Oase', 'Öl', 'Zebra', 'apple', 'äpfel', 'banana']
+locale_alpha: ['apple', 'Apple', 'banana', 'Banana', 'Oase', 'Zebra', 'äpfel', 'Äpfel', 'Öl']
+humansorted_alpha: ['apple', 'Apple', 'banana', 'Banana', 'Oase', 'Zebra', 'äpfel', 'Äpfel', 'Öl']
+default_natural: ['Äpfel3', 'Äpfel20', 'File2', 'Oase4', 'Öl5', 'apple2', 'apple11', 'file1', 'file10']
+locale_natural: ['apple2', 'apple11', 'file1', 'file10', 'File2', 'Oase4', 'Äpfel3', 'Äpfel20', 'Öl5']
+humansorted_natural: ['apple2', 'apple11', 'file1', 'file10', 'File2', 'Oase4', 'Äpfel3', 'Äpfel20', 'Öl5']
+index_humansorted_natural: [6, 5, 2, 0, 1, 8, 4, 3, 7]
+localized_numbers_input: ['1234.50', '12.50', '2.75', '1000.25', '10.25']
+localized_numbers_default: ['2.75', '10.25', '12.50', '1000.25', '1234.50']
+localized_numbers_localenum: ['2.75', '10.25', '12.50', '1000.25', '1234.50']
+localized_numbers_locale: ['2.75', '10.25', '12.50', '1000.25', '1234.50']
+mixed_locale_input: ['1000.50', 'Apple2', '10.25', 'apple10', '2.50', 'Äpfel1']
+mixed_locale_sorted: ['2.50', '10.25', '1000.50', 'apple10', 'Apple2', 'Äpfel1']
+mixed_locale_indexes: [4, 2, 0, 3, 1, 5]
+locale_key_Apple2: ('aapPpPlLeE', 2.0)
+locale_key_apple10: ('aApPpPlLeE', 10.0)
+locale_key_Äpfel1: ('ääpPfFeElL', 1.0)
+locale_key_1234.50: ('', 1234.5)
+locale_key_2.50: ('', 2.5)
+
+================================================================================
+requested_locale: 'en_US.UTF-8'
+active_locale: 'en_US.UTF-8'
+decimal_point: '.'
+thousands_sep: ','
+grouping: [3, 0]
+default_alpha: ['Apple', 'Äpfel', 'Banana', 'Oase', 'Öl', 'Zebra', 'apple', 'äpfel', 'banana']
+locale_alpha: ['äpfel', 'Äpfel', 'apple', 'Apple', 'banana', 'Banana', 'Oase', 'Öl', 'Zebra']
+humansorted_alpha: ['äpfel', 'Äpfel', 'apple', 'Apple', 'banana', 'Banana', 'Oase', 'Öl', 'Zebra']
+default_natural: ['Äpfel3', 'Äpfel20', 'File2', 'Oase4', 'Öl5', 'apple2', 'apple11', 'file1', 'file10']
+locale_natural: ['Äpfel3', 'Äpfel20', 'apple2', 'apple11', 'file1', 'file10', 'File2', 'Oase4', 'Öl5']
+humansorted_natural: ['Äpfel3', 'Äpfel20', 'apple2', 'apple11', 'file1', 'file10', 'File2', 'Oase4', 'Öl5']
+index_humansorted_natural: [4, 3, 6, 5, 2, 0, 1, 8, 7]
+localized_numbers_input: ['1,234.50', '12.50', '2.75', '1,000.25', '10.25']
+localized_numbers_default: ['1,000.25', '1,234.50', '2.75', '10.25', '12.50']
+localized_numbers_localenum: ['2.75', '10.25', '12.50', '1,000.25', '1,234.50']
+localized_numbers_locale: ['2.75', '10.25', '12.50', '1,000.25', '1,234.50']
+mixed_locale_input: ['1,000.50', 'Apple2', '10.25', 'apple10', '2.50', 'Äpfel1']
+mixed_locale_sorted: ['2.50', '10.25', '1,000.50', 'Äpfel1', 'apple10', 'Apple2']
+mixed_locale_indexes: [4, 2, 0, 5, 3, 1]
+locale_key_Apple2: ('\x0e\x02\x0e~\x0e~\x0eH\x0e!\x01\x01\x12\x01\x01', 2.0)
+locale_key_apple10: ('\x0e\x02\x0e~\x0e~\x0eH\x0e!\x01\x01\x01\x01', 10.0)
+locale_key_Äpfel1: ('\x0e\x02\x0e~\x0e#\x0e!\x0eH\x01\x13\x01\x12\x01\x01', 1.0)
+locale_key_1,234.50: ('', 1234.5)
+locale_key_2.50: ('', 2.5)
+
+================================================================================
+requested_locale: 'en_US'
+active_locale: 'en_US'
+decimal_point: '.'
+thousands_sep: ','
+grouping: [3, 0]
+default_alpha: ['Apple', 'Äpfel', 'Banana', 'Oase', 'Öl', 'Zebra', 'apple', 'äpfel', 'banana']
+locale_alpha: ['äpfel', 'Äpfel', 'apple', 'Apple', 'banana', 'Banana', 'Oase', 'Öl', 'Zebra']
+humansorted_alpha: ['äpfel', 'Äpfel', 'apple', 'Apple', 'banana', 'Banana', 'Oase', 'Öl', 'Zebra']
+default_natural: ['Äpfel3', 'Äpfel20', 'File2', 'Oase4', 'Öl5', 'apple2', 'apple11', 'file1', 'file10']
+locale_natural: ['Äpfel3', 'Äpfel20', 'apple2', 'apple11', 'file1', 'file10', 'File2', 'Oase4', 'Öl5']
+humansorted_natural: ['Äpfel3', 'Äpfel20', 'apple2', 'apple11', 'file1', 'file10', 'File2', 'Oase4', 'Öl5']
+index_humansorted_natural: [4, 3, 6, 5, 2, 0, 1, 8, 7]
+localized_numbers_input: ['1,234.50', '12.50', '2.75', '1,000.25', '10.25']
+localized_numbers_default: ['1,000.25', '1,234.50', '2.75', '10.25', '12.50']
+localized_numbers_localenum: ['2.75', '10.25', '12.50', '1,000.25', '1,234.50']
+localized_numbers_locale: ['2.75', '10.25', '12.50', '1,000.25', '1,234.50']
+mixed_locale_input: ['1,000.50', 'Apple2', '10.25', 'apple10', '2.50', 'Äpfel1']
+mixed_locale_sorted: ['2.50', '10.25', '1,000.50', 'Äpfel1', 'apple10', 'Apple2']
+mixed_locale_indexes: [4, 2, 0, 5, 3, 1]
+locale_key_Apple2: ('\x0e\x02\x0e~\x0e~\x0eH\x0e!\x01\x01\x12\x01\x01', 2.0)
+locale_key_apple10: ('\x0e\x02\x0e~\x0e~\x0eH\x0e!\x01\x01\x01\x01', 10.0)
+locale_key_Äpfel1: ('\x0e\x02\x0e~\x0e#\x0e!\x0eH\x01\x13\x01\x12\x01\x01', 1.0)
+locale_key_1,234.50: ('', 1234.5)
+locale_key_2.50: ('', 2.5)
+
+================================================================================
+requested_locale: 'English_United States.1252'
+active_locale: 'English_United States.1252'
+decimal_point: '.'
+thousands_sep: ','
+grouping: [3, 0]
+default_alpha: ['Apple', 'Äpfel', 'Banana', 'Oase', 'Öl', 'Zebra', 'apple', 'äpfel', 'banana']
+locale_alpha: ['äpfel', 'Äpfel', 'apple', 'Apple', 'banana', 'Banana', 'Oase', 'Öl', 'Zebra']
+humansorted_alpha: ['äpfel', 'Äpfel', 'apple', 'Apple', 'banana', 'Banana', 'Oase', 'Öl', 'Zebra']
+default_natural: ['Äpfel3', 'Äpfel20', 'File2', 'Oase4', 'Öl5', 'apple2', 'apple11', 'file1', 'file10']
+locale_natural: ['Äpfel3', 'Äpfel20', 'apple2', 'apple11', 'file1', 'file10', 'File2', 'Oase4', 'Öl5']
+humansorted_natural: ['Äpfel3', 'Äpfel20', 'apple2', 'apple11', 'file1', 'file10', 'File2', 'Oase4', 'Öl5']
+index_humansorted_natural: [4, 3, 6, 5, 2, 0, 1, 8, 7]
+localized_numbers_input: ['1,234.50', '12.50', '2.75', '1,000.25', '10.25']
+localized_numbers_default: ['1,000.25', '1,234.50', '2.75', '10.25', '12.50']
+localized_numbers_localenum: ['2.75', '10.25', '12.50', '1,000.25', '1,234.50']
+localized_numbers_locale: ['2.75', '10.25', '12.50', '1,000.25', '1,234.50']
+mixed_locale_input: ['1,000.50', 'Apple2', '10.25', 'apple10', '2.50', 'Äpfel1']
+mixed_locale_sorted: ['2.50', '10.25', '1,000.50', 'Äpfel1', 'apple10', 'Apple2']
+mixed_locale_indexes: [4, 2, 0, 5, 3, 1]
+locale_key_Apple2: ('\x0e\x02\x0e~\x0e~\x0eH\x0e!\x01\x01\x12\x01\x01', 2.0)
+locale_key_apple10: ('\x0e\x02\x0e~\x0e~\x0eH\x0e!\x01\x01\x01\x01', 10.0)
+locale_key_Äpfel1: ('\x0e\x02\x0e~\x0e#\x0e!\x0eH\x01\x13\x01\x12\x01\x01', 1.0)
+locale_key_1,234.50: ('', 1234.5)
+locale_key_2.50: ('', 2.5)
+
+================================================================================
+requested_locale: 'de_DE.UTF-8'
+active_locale: 'de_DE.UTF-8'
+decimal_point: ','
+thousands_sep: '.'
+grouping: [3, 0]
+default_alpha: ['Apple', 'Äpfel', 'Banana', 'Oase', 'Öl', 'Zebra', 'apple', 'äpfel', 'banana']
+locale_alpha: ['äpfel', 'Äpfel', 'apple', 'Apple', 'banana', 'Banana', 'Oase', 'Öl', 'Zebra']
+humansorted_alpha: ['äpfel', 'Äpfel', 'apple', 'Apple', 'banana', 'Banana', 'Oase', 'Öl', 'Zebra']
+default_natural: ['Äpfel3', 'Äpfel20', 'File2', 'Oase4', 'Öl5', 'apple2', 'apple11', 'file1', 'file10']
+locale_natural: ['Äpfel3', 'Äpfel20', 'apple2', 'apple11', 'file1', 'file10', 'File2', 'Oase4', 'Öl5']
+humansorted_natural: ['Äpfel3', 'Äpfel20', 'apple2', 'apple11', 'file1', 'file10', 'File2', 'Oase4', 'Öl5']
+index_humansorted_natural: [4, 3, 6, 5, 2, 0, 1, 8, 7]
+localized_numbers_input: ['1.234,50', '12,50', '2,75', '1.000,25', '10,25']
+localized_numbers_default: ['1.000,25', '1.234,50', '2,75', '10,25', '12,50']
+localized_numbers_localenum: ['2,75', '10,25', '12,50', '1.000,25', '1.234,50']
+localized_numbers_locale: ['2,75', '10,25', '12,50', '1.000,25', '1.234,50']
+mixed_locale_input: ['1.000,50', 'Apple2', '10,25', 'apple10', '2,50', 'Äpfel1']
+mixed_locale_sorted: ['2,50', '10,25', '1.000,50', 'Äpfel1', 'apple10', 'Apple2']
+mixed_locale_indexes: [4, 2, 0, 5, 3, 1]
+locale_key_Apple2: ('\x0e\x02\x0e~\x0e~\x0eH\x0e!\x01\x01\x12\x01\x01', 2.0)
+locale_key_apple10: ('\x0e\x02\x0e~\x0e~\x0eH\x0e!\x01\x01\x01\x01', 10.0)
+locale_key_Äpfel1: ('\x0e\x02\x0e~\x0e#\x0e!\x0eH\x01\x13\x01\x12\x01\x01', 1.0)
+locale_key_1.234,50: ('', 1234.5)
+locale_key_2,50: ('', 2.5)
+
+================================================================================
+requested_locale: 'de_DE'
+active_locale: 'de_DE'
+decimal_point: ','
+thousands_sep: '.'
+grouping: [3, 0]
+default_alpha: ['Apple', 'Äpfel', 'Banana', 'Oase', 'Öl', 'Zebra', 'apple', 'äpfel', 'banana']
+locale_alpha: ['äpfel', 'Äpfel', 'apple', 'Apple', 'banana', 'Banana', 'Oase', 'Öl', 'Zebra']
+humansorted_alpha: ['äpfel', 'Äpfel', 'apple', 'Apple', 'banana', 'Banana', 'Oase', 'Öl', 'Zebra']
+default_natural: ['Äpfel3', 'Äpfel20', 'File2', 'Oase4', 'Öl5', 'apple2', 'apple11', 'file1', 'file10']
+locale_natural: ['Äpfel3', 'Äpfel20', 'apple2', 'apple11', 'file1', 'file10', 'File2', 'Oase4', 'Öl5']
+humansorted_natural: ['Äpfel3', 'Äpfel20', 'apple2', 'apple11', 'file1', 'file10', 'File2', 'Oase4', 'Öl5']
+index_humansorted_natural: [4, 3, 6, 5, 2, 0, 1, 8, 7]
+localized_numbers_input: ['1.234,50', '12,50', '2,75', '1.000,25', '10,25']
+localized_numbers_default: ['1.000,25', '1.234,50', '2,75', '10,25', '12,50']
+localized_numbers_localenum: ['2,75', '10,25', '12,50', '1.000,25', '1.234,50']
+localized_numbers_locale: ['2,75', '10,25', '12,50', '1.000,25', '1.234,50']
+mixed_locale_input: ['1.000,50', 'Apple2', '10,25', 'apple10', '2,50', 'Äpfel1']
+mixed_locale_sorted: ['2,50', '10,25', '1.000,50', 'Äpfel1', 'apple10', 'Apple2']
+mixed_locale_indexes: [4, 2, 0, 5, 3, 1]
+locale_key_Apple2: ('\x0e\x02\x0e~\x0e~\x0eH\x0e!\x01\x01\x12\x01\x01', 2.0)
+locale_key_apple10: ('\x0e\x02\x0e~\x0e~\x0eH\x0e!\x01\x01\x01\x01', 10.0)
+locale_key_Äpfel1: ('\x0e\x02\x0e~\x0e#\x0e!\x0eH\x01\x13\x01\x12\x01\x01', 1.0)
+locale_key_1.234,50: ('', 1234.5)
+locale_key_2,50: ('', 2.5)
+
+================================================================================
+requested_locale: 'German_Germany.1252'
+active_locale: 'German_Germany.1252'
+decimal_point: ','
+thousands_sep: '.'
+grouping: [3, 0]
+default_alpha: ['Apple', 'Äpfel', 'Banana', 'Oase', 'Öl', 'Zebra', 'apple', 'äpfel', 'banana']
+locale_alpha: ['äpfel', 'Äpfel', 'apple', 'Apple', 'banana', 'Banana', 'Oase', 'Öl', 'Zebra']
+humansorted_alpha: ['äpfel', 'Äpfel', 'apple', 'Apple', 'banana', 'Banana', 'Oase', 'Öl', 'Zebra']
+default_natural: ['Äpfel3', 'Äpfel20', 'File2', 'Oase4', 'Öl5', 'apple2', 'apple11', 'file1', 'file10']
+locale_natural: ['Äpfel3', 'Äpfel20', 'apple2', 'apple11', 'file1', 'file10', 'File2', 'Oase4', 'Öl5']
+humansorted_natural: ['Äpfel3', 'Äpfel20', 'apple2', 'apple11', 'file1', 'file10', 'File2', 'Oase4', 'Öl5']
+index_humansorted_natural: [4, 3, 6, 5, 2, 0, 1, 8, 7]
+localized_numbers_input: ['1.234,50', '12,50', '2,75', '1.000,25', '10,25']
+localized_numbers_default: ['1.000,25', '1.234,50', '2,75', '10,25', '12,50']
+localized_numbers_localenum: ['2,75', '10,25', '12,50', '1.000,25', '1.234,50']
+localized_numbers_locale: ['2,75', '10,25', '12,50', '1.000,25', '1.234,50']
+mixed_locale_input: ['1.000,50', 'Apple2', '10,25', 'apple10', '2,50', 'Äpfel1']
+mixed_locale_sorted: ['2,50', '10,25', '1.000,50', 'Äpfel1', 'apple10', 'Apple2']
+mixed_locale_indexes: [4, 2, 0, 5, 3, 1]
+locale_key_Apple2: ('\x0e\x02\x0e~\x0e~\x0eH\x0e!\x01\x01\x12\x01\x01', 2.0)
+locale_key_apple10: ('\x0e\x02\x0e~\x0e~\x0eH\x0e!\x01\x01\x01\x01', 10.0)
+locale_key_Äpfel1: ('\x0e\x02\x0e~\x0e#\x0e!\x0eH\x01\x13\x01\x12\x01\x01', 1.0)
+locale_key_1.234,50: ('', 1234.5)
+locale_key_2,50: ('', 2.5)
+
+================================================================================
+requested_locale: 'fr_FR.UTF-8'
+active_locale: 'fr_FR.UTF-8'
+decimal_point: ','
+thousands_sep: '\u202f'
+grouping: [3, 0]
+default_alpha: ['Apple', 'Äpfel', 'Banana', 'Oase', 'Öl', 'Zebra', 'apple', 'äpfel', 'banana']
+locale_alpha: ['äpfel', 'Äpfel', 'apple', 'Apple', 'banana', 'Banana', 'Oase', 'Öl', 'Zebra']
+humansorted_alpha: ['äpfel', 'Äpfel', 'apple', 'Apple', 'banana', 'Banana', 'Oase', 'Öl', 'Zebra']
+default_natural: ['Äpfel3', 'Äpfel20', 'File2', 'Oase4', 'Öl5', 'apple2', 'apple11', 'file1', 'file10']
+locale_natural: ['Äpfel3', 'Äpfel20', 'apple2', 'apple11', 'file1', 'file10', 'File2', 'Oase4', 'Öl5']
+humansorted_natural: ['Äpfel3', 'Äpfel20', 'apple2', 'apple11', 'file1', 'file10', 'File2', 'Oase4', 'Öl5']
+index_humansorted_natural: [4, 3, 6, 5, 2, 0, 1, 8, 7]
+localized_numbers_input: ['1\u202f234,50', '12,50', '2,75', '1\u202f000,25', '10,25']
+localized_numbers_default: ['1\u202f000,25', '1\u202f234,50', '2,75', '10,25', '12,50']
+localized_numbers_localenum: ['2,75', '10,25', '12,50', '1\u202f000,25', '1\u202f234,50']
+localized_numbers_locale: ['2,75', '10,25', '12,50', '1\u202f000,25', '1\u202f234,50']
+mixed_locale_input: ['1\u202f000,50', 'Apple2', '10,25', 'apple10', '2,50', 'Äpfel1']
+mixed_locale_sorted: ['2,50', '10,25', '1\u202f000,50', 'Äpfel1', 'apple10', 'Apple2']
+mixed_locale_indexes: [4, 2, 0, 5, 3, 1]
+locale_key_Apple2: ('\x0e\x02\x0e~\x0e~\x0eH\x0e!\x01\x01\x12\x01\x01', 2.0)
+locale_key_apple10: ('\x0e\x02\x0e~\x0e~\x0eH\x0e!\x01\x01\x01\x01', 10.0)
+locale_key_Äpfel1: ('\x0e\x02\x0e~\x0e#\x0e!\x0eH\x01\x02\x02\x02\x02\x13\x01\x12\x01\x01', 1.0)
+locale_key_1 234,50: ('', 1234.5)
+locale_key_2,50: ('', 2.5)
+
+================================================================================
+requested_locale: 'fr_FR'
+active_locale: 'fr_FR'
+decimal_point: ','
+thousands_sep: '\u202f'
+grouping: [3, 0]
+default_alpha: ['Apple', 'Äpfel', 'Banana', 'Oase', 'Öl', 'Zebra', 'apple', 'äpfel', 'banana']
+locale_alpha: ['äpfel', 'Äpfel', 'apple', 'Apple', 'banana', 'Banana', 'Oase', 'Öl', 'Zebra']
+humansorted_alpha: ['äpfel', 'Äpfel', 'apple', 'Apple', 'banana', 'Banana', 'Oase', 'Öl', 'Zebra']
+default_natural: ['Äpfel3', 'Äpfel20', 'File2', 'Oase4', 'Öl5', 'apple2', 'apple11', 'file1', 'file10']
+locale_natural: ['Äpfel3', 'Äpfel20', 'apple2', 'apple11', 'file1', 'file10', 'File2', 'Oase4', 'Öl5']
+humansorted_natural: ['Äpfel3', 'Äpfel20', 'apple2', 'apple11', 'file1', 'file10', 'File2', 'Oase4', 'Öl5']
+index_humansorted_natural: [4, 3, 6, 5, 2, 0, 1, 8, 7]
+localized_numbers_input: ['1\u202f234,50', '12,50', '2,75', '1\u202f000,25', '10,25']
+localized_numbers_default: ['1\u202f000,25', '1\u202f234,50', '2,75', '10,25', '12,50']
+localized_numbers_localenum: ['2,75', '10,25', '12,50', '1\u202f000,25', '1\u202f234,50']
+localized_numbers_locale: ['2,75', '10,25', '12,50', '1\u202f000,25', '1\u202f234,50']
+mixed_locale_input: ['1\u202f000,50', 'Apple2', '10,25', 'apple10', '2,50', 'Äpfel1']
+mixed_locale_sorted: ['2,50', '10,25', '1\u202f000,50', 'Äpfel1', 'apple10', 'Apple2']
+mixed_locale_indexes: [4, 2, 0, 5, 3, 1]
+locale_key_Apple2: ('\x0e\x02\x0e~\x0e~\x0eH\x0e!\x01\x01\x12\x01\x01', 2.0)
+locale_key_apple10: ('\x0e\x02\x0e~\x0e~\x0eH\x0e!\x01\x01\x01\x01', 10.0)
+locale_key_Äpfel1: ('\x0e\x02\x0e~\x0e#\x0e!\x0eH\x01\x02\x02\x02\x02\x13\x01\x12\x01\x01', 1.0)
+locale_key_1 234,50: ('', 1234.5)
+locale_key_2,50: ('', 2.5)
+
+================================================================================
+requested_locale: 'French_France.1252'
+active_locale: 'French_France.1252'
+decimal_point: ','
+thousands_sep: '\u202f'
+grouping: [3, 0]
+default_alpha: ['Apple', 'Äpfel', 'Banana', 'Oase', 'Öl', 'Zebra', 'apple', 'äpfel', 'banana']
+locale_alpha: ['äpfel', 'Äpfel', 'apple', 'Apple', 'banana', 'Banana', 'Oase', 'Öl', 'Zebra']
+humansorted_alpha: ['äpfel', 'Äpfel', 'apple', 'Apple', 'banana', 'Banana', 'Oase', 'Öl', 'Zebra']
+default_natural: ['Äpfel3', 'Äpfel20', 'File2', 'Oase4', 'Öl5', 'apple2', 'apple11', 'file1', 'file10']
+locale_natural: ['Äpfel3', 'Äpfel20', 'apple2', 'apple11', 'file1', 'file10', 'File2', 'Oase4', 'Öl5']
+humansorted_natural: ['Äpfel3', 'Äpfel20', 'apple2', 'apple11', 'file1', 'file10', 'File2', 'Oase4', 'Öl5']
+index_humansorted_natural: [4, 3, 6, 5, 2, 0, 1, 8, 7]
+localized_numbers_input: ['1\u202f234,50', '12,50', '2,75', '1\u202f000,25', '10,25']
+localized_numbers_default: ['1\u202f000,25', '1\u202f234,50', '2,75', '10,25', '12,50']
+localized_numbers_localenum: ['2,75', '10,25', '12,50', '1\u202f000,25', '1\u202f234,50']
+localized_numbers_locale: ['2,75', '10,25', '12,50', '1\u202f000,25', '1\u202f234,50']
+mixed_locale_input: ['1\u202f000,50', 'Apple2', '10,25', 'apple10', '2,50', 'Äpfel1']
+mixed_locale_sorted: ['2,50', '10,25', '1\u202f000,50', 'Äpfel1', 'apple10', 'Apple2']
+mixed_locale_indexes: [4, 2, 0, 5, 3, 1]
+locale_key_Apple2: ('\x0e\x02\x0e~\x0e~\x0eH\x0e!\x01\x01\x12\x01\x01', 2.0)
+locale_key_apple10: ('\x0e\x02\x0e~\x0e~\x0eH\x0e!\x01\x01\x01\x01', 10.0)
+locale_key_Äpfel1: ('\x0e\x02\x0e~\x0e#\x0e!\x0eH\x01\x02\x02\x02\x02\x13\x01\x12\x01\x01', 1.0)
+locale_key_1 234,50: ('', 1234.5)
+locale_key_2,50: ('', 2.5)

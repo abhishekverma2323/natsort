@@ -9,3 +9,7 @@ grift_unicode = "1.4.0"
 unicode-casefold = "0.2.0"
 unicode-normalization = "0.1.25"
 num-bigint = "0.4.6"
+# Exact pin: the ICU sort-key API is behind its unstable feature.
+icu_collator = { version = "=2.2.1", features = ["unstable"] }
+icu_locale = "2.2.0"
+sys-locale = "0.3.2"
