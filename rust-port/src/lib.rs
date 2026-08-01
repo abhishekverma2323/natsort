@@ -54,9 +54,11 @@ pub use value::{
 pub use api::{
     OrderByIndexError, humansorted, humansorted_by_key, humansorted_by_key_with_options,
     humansorted_with_options, index_humansorted, index_humansorted_with_options, index_natsorted,
-    index_natsorted_with_options, index_realsorted, index_realsorted_with_options,
-    natsorted_by_key, natsorted_by_key_with_options, order_by_index, realsorted, realsorted_by_key,
-    realsorted_by_key_with_options, realsorted_with_options, try_order_by_index,
+    index_natsorted_paths, index_natsorted_paths_with_options, index_natsorted_with_options,
+    index_realsorted, index_realsorted_with_options, natsorted_by_key,
+    natsorted_by_key_with_options, natsorted_paths, natsorted_paths_with_options, order_by_index,
+    order_by_index_iter, realsorted, realsorted_by_key, realsorted_by_key_with_options,
+    realsorted_with_options, try_order_by_index, try_order_by_index_iter,
 };
 
 pub use os_sort::{

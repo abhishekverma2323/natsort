@@ -2207,3 +2207,65 @@ fn matches_python_latin1_decoder_sorting() {
         ]),
     );
 }
+
+#[test]
+fn matches_python_direct_path_object_sorting() {
+    use std::path::PathBuf;
+
+    let input = vec![
+        PathBuf::from("folder/file10.txt"),
+        PathBuf::from("folder/file2.txt"),
+        PathBuf::from("folder/file1.txt"),
+    ];
+
+    assert_eq!(
+        rust_port::natsorted_paths(&input),
+        vec![
+            PathBuf::from("folder/file1.txt"),
+            PathBuf::from("folder/file2.txt"),
+            PathBuf::from("folder/file10.txt"),
+        ],
+    );
+}
+
+#[test]
+fn matches_python_direct_path_object_indexes() {
+    use std::path::PathBuf;
+
+    let input = vec![
+        PathBuf::from("folder10/file.txt"),
+        PathBuf::from("folder2/file.txt"),
+        PathBuf::from("folder1/file.txt"),
+    ];
+
+    assert_eq!(rust_port::index_natsorted_paths(&input), vec![2, 1, 0]);
+}
+
+#[test]
+fn matches_python_lazy_order_by_index() {
+    let values = vec!["num3", "num5", "num2"];
+    let indexes = vec![2, 0, 1];
+    let mut ordered = rust_port::order_by_index_iter(&values, &indexes);
+
+    assert_eq!(ordered.next(), Some("num2"));
+    assert_eq!(ordered.next(), Some("num3"));
+    assert_eq!(ordered.next(), Some("num5"));
+    assert_eq!(ordered.next(), None);
+}
+
+#[test]
+fn lazy_order_by_index_reports_errors_only_when_reached() {
+    let values = vec!["a", "b"];
+    let indexes = vec![0, 3];
+    let mut ordered = rust_port::try_order_by_index_iter(&values, &indexes);
+
+    assert_eq!(ordered.next(), Some(Ok("a")));
+    assert_eq!(
+        ordered.next(),
+        Some(Err(rust_port::OrderByIndexError {
+            position: 1,
+            index: 3,
+            input_length: 2,
+        })),
+    );
+}

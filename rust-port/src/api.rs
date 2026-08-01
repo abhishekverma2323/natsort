@@ -1,5 +1,6 @@
 use std::error::Error;
 use std::fmt;
+use std::path::Path;
 
 use crate::options::SortOptions;
 use crate::sort::{compare_strings_with_options, natsorted_with_options};
@@ -21,6 +22,11 @@ fn real_options(mut options: SortOptions) -> SortOptions {
 fn human_options(mut options: SortOptions) -> SortOptions {
     options.locale_alpha = true;
     options.locale_numeric = true;
+    options
+}
+
+fn path_options(mut options: SortOptions) -> SortOptions {
+    options.path = true;
     options
 }
 
@@ -204,6 +210,54 @@ where
     natsorted_by_key_with_options(items, key, human_options(options))
 }
 
+/// Sort filesystem paths using natural path-component semantics.
+///
+/// Both `Path` and `PathBuf` inputs are accepted through `AsRef<Path>`.
+/// Original values are cloned into the result. Internally, paths are converted
+/// with `Path::to_string_lossy` because the sorting engine is text based.
+pub fn natsorted_paths<T>(items: &[T]) -> Vec<T>
+where
+    T: AsRef<Path> + Clone,
+{
+    natsorted_paths_with_options(items, SortOptions::new())
+}
+
+/// Sort filesystem paths using path semantics plus additional options.
+///
+/// Path mode is always enabled even when `options.path` is false.
+pub fn natsorted_paths_with_options<T>(items: &[T], options: SortOptions) -> Vec<T>
+where
+    T: AsRef<Path> + Clone,
+{
+    index_natsorted_paths_with_options(items, options)
+        .into_iter()
+        .map(|index| items[index].clone())
+        .collect()
+}
+
+/// Return indexes that place filesystem paths in natural path order.
+pub fn index_natsorted_paths<T>(items: &[T]) -> Vec<usize>
+where
+    T: AsRef<Path>,
+{
+    index_natsorted_paths_with_options(items, SortOptions::new())
+}
+
+/// Return naturally sorted path indexes using additional options.
+///
+/// Path mode is always enabled even when `options.path` is false.
+pub fn index_natsorted_paths_with_options<T>(items: &[T], options: SortOptions) -> Vec<usize>
+where
+    T: AsRef<Path>,
+{
+    let keys: Vec<String> = items
+        .iter()
+        .map(|item| item.as_ref().to_string_lossy().into_owned())
+        .collect();
+
+    sort_indices_by_keys(&keys, path_options(options))
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct OrderByIndexError {
     pub position: usize,
@@ -223,6 +277,50 @@ impl fmt::Display for OrderByIndexError {
 
 impl Error for OrderByIndexError {}
 
+/// Lazily reorder values using a sequence of indexes.
+///
+/// Values are cloned only when the iterator advances. Duplicate indexes are
+/// supported, matching Python's `order_by_index(..., iter=True)` behaviour.
+///
+/// # Panics
+///
+/// Panics when iteration reaches an index outside the input.
+pub fn order_by_index_iter<'a, T>(
+    items: &'a [T],
+    indexes: &'a [usize],
+) -> impl Iterator<Item = T> + 'a
+where
+    T: Clone + 'a,
+{
+    try_order_by_index_iter(items, indexes)
+        .map(|result| result.unwrap_or_else(|error| panic!("{error}")))
+}
+
+/// Lazily and safely reorder values using a sequence of indexes.
+///
+/// An invalid index is reported only when iteration reaches that position.
+pub fn try_order_by_index_iter<'a, T>(
+    items: &'a [T],
+    indexes: &'a [usize],
+) -> impl Iterator<Item = Result<T, OrderByIndexError>> + 'a
+where
+    T: Clone + 'a,
+{
+    let input_length = items.len();
+
+    indexes
+        .iter()
+        .copied()
+        .enumerate()
+        .map(move |(position, index)| {
+            items.get(index).cloned().ok_or(OrderByIndexError {
+                position,
+                index,
+                input_length,
+            })
+        })
+}
+
 /// Reorder values using a sequence of indexes.
 ///
 /// Duplicate indexes are supported, matching Python's
@@ -235,7 +333,7 @@ pub fn order_by_index<T>(items: &[T], indexes: &[usize]) -> Vec<T>
 where
     T: Clone,
 {
-    try_order_by_index(items, indexes).unwrap_or_else(|error| panic!("{error}"))
+    order_by_index_iter(items, indexes).collect()
 }
 
 /// Safely reorder values using a sequence of indexes.
@@ -243,17 +341,7 @@ pub fn try_order_by_index<T>(items: &[T], indexes: &[usize]) -> Result<Vec<T>, O
 where
     T: Clone,
 {
-    indexes
-        .iter()
-        .enumerate()
-        .map(|(position, index)| {
-            items.get(*index).cloned().ok_or(OrderByIndexError {
-                position,
-                index: *index,
-                input_length: items.len(),
-            })
-        })
-        .collect()
+    try_order_by_index_iter(items, indexes).collect()
 }
 
 #[cfg(test)]
@@ -808,5 +896,109 @@ mod tests {
             )),
             vec!["Äpfel20", "apple2", "Apple10"],
         );
+    }
+
+    #[test]
+    fn sorts_path_buf_values_directly() {
+        use std::path::PathBuf;
+
+        let input = vec![
+            PathBuf::from("folder/file10.txt"),
+            PathBuf::from("folder/file2.txt"),
+            PathBuf::from("folder/file1.txt"),
+        ];
+
+        assert_eq!(
+            natsorted_paths(&input),
+            vec![
+                PathBuf::from("folder/file1.txt"),
+                PathBuf::from("folder/file2.txt"),
+                PathBuf::from("folder/file10.txt"),
+            ],
+        );
+    }
+
+    #[test]
+    fn sorts_borrowed_path_values_directly() {
+        use std::path::Path;
+
+        let input = [
+            Path::new("folder10/file.txt"),
+            Path::new("folder2/file.txt"),
+            Path::new("folder1/file.txt"),
+        ];
+
+        assert_eq!(
+            natsorted_paths(&input),
+            vec![
+                Path::new("folder1/file.txt"),
+                Path::new("folder2/file.txt"),
+                Path::new("folder10/file.txt"),
+            ],
+        );
+    }
+
+    #[test]
+    fn direct_path_sort_forces_path_mode_and_supports_reverse() {
+        use std::path::PathBuf;
+
+        let input = vec![
+            PathBuf::from("folder/file10.txt"),
+            PathBuf::from("folder/file2.txt"),
+            PathBuf::from("folder/file1.txt"),
+        ];
+        let options = SortOptions::new().reverse(true);
+
+        assert_eq!(
+            natsorted_paths_with_options(&input, options),
+            vec![
+                PathBuf::from("folder/file10.txt"),
+                PathBuf::from("folder/file2.txt"),
+                PathBuf::from("folder/file1.txt"),
+            ],
+        );
+    }
+
+    #[test]
+    fn returns_direct_path_sort_indexes() {
+        use std::path::PathBuf;
+
+        let input = vec![
+            PathBuf::from("folder10/file.txt"),
+            PathBuf::from("folder2/file.txt"),
+            PathBuf::from("folder1/file.txt"),
+        ];
+
+        assert_eq!(index_natsorted_paths(&input), vec![2, 1, 0]);
+    }
+
+    #[test]
+    fn order_by_index_iterator_yields_values_lazily() {
+        let values = vec!["a", "b", "c"];
+        let indexes = vec![2, 0, 1];
+        let mut ordered = order_by_index_iter(&values, &indexes);
+
+        assert_eq!(ordered.next(), Some("c"));
+        assert_eq!(ordered.next(), Some("a"));
+        assert_eq!(ordered.next(), Some("b"));
+        assert_eq!(ordered.next(), None);
+    }
+
+    #[test]
+    fn safe_order_by_index_iterator_defers_invalid_index_error() {
+        let values = vec!["a", "b"];
+        let indexes = vec![1, 4];
+        let mut ordered = try_order_by_index_iter(&values, &indexes);
+
+        assert_eq!(ordered.next(), Some(Ok("b")));
+        assert_eq!(
+            ordered.next(),
+            Some(Err(OrderByIndexError {
+                position: 1,
+                index: 4,
+                input_length: 2,
+            })),
+        );
+        assert_eq!(ordered.next(), None);
     }
 }
