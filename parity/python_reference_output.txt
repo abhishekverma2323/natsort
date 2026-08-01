@@ -90,3 +90,35 @@ Expected: ['value-१०', 'value-१', 'value२']
 unicode_decimal_values
 Input:    ['value١.٥', 'value١.٢٥', 'value٢.٠']
 Expected: ['value١.٢٥', 'value١.٥', 'value٢.٠']
+
+path_basic_files
+Input:    ['folder/file10.txt', 'folder/file2.txt', 'folder/file1.txt']
+Expected: ['folder/file1.txt', 'folder/file2.txt', 'folder/file10.txt']
+
+path_nested_directories
+Input:    ['folder10/file1.txt', 'folder2/file10.txt', 'folder2/file2.txt']
+Expected: ['folder2/file2.txt', 'folder2/file10.txt', 'folder10/file1.txt']
+
+path_file_extensions
+Input:    ['file10.tar.gz', 'file2.txt', 'file1.tar.gz', 'file10.txt']
+Expected: ['file1.tar.gz', 'file2.txt', 'file10.tar.gz', 'file10.txt']
+
+path_relative_components
+Input:    ['./folder10/file1', './folder2/file10', './folder2/file2']
+Expected: ['./folder2/file2', './folder2/file10', './folder10/file1']
+
+path_hidden_files
+Input:    ['.file10', '.file2', '.file1', 'file1']
+Expected: ['.file1', '.file2', '.file10', 'file1']
+
+path_trailing_separator
+Input:    ['folder10/', 'folder2/file1', 'folder2/', 'folder1/']
+Expected: ['folder1/', 'folder2/', 'folder2/file1', 'folder10/']
+
+path_windows_separators
+Input:    ['folder10\\file1.txt', 'folder2\\file10.txt', 'folder2\\file2.txt']
+Expected: ['folder2\\file2.txt', 'folder2\\file10.txt', 'folder10\\file1.txt']
+
+path_mixed_numeric_components
+Input:    ['release1/version10/file2.txt', 'release1/version2/file10.txt', 'release1/version2/file2.txt']
+Expected: ['release1/version2/file2.txt', 'release1/version2/file10.txt', 'release1/version10/file2.txt']

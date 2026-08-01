@@ -4,6 +4,7 @@ pub struct SortOptions {
     pub reverse: bool,
     pub signed: bool,
     pub float: bool,
+    pub path: bool,
 }
 
 impl SortOptions {
@@ -13,6 +14,7 @@ impl SortOptions {
             reverse: false,
             signed: false,
             float: false,
+            path: false,
         }
     }
 
@@ -33,6 +35,11 @@ impl SortOptions {
 
     pub const fn float(mut self, enabled: bool) -> Self {
         self.float = enabled;
+        self
+    }
+
+    pub const fn path(mut self, enabled: bool) -> Self {
+        self.path = enabled;
         self
     }
 }

@@ -123,6 +123,32 @@ fn compare_tokens(left: &[Token], right: &[Token]) -> Ordering {
     left.len().cmp(&right.len())
 }
 
+fn is_path_separator(character: char) -> bool {
+    matches!(character, '/' | '\\')
+}
+
+fn compare_natural_strings(left: &str, right: &str, options: SortOptions) -> Ordering {
+    let left_tokens = tokenize(left, options.signed, options.float);
+    let right_tokens = tokenize(right, options.signed, options.float);
+
+    compare_tokens(&left_tokens, &right_tokens)
+}
+
+fn compare_path_strings(left: &str, right: &str, options: SortOptions) -> Ordering {
+    let left_components: Vec<&str> = left.split(is_path_separator).collect();
+    let right_components: Vec<&str> = right.split(is_path_separator).collect();
+
+    for (left_component, right_component) in left_components.iter().zip(right_components.iter()) {
+        let ordering = compare_natural_strings(left_component, right_component, options);
+
+        if ordering != Ordering::Equal {
+            return ordering;
+        }
+    }
+
+    left_components.len().cmp(&right_components.len())
+}
+
 pub fn natsorted<T>(items: &[T]) -> Vec<T>
 where
     T: AsRef<str> + Clone,
@@ -149,10 +175,11 @@ where
             right.as_ref().to_string()
         };
 
-        let left_tokens = tokenize(&left_value, options.signed, options.float);
-        let right_tokens = tokenize(&right_value, options.signed, options.float);
-
-        let ordering = compare_tokens(&left_tokens, &right_tokens);
+        let ordering = if options.path {
+            compare_path_strings(&left_value, &right_value, options)
+        } else {
+            compare_natural_strings(&left_value, &right_value, options)
+        };
 
         if options.reverse {
             ordering.reverse()
@@ -467,6 +494,118 @@ mod tests {
         assert_eq!(
             natsorted_with_options(&input, options),
             vec!["value١.٢٥", "value١.٥", "value٢.٠"]
+        );
+    }
+
+    #[test]
+    fn sorts_basic_file_paths() {
+        let input = vec!["folder/file10.txt", "folder/file2.txt", "folder/file1.txt"];
+        let options = SortOptions::new().path(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["folder/file1.txt", "folder/file2.txt", "folder/file10.txt",]
+        );
+    }
+
+    #[test]
+    fn sorts_nested_directory_paths() {
+        let input = vec![
+            "folder10/file1.txt",
+            "folder2/file10.txt",
+            "folder2/file2.txt",
+        ];
+        let options = SortOptions::new().path(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec![
+                "folder2/file2.txt",
+                "folder2/file10.txt",
+                "folder10/file1.txt",
+            ]
+        );
+    }
+
+    #[test]
+    fn sorts_paths_with_file_extensions() {
+        let input = vec!["file10.tar.gz", "file2.txt", "file1.tar.gz", "file10.txt"];
+        let options = SortOptions::new().path(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["file1.tar.gz", "file2.txt", "file10.tar.gz", "file10.txt",]
+        );
+    }
+
+    #[test]
+    fn sorts_relative_paths() {
+        let input = vec!["./folder10/file1", "./folder2/file10", "./folder2/file2"];
+        let options = SortOptions::new().path(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["./folder2/file2", "./folder2/file10", "./folder10/file1",]
+        );
+    }
+
+    #[test]
+    fn sorts_hidden_file_paths() {
+        let input = vec![".file10", ".file2", ".file1", "file1"];
+        let options = SortOptions::new().path(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec![".file1", ".file2", ".file10", "file1"]
+        );
+    }
+
+    #[test]
+    fn sorts_parent_directory_before_child_path() {
+        let input = vec!["folder10/", "folder2/file1", "folder2/", "folder1/"];
+        let options = SortOptions::new().path(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["folder1/", "folder2/", "folder2/file1", "folder10/",]
+        );
+    }
+
+    #[test]
+    fn sorts_windows_style_paths() {
+        let input = vec![
+            r"folder10\file1.txt",
+            r"folder2\file10.txt",
+            r"folder2\file2.txt",
+        ];
+        let options = SortOptions::new().path(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec![
+                r"folder2\file2.txt",
+                r"folder2\file10.txt",
+                r"folder10\file1.txt",
+            ]
+        );
+    }
+
+    #[test]
+    fn sorts_paths_with_multiple_numeric_components() {
+        let input = vec![
+            "release1/version10/file2.txt",
+            "release1/version2/file10.txt",
+            "release1/version2/file2.txt",
+        ];
+        let options = SortOptions::new().path(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec![
+                "release1/version2/file2.txt",
+                "release1/version2/file10.txt",
+                "release1/version10/file2.txt",
+            ]
         );
     }
 }

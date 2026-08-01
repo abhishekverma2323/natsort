@@ -168,5 +168,88 @@ def main() -> None:
         ns.FLOAT,
     )
 
+    show_case(
+        "path_basic_files",
+        [
+            "folder/file10.txt",
+            "folder/file2.txt",
+            "folder/file1.txt",
+        ],
+        ns.PATH,
+    )
+
+    show_case(
+        "path_nested_directories",
+        [
+            "folder10/file1.txt",
+            "folder2/file10.txt",
+            "folder2/file2.txt",
+        ],
+        ns.PATH,
+    )
+
+    show_case(
+        "path_file_extensions",
+        [
+            "file10.tar.gz",
+            "file2.txt",
+            "file1.tar.gz",
+            "file10.txt",
+        ],
+        ns.PATH,
+    )
+
+    show_case(
+        "path_relative_components",
+        [
+            "./folder10/file1",
+            "./folder2/file10",
+            "./folder2/file2",
+        ],
+        ns.PATH,
+    )
+
+    show_case(
+        "path_hidden_files",
+        [
+            ".file10",
+            ".file2",
+            ".file1",
+            "file1",
+        ],
+        ns.PATH,
+    )
+
+    show_case(
+        "path_trailing_separator",
+        [
+            "folder10/",
+            "folder2/file1",
+            "folder2/",
+            "folder1/",
+        ],
+        ns.PATH,
+    )
+
+    show_case(
+        "path_windows_separators",
+        [
+            r"folder10\file1.txt",
+            r"folder2\file10.txt",
+            r"folder2\file2.txt",
+        ],
+        ns.PATH,
+    )
+
+    show_case(
+        "path_mixed_numeric_components",
+        [
+            "release1/version10/file2.txt",
+            "release1/version2/file10.txt",
+            "release1/version2/file2.txt",
+        ],
+        ns.PATH,
+    )
+
 if __name__ == "__main__":
     main()

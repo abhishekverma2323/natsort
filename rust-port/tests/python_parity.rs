@@ -233,3 +233,115 @@ fn matches_python_unicode_decimal_sorting() {
         vec!["value١.٢٥", "value١.٥", "value٢.٠"]
     );
 }
+
+#[test]
+fn matches_python_basic_path_sorting() {
+    let input = vec!["folder/file10.txt", "folder/file2.txt", "folder/file1.txt"];
+    let options = SortOptions::new().path(true);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec!["folder/file1.txt", "folder/file2.txt", "folder/file10.txt",]
+    );
+}
+
+#[test]
+fn matches_python_nested_directory_path_sorting() {
+    let input = vec![
+        "folder10/file1.txt",
+        "folder2/file10.txt",
+        "folder2/file2.txt",
+    ];
+    let options = SortOptions::new().path(true);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec![
+            "folder2/file2.txt",
+            "folder2/file10.txt",
+            "folder10/file1.txt",
+        ]
+    );
+}
+
+#[test]
+fn matches_python_path_file_extension_sorting() {
+    let input = vec!["file10.tar.gz", "file2.txt", "file1.tar.gz", "file10.txt"];
+    let options = SortOptions::new().path(true);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec!["file1.tar.gz", "file2.txt", "file10.tar.gz", "file10.txt",]
+    );
+}
+
+#[test]
+fn matches_python_relative_path_sorting() {
+    let input = vec!["./folder10/file1", "./folder2/file10", "./folder2/file2"];
+    let options = SortOptions::new().path(true);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec!["./folder2/file2", "./folder2/file10", "./folder10/file1",]
+    );
+}
+
+#[test]
+fn matches_python_hidden_file_path_sorting() {
+    let input = vec![".file10", ".file2", ".file1", "file1"];
+    let options = SortOptions::new().path(true);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec![".file1", ".file2", ".file10", "file1"]
+    );
+}
+
+#[test]
+fn matches_python_trailing_path_separator_sorting() {
+    let input = vec!["folder10/", "folder2/file1", "folder2/", "folder1/"];
+    let options = SortOptions::new().path(true);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec!["folder1/", "folder2/", "folder2/file1", "folder10/",]
+    );
+}
+
+#[test]
+fn matches_python_windows_path_sorting() {
+    let input = vec![
+        r"folder10\file1.txt",
+        r"folder2\file10.txt",
+        r"folder2\file2.txt",
+    ];
+    let options = SortOptions::new().path(true);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec![
+            r"folder2\file2.txt",
+            r"folder2\file10.txt",
+            r"folder10\file1.txt",
+        ]
+    );
+}
+
+#[test]
+fn matches_python_path_numeric_component_sorting() {
+    let input = vec![
+        "release1/version10/file2.txt",
+        "release1/version2/file10.txt",
+        "release1/version2/file2.txt",
+    ];
+    let options = SortOptions::new().path(true);
+
+    assert_eq!(
+        natsorted_with_options(&input, options),
+        vec![
+            "release1/version2/file2.txt",
+            "release1/version2/file10.txt",
+            "release1/version10/file2.txt",
+        ]
+    );
+}
