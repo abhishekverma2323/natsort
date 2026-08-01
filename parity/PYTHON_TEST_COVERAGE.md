@@ -185,6 +185,7 @@ Rust unit suite: 357 passing tests
 Python-reference parity suite: 165 passing tests
 
 Deterministic differential fuzzing: 1,000 / 1,000 passing cases
+- CI differential fuzzing: **200 / 200 passing cases**, seed `20260801`
 
 Cross-platform CI workflow: Linux and Windows jobs for format, all-target tests, Clippy, release binaries, and CLI smoke tests
 

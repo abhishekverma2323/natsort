@@ -4,6 +4,7 @@ import argparse
 import json
 import os
 import random
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -13,7 +14,12 @@ from typing import Any
 SCRIPT = Path(__file__).resolve()
 ROOT = SCRIPT.parents[1]
 RUST_DIR = ROOT / "rust-port"
-RUST_BINARY = RUST_DIR / "target" / "debug" / "natsort"
+RUST_BINARY = (
+    RUST_DIR
+    / "target"
+    / "debug"
+    / ("natsort.exe" if os.name == "nt" else "natsort")
+)
 FAILURE_FILE = ROOT / "parity" / "differential_fuzz_failure.json"
 
 MODES = (
@@ -327,6 +333,34 @@ def build_rust_binary() -> None:
         raise SystemExit(result.returncode)
 
 
+
+def default_python_oracle() -> Path:
+    candidates = (
+        ROOT / ".venv" / "Scripts" / "python.exe",
+        ROOT / ".venv" / "bin" / "python",
+    )
+
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+
+    return Path(sys.executable)
+
+
+def resolve_python_executable(value: Path) -> Path:
+    if value.exists():
+        return value.resolve()
+
+    resolved = shutil.which(str(value))
+
+    if resolved is not None:
+        return Path(resolved).resolve()
+
+    raise FileNotFoundError(
+        f"Python oracle executable was not found: {value}"
+    )
+
+
 def windows_script_path() -> str:
     result = subprocess.run(
         ["wslpath", "-w", str(SCRIPT)],
@@ -348,22 +382,28 @@ def windows_script_path() -> str:
 def start_oracle(
     python_executable: Path,
 ) -> subprocess.Popen[str]:
-    if not python_executable.exists():
-        raise FileNotFoundError(
-            f"Python oracle executable was not found: "
-            f"{python_executable}"
-        )
+    resolved_python = resolve_python_executable(python_executable)
 
     environment = os.environ.copy()
     environment["PYTHONUTF8"] = "1"
     environment["PYTHONIOENCODING"] = "utf-8"
 
+    uses_windows_python_from_wsl = (
+        os.name != "nt"
+        and resolved_python.suffix.lower() == ".exe"
+    )
+    script_path = (
+        windows_script_path()
+        if uses_windows_python_from_wsl
+        else str(SCRIPT)
+    )
+
     return subprocess.Popen(
         [
-            str(python_executable),
+            str(resolved_python),
             "-X",
             "utf8",
-            windows_script_path(),
+            script_path,
             "--oracle-server",
         ],
         stdin=subprocess.PIPE,
@@ -519,13 +559,11 @@ def controller() -> None:
     parser.add_argument(
         "--python-oracle",
         type=Path,
-        default=(
-            ROOT
-            / ".venv"
-            / "Scripts"
-            / "python.exe"
+        default=default_python_oracle(),
+        help=(
+            "Python executable used for the reference oracle. "
+            "Accepts an absolute path or a command available on PATH."
         ),
-        help="Windows virtualenv Python executable.",
     )
 
     arguments = parser.parse_args()

@@ -7,6 +7,9 @@ on:
   pull_request:
     paths:
       - "rust-port/**"
+      - "parity/differential_fuzz.py"
+      - "natsort/**"
+      - "pyproject.toml"
       - ".github/workflows/rust-ci.yml"
       - ".gitattributes"
       - ".gitignore"
@@ -81,3 +84,45 @@ jobs:
             Write-Error "Unexpected CLI output: $($actual -join ', ')"
             exit 1
           }
+
+  differential-fuzz:
+    name: Deterministic differential fuzz
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install Python reference package
+        run: python -m pip install .
+
+      - name: Install stable Rust
+        shell: bash
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup default stable
+          rustc --version
+          cargo --version
+
+      - name: Run deterministic differential fuzzing
+        run: |
+          python parity/differential_fuzz.py \
+            --cases 200 \
+            --seed 20260801 \
+            --python-oracle python
+
+      - name: Upload differential failure details
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: differential-fuzz-failure
+          path: parity/differential_fuzz_failure.json
+          if-no-files-found: ignore
+          retention-days: 14
