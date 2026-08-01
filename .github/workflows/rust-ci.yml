@@ -1,0 +1,83 @@
+name: Rust CI
+
+on:
+  push:
+    branches:
+      - python-to-rust-port
+  pull_request:
+    paths:
+      - "rust-port/**"
+      - ".github/workflows/rust-ci.yml"
+      - ".gitattributes"
+      - ".gitignore"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rust-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  rust:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: rust-port
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Install stable Rust with required components
+        shell: bash
+        run: |
+          rustup toolchain install stable --profile minimal
+          rustup component add rustfmt clippy --toolchain stable
+          rustup default stable
+          rustc --version
+          cargo --version
+
+      - name: Check formatting
+        run: cargo fmt --all -- --check
+
+      - name: Run all tests
+        run: cargo test --all-targets
+
+      - name: Run Clippy
+        run: cargo clippy --all-targets -- -D warnings
+
+      - name: Build release CLI
+        run: cargo build --release --bin natsort
+
+      - name: Build release benchmark
+        run: cargo build --release --bin benchmark
+
+      - name: CLI smoke test on Linux
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          actual="$(./target/release/natsort file10 file2 file1)"
+          expected=$'file1\nfile2\nfile10'
+          test "$actual" = "$expected"
+
+      - name: CLI smoke test on Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $actual = & .\target\release\natsort.exe file10 file2 file1
+          $expected = @("file1", "file2", "file10")
+
+          if (Compare-Object -ReferenceObject $expected -DifferenceObject $actual) {
+            Write-Error "Unexpected CLI output: $($actual -join ', ')"
+            exit 1
+          }

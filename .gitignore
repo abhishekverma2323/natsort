@@ -46,3 +46,7 @@ pip-log.txt
 .venv-wsl/
 parity/benchmark_data/
 parity/__pycache__/
+
+# Keep Rust source binaries tracked despite the generic `bin` rule.
+!rust-port/src/bin/
+!rust-port/src/bin/**
