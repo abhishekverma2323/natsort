@@ -1931,3 +1931,220 @@ fn sort_options_round_trip_python_algorithm_bits() {
 
     assert_eq!(SortOptions::from_algorithm(flags).algorithm(), flags);
 }
+
+fn cli_output_lines(values: &[&str]) -> Vec<u8> {
+    let mut result = Vec::new();
+
+    for value in values {
+        result.extend_from_slice(value.as_bytes());
+        result.extend_from_slice(rust_port::native_line_ending().as_bytes());
+    }
+
+    result
+}
+
+fn run_cli_case(arguments: &[&str], stdin: &str) -> (i32, Vec<u8>, Vec<u8>) {
+    use std::io::Cursor;
+
+    let mut input = Cursor::new(stdin.as_bytes());
+    let mut output = Vec::new();
+    let mut error = Vec::new();
+    let code = rust_port::run_cli(
+        arguments.iter().copied(),
+        &mut input,
+        &mut output,
+        &mut error,
+    );
+
+    (code, output, error)
+}
+
+#[test]
+fn matches_python_cli_positional_basic() {
+    let (code, output, error) = run_cli_case(&["file10", "file2", "file1"], "");
+
+    assert_eq!(code, 0);
+    assert_eq!(output, cli_output_lines(&["file1", "file2", "file10"]));
+    assert!(error.is_empty());
+}
+
+#[test]
+fn matches_python_cli_path_sort() {
+    let (code, output, _) =
+        run_cli_case(&["--paths", "Folder (10)/", "Folder (1)/", "Folder/"], "");
+
+    assert_eq!(code, 0);
+    assert_eq!(
+        output,
+        cli_output_lines(&["Folder/", "Folder (1)/", "Folder (10)/"])
+    );
+}
+
+#[test]
+fn matches_python_cli_real_sort() {
+    let (code, output, _) =
+        run_cli_case(&["-t", "real", "--", "value-2.5", "value1", "value-10"], "");
+
+    assert_eq!(code, 0);
+    assert_eq!(
+        output,
+        cli_output_lines(&["value-10", "value-2.5", "value1"])
+    );
+}
+
+#[test]
+fn matches_python_cli_real_with_nosign() {
+    let (code, output, _) = run_cli_case(
+        &[
+            "-t",
+            "real",
+            "--nosign",
+            "--",
+            "value-2.5",
+            "value1",
+            "value-10",
+        ],
+        "",
+    );
+
+    assert_eq!(code, 0);
+    assert_eq!(
+        output,
+        cli_output_lines(&["value-10", "value-2.5", "value1"])
+    );
+}
+
+#[test]
+fn matches_python_cli_float_exponent_sort() {
+    let (code, output, _) = run_cli_case(&["-t", "float", "value1e3", "value20", "value3e1"], "");
+
+    assert_eq!(code, 0);
+    assert_eq!(
+        output,
+        cli_output_lines(&["value20", "value3e1", "value1e3"])
+    );
+}
+
+#[test]
+fn matches_python_cli_float_noexp_sort() {
+    let (code, output, _) = run_cli_case(
+        &["-t", "float", "--noexp", "value1e3", "value20", "value3e1"],
+        "",
+    );
+
+    assert_eq!(code, 0);
+    assert_eq!(
+        output,
+        cli_output_lines(&["value1e3", "value3e1", "value20"])
+    );
+}
+
+#[test]
+fn matches_python_cli_newline_stdin() {
+    let (code, output, _) = run_cli_case(&[], "file10\nfile2\nfile1\n");
+
+    assert_eq!(code, 0);
+    assert_eq!(output, cli_output_lines(&["file1", "file2", "file10"]));
+}
+
+#[test]
+fn matches_python_cli_zero_terminated_stdin() {
+    let (code, output, _) = run_cli_case(&["--zero-terminated"], "file10\0file2\0file1\0");
+
+    assert_eq!(code, 0);
+    assert_eq!(output, cli_output_lines(&["file1", "file2", "file10"]));
+}
+
+#[test]
+fn matches_python_cli_empty_stdin() {
+    let (code, output, _) = run_cli_case(&[], "");
+
+    assert_eq!(code, 0);
+    assert_eq!(output, cli_output_lines(&[""]));
+}
+
+#[test]
+fn matches_python_cli_inclusive_filter() {
+    let (code, output, _) = run_cli_case(
+        &[
+            "--filter", "2", "10", "value1", "value2", "value5", "value10", "value11", "plain",
+        ],
+        "",
+    );
+
+    assert_eq!(code, 0);
+    assert_eq!(output, cli_output_lines(&["value2", "value5", "value10"]));
+}
+
+#[test]
+fn matches_python_cli_reverse_filter() {
+    let (code, output, _) = run_cli_case(
+        &[
+            "--reverse-filter",
+            "2",
+            "10",
+            "value1",
+            "value2",
+            "value5",
+            "value10",
+            "value11",
+            "plain",
+        ],
+        "",
+    );
+
+    assert_eq!(code, 0);
+    assert_eq!(output, cli_output_lines(&["plain", "value1", "value11"]));
+}
+
+#[test]
+fn matches_python_cli_multiple_number_filtering() {
+    let (code, output, _) = run_cli_case(
+        &["--filter", "2", "10", "a1b20", "a1b5", "a20b30", "plain"],
+        "",
+    );
+
+    assert_eq!(code, 0);
+    assert_eq!(output, cli_output_lines(&["a1b5"]));
+}
+
+#[test]
+fn matches_python_cli_integer_exclude() {
+    let (code, output, _) = run_cli_case(
+        &[
+            "--exclude",
+            "5",
+            "value5",
+            "value05",
+            "value5.0",
+            "value15",
+            "plain",
+        ],
+        "",
+    );
+
+    assert_eq!(code, 0);
+    assert_eq!(output, cli_output_lines(&["plain", "value15"]));
+}
+
+#[test]
+fn matches_python_cli_reversed_range_error() {
+    let (code, output, error) = run_cli_case(&["--filter", "10", "2", "value1", "value5"], "");
+
+    assert_eq!(code, 1);
+    assert!(output.is_empty());
+    assert_eq!(error, cli_output_lines(&["Error in --filter: low >= high"]));
+}
+
+#[test]
+fn matches_python_cli_invalid_number_type_exit_code() {
+    let (code, output, error) = run_cli_case(&["--number-type", "decimal", "value1"], "");
+
+    assert_eq!(code, 2);
+    assert!(output.is_empty());
+    assert!(
+        String::from_utf8(error)
+            .expect("UTF-8 error output")
+            .contains("invalid choice: 'decimal'")
+    );
+}

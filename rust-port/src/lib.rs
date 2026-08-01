@@ -1,5 +1,6 @@
 mod algorithm;
 mod api;
+mod cli;
 mod decode;
 mod locale;
 mod options;
@@ -12,6 +13,11 @@ mod token;
 mod unicode_numeric;
 mod value;
 mod value_api;
+
+pub use cli::{
+    CliNumberType, CliOptions, CliRangeError, NumericRange, keep_entry_range, keep_entry_value,
+    native_line_ending, run_cli, run_cli_with_program, sort_cli_entries,
+};
 
 pub use algorithm::{
     AlgorithmFlags, NumericRegexKind, numeric_regex_chooser, numeric_regex_chooser_from_bits,

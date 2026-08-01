@@ -1,0 +1,56 @@
+===== VERSION =====
+python.exe -m natsort 0.1.dev1071+g93ca8b065
+
+===== HELP =====
+usage: python.exe -m natsort [-h] [--version] [-p] [-f LOW HIGH] [-F LOW HIGH]
+                             [-e EXCLUDE] [-r] [-t {int,float,real,f,i,r}]
+                             [--nosign] [-s] [--noexp] [-l] [-z]
+                             [entries ...]
+
+Perform a natural sort on entries given on the command-line.
+
+Arguments are read from sys.argv.
+
+positional arguments:
+  entries               The entries to sort. Taken from stdin if nothing is
+                        given on the command line.
+
+options:
+  -h, --help            show this help message and exit
+  --version             show program's version number and exit
+  -p, --paths           Interpret the input as file paths. This is not
+                        strictly necessary to sort all file paths, but in
+                        cases where there are OS-generated file paths like
+                        "Folder/" and "Folder (1)/", this option is needed to
+                        make the paths sorted in the order you expect
+                        ("Folder/" before "Folder (1)/").
+  -f, --filter LOW HIGH
+                        Used for keeping only the entries that have a number
+                        falling in the given range.
+  -F, --reverse-filter LOW HIGH
+                        Used for excluding the entries that have a number
+                        falling in the given range.
+  -e, --exclude EXCLUDE
+                        Used to exclude an entry that contains a specific
+                        number.
+  -r, --reverse         Returns in reversed order.
+  -t, --number-type, --number_type {int,float,real,f,i,r}
+                        Choose the type of number to search for. "float" will
+                        search for floating-point numbers. "int" will only
+                        search for integers. "real" is a shortcut for "float"
+                        with --sign. "i" is a synonym for "int", "f" is a
+                        synonym for "float", and "r" is a synonym for
+                        "real".The default is int.
+  --nosign              Do not consider "+" or "-" as part of a number, i.e.
+                        do not take sign into consideration. This is the
+                        default.
+  -s, --sign            Consider "+" or "-" as part of a number, i.e. take
+                        sign into consideration. The default is unsigned.
+  --noexp               Do not consider an exponential as part of a number,
+                        i.e. 1e4, would be considered as 1, "e", and 4, not as
+                        10000. This only effects the --number-type=float.
+  -l, --locale          Causes natsort to use locale-aware sorting. You will
+                        get the best results if you install PyICU.
+  -z, --zero-terminated
+                        When reading from stdin, split entries on nulls (\0)
+                        instead of newlines.

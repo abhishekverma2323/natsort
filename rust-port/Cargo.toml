@@ -13,3 +13,7 @@ num-bigint = "0.4.6"
 icu_collator = { version = "=2.2.1", features = ["unstable"] }
 icu_locale = "2.2.0"
 sys-locale = "0.3.2"
+
+[[bin]]
+name = "natsort"
+path = "src/bin/natsort.rs"

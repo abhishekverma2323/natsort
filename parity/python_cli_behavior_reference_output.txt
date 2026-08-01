@@ -1,0 +1,232 @@
+
+===== positional_basic =====
+arguments: ['file10', 'file2', 'file1']
+stdin: b''
+returncode: 0
+stdout_bytes: b'file1\r\nfile2\r\nfile10\r\n'
+stdout_text: 'file1\r\nfile2\r\nfile10\r\n'
+stderr_text: ''
+
+===== positional_reverse =====
+arguments: ['--reverse', 'file10', 'file2', 'file1']
+stdin: b''
+returncode: 0
+stdout_bytes: b'file10\r\nfile2\r\nfile1\r\n'
+stdout_text: 'file10\r\nfile2\r\nfile1\r\n'
+stderr_text: ''
+
+===== path_sort =====
+arguments: ['--paths', 'Folder (10)/', 'Folder (1)/', 'Folder/']
+stdin: b''
+returncode: 0
+stdout_bytes: b'Folder/\r\nFolder (1)/\r\nFolder (10)/\r\n'
+stdout_text: 'Folder/\r\nFolder (1)/\r\nFolder (10)/\r\n'
+stderr_text: ''
+
+===== default_integer =====
+arguments: ['value10.2', 'value2.5', 'value1.9']
+stdin: b''
+returncode: 0
+stdout_bytes: b'value1.9\r\nvalue2.5\r\nvalue10.2\r\n'
+stdout_text: 'value1.9\r\nvalue2.5\r\nvalue10.2\r\n'
+stderr_text: ''
+
+===== float_long_name =====
+arguments: ['--number-type', 'float', 'value10.2', 'value2.5', 'value1.9']
+stdin: b''
+returncode: 0
+stdout_bytes: b'value1.9\r\nvalue2.5\r\nvalue10.2\r\n'
+stdout_text: 'value1.9\r\nvalue2.5\r\nvalue10.2\r\n'
+stderr_text: ''
+
+===== float_short_name =====
+arguments: ['-t', 'f', 'value10.2', 'value2.5', 'value1.9']
+stdin: b''
+returncode: 0
+stdout_bytes: b'value1.9\r\nvalue2.5\r\nvalue10.2\r\n'
+stdout_text: 'value1.9\r\nvalue2.5\r\nvalue10.2\r\n'
+stderr_text: ''
+
+===== real_long_name =====
+arguments: ['-t', 'real', '--', 'value-2.5', 'value1', 'value-10']
+stdin: b''
+returncode: 0
+stdout_bytes: b'value-10\r\nvalue-2.5\r\nvalue1\r\n'
+stdout_text: 'value-10\r\nvalue-2.5\r\nvalue1\r\n'
+stderr_text: ''
+
+===== real_short_name =====
+arguments: ['-t', 'r', '--', 'value-2.5', 'value1', 'value-10']
+stdin: b''
+returncode: 0
+stdout_bytes: b'value-10\r\nvalue-2.5\r\nvalue1\r\n'
+stdout_text: 'value-10\r\nvalue-2.5\r\nvalue1\r\n'
+stderr_text: ''
+
+===== signed_integer =====
+arguments: ['--sign', '--', 'value-2', 'value1', 'value-10', 'value+3']
+stdin: b''
+returncode: 0
+stdout_bytes: b'value-10\r\nvalue-2\r\nvalue1\r\nvalue+3\r\n'
+stdout_text: 'value-10\r\nvalue-2\r\nvalue1\r\nvalue+3\r\n'
+stderr_text: ''
+
+===== real_with_nosign =====
+arguments: ['-t', 'real', '--nosign', '--', 'value-2.5', 'value1', 'value-10']
+stdin: b''
+returncode: 0
+stdout_bytes: b'value-10\r\nvalue-2.5\r\nvalue1\r\n'
+stdout_text: 'value-10\r\nvalue-2.5\r\nvalue1\r\n'
+stderr_text: ''
+
+===== float_with_exponent =====
+arguments: ['-t', 'float', 'value1e3', 'value20', 'value3e1']
+stdin: b''
+returncode: 0
+stdout_bytes: b'value20\r\nvalue3e1\r\nvalue1e3\r\n'
+stdout_text: 'value20\r\nvalue3e1\r\nvalue1e3\r\n'
+stderr_text: ''
+
+===== float_without_exponent =====
+arguments: ['-t', 'float', '--noexp', 'value1e3', 'value20', 'value3e1']
+stdin: b''
+returncode: 0
+stdout_bytes: b'value1e3\r\nvalue3e1\r\nvalue20\r\n'
+stdout_text: 'value1e3\r\nvalue3e1\r\nvalue20\r\n'
+stderr_text: ''
+
+===== locale_sort =====
+arguments: ['--locale', 'Öl5', 'Oase4', 'Äpfel10', 'äpfel2', 'apple2']
+stdin: b''
+returncode: 0
+stdout_bytes: b'apple2\r\nOase4\r\n\xc3\xa4pfel2\r\n\xc3\x84pfel10\r\n\xc3\x96l5\r\n'
+stdout_text: 'apple2\r\nOase4\r\näpfel2\r\nÄpfel10\r\nÖl5\r\n'
+stderr_text: ''
+
+===== stdin_newline =====
+arguments: []
+stdin: b'file10\nfile2\nfile1\n'
+returncode: 0
+stdout_bytes: b'file1\r\nfile2\r\nfile10\r\n'
+stdout_text: 'file1\r\nfile2\r\nfile10\r\n'
+stderr_text: ''
+
+===== stdin_without_final_newline =====
+arguments: []
+stdin: b'file10\nfile2\nfile1'
+returncode: 0
+stdout_bytes: b'file1\r\nfile2\r\nfile10\r\n'
+stdout_text: 'file1\r\nfile2\r\nfile10\r\n'
+stderr_text: ''
+
+===== stdin_empty =====
+arguments: []
+stdin: b''
+returncode: 0
+stdout_bytes: b'\r\n'
+stdout_text: '\r\n'
+stderr_text: ''
+
+===== stdin_zero_terminated =====
+arguments: ['--zero-terminated']
+stdin: b'file10\x00file2\x00file1\x00'
+returncode: 0
+stdout_bytes: b'file1\r\nfile2\r\nfile10\r\n'
+stdout_text: 'file1\r\nfile2\r\nfile10\r\n'
+stderr_text: ''
+
+===== stdin_zero_without_final_null =====
+arguments: ['-z']
+stdin: b'file10\x00file2\x00file1'
+returncode: 0
+stdout_bytes: b'file1\r\nfile2\r\nfile10\r\n'
+stdout_text: 'file1\r\nfile2\r\nfile10\r\n'
+stderr_text: ''
+
+===== filter_integer_range =====
+arguments: ['--filter', '2', '10', 'value1', 'value2', 'value5', 'value10', 'value11', 'plain']
+stdin: b''
+returncode: 0
+stdout_bytes: b'value2\r\nvalue5\r\nvalue10\r\n'
+stdout_text: 'value2\r\nvalue5\r\nvalue10\r\n'
+stderr_text: ''
+
+===== reverse_filter_integer_range =====
+arguments: ['--reverse-filter', '2', '10', 'value1', 'value2', 'value5', 'value10', 'value11', 'plain']
+stdin: b''
+returncode: 0
+stdout_bytes: b'plain\r\nvalue1\r\nvalue11\r\n'
+stdout_text: 'plain\r\nvalue1\r\nvalue11\r\n'
+stderr_text: ''
+
+===== filter_multiple_numbers =====
+arguments: ['--filter', '2', '10', 'a1b20', 'a1b5', 'a20b30', 'plain']
+stdin: b''
+returncode: 0
+stdout_bytes: b'a1b5\r\n'
+stdout_text: 'a1b5\r\n'
+stderr_text: ''
+
+===== filter_float_range =====
+arguments: ['-t', 'float', '--filter', '1.5', '3.0', 'value1.25', 'value1.5', 'value2.75', 'value3.0', 'value3.5']
+stdin: b''
+returncode: 0
+stdout_bytes: b'value1.5\r\nvalue2.75\r\nvalue3.0\r\n'
+stdout_text: 'value1.5\r\nvalue2.75\r\nvalue3.0\r\n'
+stderr_text: ''
+
+===== exclude_integer =====
+arguments: ['--exclude', '5', 'value5', 'value05', 'value5.0', 'value15', 'plain']
+stdin: b''
+returncode: 0
+stdout_bytes: b'plain\r\nvalue15\r\n'
+stdout_text: 'plain\r\nvalue15\r\n'
+stderr_text: ''
+
+===== exclude_float =====
+arguments: ['-t', 'float', '--exclude', '2.5', 'value2.5', 'value02.50', 'value2', 'value25', 'plain']
+stdin: b''
+returncode: 0
+stdout_bytes: b'plain\r\nvalue2\r\nvalue25\r\n'
+stdout_text: 'plain\r\nvalue2\r\nvalue25\r\n'
+stderr_text: ''
+
+===== invalid_number_type =====
+arguments: ['--number-type', 'decimal', 'value1']
+stdin: b''
+returncode: 2
+stdout_bytes: b''
+stdout_text: ''
+stderr_text: "usage: python.exe -m natsort [-h] [--version] [-p] [-f LOW HIGH] [-F LOW HIGH]\r\n                             [-e EXCLUDE] [-r] [-t {int,float,real,f,i,r}]\r\n                             [--nosign] [-s] [--noexp] [-l] [-z]\r\n                             [entries ...]\r\npython.exe -m natsort: error: argument -t/--number-type/--number_type: invalid choice: 'decimal' (choose from int, float, real, f, i, r)\r\n"
+
+===== missing_filter_bound =====
+arguments: ['--filter', '1']
+stdin: b''
+returncode: 2
+stdout_bytes: b''
+stdout_text: ''
+stderr_text: 'usage: python.exe -m natsort [-h] [--version] [-p] [-f LOW HIGH] [-F LOW HIGH]\r\n                             [-e EXCLUDE] [-r] [-t {int,float,real,f,i,r}]\r\n                             [--nosign] [-s] [--noexp] [-l] [-z]\r\n                             [entries ...]\r\npython.exe -m natsort: error: argument -f/--filter: expected 2 arguments\r\n'
+
+===== invalid_filter_bound =====
+arguments: ['--filter', 'low', 'high', 'value1']
+stdin: b''
+returncode: 2
+stdout_bytes: b''
+stdout_text: ''
+stderr_text: "usage: python.exe -m natsort [-h] [--version] [-p] [-f LOW HIGH] [-F LOW HIGH]\r\n                             [-e EXCLUDE] [-r] [-t {int,float,real,f,i,r}]\r\n                             [--nosign] [-s] [--noexp] [-l] [-z]\r\n                             [entries ...]\r\npython.exe -m natsort: error: argument -f/--filter: invalid float value: 'low'\r\n"
+
+===== filter_reversed_bounds =====
+arguments: ['--filter', '10', '2', 'value1', 'value5', 'value11']
+stdin: b''
+returncode: 1
+stdout_bytes: b''
+stdout_text: ''
+stderr_text: 'Error in --filter: low >= high\r\n'
+
+===== unknown_option =====
+arguments: ['--unknown-option', 'value1']
+stdin: b''
+returncode: 2
+stdout_bytes: b''
+stdout_text: ''
+stderr_text: 'usage: python.exe -m natsort [-h] [--version] [-p] [-f LOW HIGH] [-F LOW HIGH]\r\n                             [-e EXCLUDE] [-r] [-t {int,float,real,f,i,r}]\r\n                             [--nosign] [-s] [--noexp] [-l] [-z]\r\n                             [entries ...]\r\npython.exe -m natsort: error: unrecognized arguments: --unknown-option\r\n'
