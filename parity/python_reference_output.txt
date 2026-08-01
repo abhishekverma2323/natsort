@@ -122,3 +122,51 @@ Expected: ['folder2\\file2.txt', 'folder2\\file10.txt', 'folder10\\file1.txt']
 path_mixed_numeric_components
 Input:    ['release1/version10/file2.txt', 'release1/version2/file10.txt', 'release1/version2/file2.txt']
 Expected: ['release1/version2/file2.txt', 'release1/version2/file10.txt', 'release1/version10/file2.txt']
+
+float_leading_decimal_point
+Input:    ['value.56', 'value.5', 'value.125', 'value1']
+Expected: ['value.125', 'value.5', 'value.56', 'value1']
+
+signed_float_leading_decimal_point
+Input:    ['value-.56', 'value.5', 'value-.125', 'value1']
+Expected: ['value-.56', 'value-.125', 'value.5', 'value1']
+
+float_trailing_decimal_point
+Input:    ['value51.', 'value5.', 'value10.', 'value2.']
+Expected: ['value2.', 'value5.', 'value10.', 'value51.']
+
+signed_float_trailing_decimal_point
+Input:    ['value-51.', 'value5.', 'value-10.', 'value2.']
+Expected: ['value-51.', 'value-10.', 'value2.', 'value5.']
+
+float_no_exponent
+Input:    ['value5.034e1', 'value50', 'value5.5e2', 'value5.25']
+Expected: ['value5.034e1', 'value5.25', 'value5.5e2', 'value50']
+
+signed_float_no_exponent
+Input:    ['value-5.034e1', 'value-50', 'value5.5e2', 'value5.25']
+Expected: ['value-50', 'value-5.034e1', 'value5.25', 'value5.5e2']
+
+valid_and_invalid_exponents
+Input:    ['value1e', 'value1e+', 'value1e-', 'value1e2', 'value1e+2', 'value1e-2']
+Expected: ['value1e-2', 'value1e', 'value1e+', 'value1e-', 'value1e2', 'value1e+2']
+
+unicode_digit_characters
+Input:    ['value②', 'value①', 'value10', 'value2']
+Expected: ['value①', 'value②', 'value2', 'value10']
+
+unicode_numeric_characters_float
+Input:    ['valueⅡ', 'value⅓', 'value2', 'value1']
+Expected: ['value⅓', 'value1', 'valueⅡ', 'value2']
+
+mixed_unicode_numeric_characters
+Input:    ['value١٠', 'value②', 'value३', 'value1']
+Expected: ['value1', 'value②', 'value३', 'value١٠']
+
+equivalent_float_representations
+Input:    ['value1', 'value01', 'value1.0', 'value1.00', 'value1e0']
+Expected: ['value1', 'value01', 'value1.0', 'value1.00', 'value1e0']
+
+presort_equivalent_values
+Input:    ['a1', 'a1.45', 'a01', 'a1.4500']
+Expected: ['a01', 'a1', 'a1.45', 'a1.4500']

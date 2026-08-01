@@ -4,7 +4,9 @@ pub struct SortOptions {
     pub reverse: bool,
     pub signed: bool,
     pub float: bool,
+    pub no_exp: bool,
     pub path: bool,
+    pub presort: bool,
 }
 
 impl SortOptions {
@@ -14,7 +16,9 @@ impl SortOptions {
             reverse: false,
             signed: false,
             float: false,
+            no_exp: false,
             path: false,
+            presort: false,
         }
     }
 
@@ -38,8 +42,18 @@ impl SortOptions {
         self
     }
 
+    pub const fn no_exp(mut self, enabled: bool) -> Self {
+        self.no_exp = enabled;
+        self
+    }
+
     pub const fn path(mut self, enabled: bool) -> Self {
         self.path = enabled;
+        self
+    }
+
+    pub const fn presort(mut self, enabled: bool) -> Self {
+        self.presort = enabled;
         self
     }
 }

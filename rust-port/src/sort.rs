@@ -128,9 +128,9 @@ fn is_path_separator(character: char) -> bool {
 }
 
 fn compare_natural_strings(left: &str, right: &str, options: SortOptions) -> Ordering {
-    let left_tokens = tokenize(left, options.signed, options.float);
-    let right_tokens = tokenize(right, options.signed, options.float);
+    let left_tokens = tokenize(left, options.signed, options.float, options.no_exp);
 
+    let right_tokens = tokenize(right, options.signed, options.float, options.no_exp);
     compare_tokens(&left_tokens, &right_tokens)
 }
 
@@ -161,6 +161,10 @@ where
     T: AsRef<str> + Clone,
 {
     let mut result = items.to_vec();
+
+    if options.presort {
+        result.sort_by(|left, right| left.as_ref().cmp(right.as_ref()));
+    }
 
     result.sort_by(|left, right| {
         let left_value = if options.ignore_case {
@@ -606,6 +610,116 @@ mod tests {
                 "release1/version2/file10.txt",
                 "release1/version10/file2.txt",
             ]
+        );
+    }
+
+    #[test]
+    fn sorts_floats_with_leading_decimal_points() {
+        let input = vec!["value.56", "value.5", "value.125", "value1"];
+
+        let options = SortOptions::new().float(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["value.125", "value.5", "value.56", "value1"]
+        );
+    }
+
+    #[test]
+    fn sorts_signed_floats_with_leading_decimal_points() {
+        let input = vec!["value-.56", "value.5", "value-.125", "value1"];
+
+        let options = SortOptions::new().float(true).signed(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["value-.56", "value-.125", "value.5", "value1"]
+        );
+    }
+
+    #[test]
+    fn sorts_floats_with_trailing_decimal_points() {
+        let input = vec!["value51.", "value5.", "value10.", "value2."];
+
+        let options = SortOptions::new().float(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["value2.", "value5.", "value10.", "value51."]
+        );
+    }
+
+    #[test]
+    fn sorts_signed_floats_with_trailing_decimal_points() {
+        let input = vec!["value-51.", "value5.", "value-10.", "value2."];
+
+        let options = SortOptions::new().float(true).signed(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["value-51.", "value-10.", "value2.", "value5."]
+        );
+    }
+
+    #[test]
+    fn ignores_exponents_when_no_exp_is_enabled() {
+        let input = vec!["value5.034e1", "value50", "value5.5e2", "value5.25"];
+
+        let options = SortOptions::new().float(true).no_exp(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["value5.034e1", "value5.25", "value5.5e2", "value50",]
+        );
+    }
+
+    #[test]
+    fn ignores_exponents_for_signed_floats() {
+        let input = vec!["value-5.034e1", "value-50", "value5.5e2", "value5.25"];
+
+        let options = SortOptions::new().float(true).signed(true).no_exp(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["value-50", "value-5.034e1", "value5.25", "value5.5e2",]
+        );
+    }
+
+    #[test]
+    fn sorts_valid_and_invalid_exponents_like_python() {
+        let input = vec![
+            "value1e",
+            "value1e+",
+            "value1e-",
+            "value1e2",
+            "value1e+2",
+            "value1e-2",
+        ];
+
+        let options = SortOptions::new().float(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec![
+                "value1e-2",
+                "value1e",
+                "value1e+",
+                "value1e-",
+                "value1e2",
+                "value1e+2",
+            ]
+        );
+    }
+
+    #[test]
+    fn presorts_equivalent_numeric_values() {
+        let input = vec!["a1", "a1.45", "a01", "a1.4500"];
+
+        let options = SortOptions::new().float(true).presort(true);
+
+        assert_eq!(
+            natsorted_with_options(&input, options),
+            vec!["a01", "a1", "a1.45", "a1.4500"]
         );
     }
 }

@@ -251,5 +251,139 @@ def main() -> None:
         ns.PATH,
     )
 
+    show_case(
+        "float_leading_decimal_point",
+        [
+            "value.56",
+            "value.5",
+            "value.125",
+            "value1",
+        ],
+        ns.FLOAT,
+    )
+
+    show_case(
+        "signed_float_leading_decimal_point",
+        [
+            "value-.56",
+            "value.5",
+            "value-.125",
+            "value1",
+        ],
+        ns.FLOAT | ns.SIGNED,
+    )
+
+    show_case(
+        "float_trailing_decimal_point",
+        [
+            "value51.",
+            "value5.",
+            "value10.",
+            "value2.",
+        ],
+        ns.FLOAT,
+    )
+
+    show_case(
+        "signed_float_trailing_decimal_point",
+        [
+            "value-51.",
+            "value5.",
+            "value-10.",
+            "value2.",
+        ],
+        ns.FLOAT | ns.SIGNED,
+    )
+
+    show_case(
+        "float_no_exponent",
+        [
+            "value5.034e1",
+            "value50",
+            "value5.5e2",
+            "value5.25",
+        ],
+        ns.FLOAT | ns.NOEXP,
+    )
+
+    show_case(
+        "signed_float_no_exponent",
+        [
+            "value-5.034e1",
+            "value-50",
+            "value5.5e2",
+            "value5.25",
+        ],
+        ns.FLOAT | ns.SIGNED | ns.NOEXP,
+    )
+
+    show_case(
+        "valid_and_invalid_exponents",
+        [
+            "value1e",
+            "value1e+",
+            "value1e-",
+            "value1e2",
+            "value1e+2",
+            "value1e-2",
+        ],
+        ns.FLOAT,
+    )
+
+    show_case(
+        "unicode_digit_characters",
+        [
+            "value②",
+            "value①",
+            "value10",
+            "value2",
+        ],
+    )
+
+    show_case(
+        "unicode_numeric_characters_float",
+        [
+            "valueⅡ",
+            "value⅓",
+            "value2",
+            "value1",
+        ],
+        ns.FLOAT,
+    )
+
+    show_case(
+        "mixed_unicode_numeric_characters",
+        [
+            "value١٠",
+            "value②",
+            "value३",
+            "value1",
+        ],
+        ns.FLOAT,
+    )
+
+    show_case(
+        "equivalent_float_representations",
+        [
+            "value1",
+            "value01",
+            "value1.0",
+            "value1.00",
+            "value1e0",
+        ],
+        ns.FLOAT,
+    )
+
+    show_case(
+        "presort_equivalent_values",
+        [
+            "a1",
+            "a1.45",
+            "a01",
+            "a1.4500",
+        ],
+        ns.FLOAT | ns.PRESORT,
+    )
+
 if __name__ == "__main__":
     main()
