@@ -2,6 +2,7 @@ mod api;
 mod decode;
 mod locale;
 mod options;
+mod os_sort;
 mod path;
 mod separator;
 mod sort;
@@ -45,6 +46,16 @@ pub use api::{
     index_natsorted_with_options, index_realsorted, index_realsorted_with_options,
     natsorted_by_key, natsorted_by_key_with_options, order_by_index, realsorted, realsorted_by_key,
     realsorted_by_key_with_options, realsorted_with_options, try_order_by_index,
+};
+
+pub use os_sort::{
+    OsSortKey, OsSortKeyGenerator, OsSortOptions, OsSortProfile, index_os_sorted,
+    index_os_sorted_by_key, index_os_sorted_by_key_with_options, index_os_sorted_values,
+    index_os_sorted_values_with_options, index_os_sorted_with_options, os_sort_key,
+    os_sort_key_value, os_sort_key_value_with_options, os_sort_key_with_options, os_sort_keygen,
+    os_sort_keygen_with_options, os_sorted, os_sorted_by_key, os_sorted_by_key_with_options,
+    os_sorted_values, os_sorted_values_with_options, os_sorted_with_options,
+    system_os_sort_profile,
 };
 
 pub use options::SortOptions;

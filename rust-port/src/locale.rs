@@ -1,7 +1,7 @@
 use std::sync::OnceLock;
 
 use icu_collator::options::CollatorOptions;
-use icu_collator::preferences::CollationCaseFirst;
+use icu_collator::preferences::{CollationCaseFirst, CollationNumericOrdering};
 use icu_collator::{Collator, CollatorBorrowed, CollatorPreferences};
 use icu_locale::Locale;
 
@@ -32,6 +32,12 @@ static EN_IN_COLLATOR: OnceLock<CollatorBorrowed<'static>> = OnceLock::new();
 static EN_US_COLLATOR: OnceLock<CollatorBorrowed<'static>> = OnceLock::new();
 static DE_DE_COLLATOR: OnceLock<CollatorBorrowed<'static>> = OnceLock::new();
 static FR_FR_COLLATOR: OnceLock<CollatorBorrowed<'static>> = OnceLock::new();
+
+static SYSTEM_NUMERIC_COLLATOR: OnceLock<CollatorBorrowed<'static>> = OnceLock::new();
+static EN_IN_NUMERIC_COLLATOR: OnceLock<CollatorBorrowed<'static>> = OnceLock::new();
+static EN_US_NUMERIC_COLLATOR: OnceLock<CollatorBorrowed<'static>> = OnceLock::new();
+static DE_DE_NUMERIC_COLLATOR: OnceLock<CollatorBorrowed<'static>> = OnceLock::new();
+static FR_FR_NUMERIC_COLLATOR: OnceLock<CollatorBorrowed<'static>> = OnceLock::new();
 
 pub fn system_locale_identifier() -> String {
     sys_locale::get_locale().unwrap_or_else(|| "en-US".to_string())
@@ -281,6 +287,23 @@ fn build_collator(identifier: &str) -> CollatorBorrowed<'static> {
     })
 }
 
+fn build_numeric_collator(identifier: &str) -> CollatorBorrowed<'static> {
+    let locale: Locale = identifier
+        .parse()
+        .unwrap_or_else(|_| "en-US".parse().expect("fallback locale must be valid"));
+
+    let mut preferences: CollatorPreferences = locale.into();
+    preferences.numeric_ordering = Some(CollationNumericOrdering::True);
+
+    Collator::try_new(preferences, CollatorOptions::default()).unwrap_or_else(|_| {
+        let mut fallback = CollatorPreferences::default();
+        fallback.numeric_ordering = Some(CollationNumericOrdering::True);
+
+        Collator::try_new(fallback, CollatorOptions::default())
+            .expect("ICU compiled collation data must contain the root locale")
+    })
+}
+
 fn collator(profile: LocaleProfile) -> &'static CollatorBorrowed<'static> {
     match profile {
         LocaleProfile::System => SYSTEM_COLLATOR.get_or_init(|| {
@@ -295,6 +318,38 @@ fn collator(profile: LocaleProfile) -> &'static CollatorBorrowed<'static> {
         LocaleProfile::GermanGermany => DE_DE_COLLATOR.get_or_init(|| build_collator("de-DE")),
         LocaleProfile::FrenchFrance => FR_FR_COLLATOR.get_or_init(|| build_collator("fr-FR")),
     }
+}
+
+fn numeric_collator(profile: LocaleProfile) -> &'static CollatorBorrowed<'static> {
+    match profile {
+        LocaleProfile::System => SYSTEM_NUMERIC_COLLATOR.get_or_init(|| {
+            let identifier = system_locale_identifier();
+            build_numeric_collator(&identifier)
+        }),
+        LocaleProfile::C => EN_US_NUMERIC_COLLATOR.get_or_init(|| build_numeric_collator("en-US")),
+        LocaleProfile::EnglishIndia => {
+            EN_IN_NUMERIC_COLLATOR.get_or_init(|| build_numeric_collator("en-IN"))
+        }
+        LocaleProfile::EnglishUnitedStates => {
+            EN_US_NUMERIC_COLLATOR.get_or_init(|| build_numeric_collator("en-US"))
+        }
+        LocaleProfile::GermanGermany => {
+            DE_DE_NUMERIC_COLLATOR.get_or_init(|| build_numeric_collator("de-DE"))
+        }
+        LocaleProfile::FrenchFrance => {
+            FR_FR_NUMERIC_COLLATOR.get_or_init(|| build_numeric_collator("fr-FR"))
+        }
+    }
+}
+
+pub(crate) fn locale_numeric_sort_key(input: &str, profile: LocaleProfile) -> Vec<u8> {
+    let mut key = Vec::new();
+
+    numeric_collator(profile)
+        .write_sort_key_to(input, &mut key)
+        .expect("writing an ICU numeric sort key into Vec<u8> is infallible");
+
+    key
 }
 
 pub(crate) fn locale_sort_key(input: &str, profile: LocaleProfile) -> Vec<u8> {

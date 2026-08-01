@@ -1,0 +1,87 @@
+
+platform
+'Windows-11-10.0.26200-SP0'
+
+system
+'Windows'
+
+locale
+'English_India.1252'
+
+basic_input
+['file10', 'file2', 'File3', 'file1', 'file_0']
+
+basic_sorted
+['file_0', 'file1', 'file2', 'File3', 'file10']
+
+basic_reverse
+['file10', 'File3', 'file2', 'file1', 'file_0']
+
+equivalent_default
+['a001', 'a01', 'a1']
+
+equivalent_presort
+['a001', 'a01', 'a1']
+
+key_sort
+['foo0', 'goo1', 'foo2']
+
+path_sort
+['folder1/file20.txt', 'Folder2/file2.txt', 'Folder2/file10.txt', 'Folder10/file2.txt']
+
+unicode_sort
+['äpfel2', 'Äpfel10', 'apple2', 'Apple10', 'Oase4', 'Öl5']
+
+mixed_sort
+['1', 2, 5.5, '10', 11, nan, None]
+
+punctuation_sort
+["'", '-', '!', '#', '$', '%', '&', '(', ')', ',', ';', '@', '[', ']', '^', '_', '`', '{', '}', '~', '´', '€', '+', '+11111', '+aaaaa', '=', '§', '°', 'µ', '11111', 'aaaaa', 'foo_0', 'foo0', 'foo1', 'foo2', 'Foo3', 'foo4', 'foo10']
+
+os_sort_key_'file10'
+(<functools.KeyWrapper object at 0x00000263233FE680>,)
+
+os_sort_keygen_'file10'
+(<functools.KeyWrapper object at 0x00000263233FE590>,)
+
+os_sort_key_'file2'
+(<functools.KeyWrapper object at 0x00000263233FE470>,)
+
+os_sort_keygen_'file2'
+(<functools.KeyWrapper object at 0x00000263233FE3E0>,)
+
+os_sort_key_'File3'
+(<functools.KeyWrapper object at 0x00000263233FE410>,)
+
+os_sort_keygen_'File3'
+(<functools.KeyWrapper object at 0x00000263233FE380>,)
+
+os_sort_key_'foo_0'
+(<functools.KeyWrapper object at 0x00000263233FE530>,)
+
+os_sort_keygen_'foo_0'
+(<functools.KeyWrapper object at 0x00000263233FEC50>,)
+
+os_sort_key_'10'
+(<functools.KeyWrapper object at 0x00000263233FEA40>,)
+
+os_sort_keygen_'10'
+(<functools.KeyWrapper object at 0x00000263233FE8F0>,)
+
+os_sort_key_10
+(<functools.KeyWrapper object at 0x00000263233FE8F0>,)
+
+os_sort_keygen_10
+(<functools.KeyWrapper object at 0x00000263233FE8F0>,)
+
+os_sort_key_None
+(<functools.KeyWrapper object at 0x00000263233FE8F0>,)
+
+os_sort_keygen_None
+(<functools.KeyWrapper object at 0x00000263233FE8F0>,)
+
+os_sort_key_nan
+(<functools.KeyWrapper object at 0x00000263233FE8F0>,)
+
+os_sort_keygen_nan
+(<functools.KeyWrapper object at 0x00000263233FE8F0>,)

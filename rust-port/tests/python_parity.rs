@@ -1,11 +1,13 @@
 use rust_port::{
-    Decoder, LocaleProfile, NaturalValue, SortOptions, as_ascii, as_utf8, humansorted_with_options,
-    index_humansorted_with_options, index_natsorted, index_natsorted_values,
-    index_natsorted_values_with_decoder, index_natsorted_values_with_options,
-    index_natsorted_with_options, index_realsorted, index_realsorted_values,
+    Decoder, LocaleProfile, NaturalValue, OsSortOptions, OsSortProfile, SortOptions, as_ascii,
+    as_utf8, humansorted_with_options, index_humansorted_with_options, index_natsorted,
+    index_natsorted_values, index_natsorted_values_with_decoder,
+    index_natsorted_values_with_options, index_natsorted_with_options,
+    index_os_sorted_values_with_options, index_realsorted, index_realsorted_values,
     natsort_key_with_options, natsorted, natsorted_by_key, natsorted_by_key_with_options,
     natsorted_values, natsorted_values_with_decoder, natsorted_values_with_options,
-    natsorted_with_options, order_by_index, realsorted, realsorted_values, realsorted_with_options,
+    natsorted_with_options, order_by_index, os_sorted_by_key_with_options, os_sorted_with_options,
+    realsorted, realsorted_values, realsorted_with_options,
 };
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -1675,5 +1677,121 @@ fn locale_key_equates_german_localized_number_and_direct_number() {
     assert_eq!(
         natsort_key_with_options(&NaturalValue::from("1.234,50"), options),
         natsort_key_with_options(&NaturalValue::from(1234.5), options),
+    );
+}
+
+fn windows_os_options() -> OsSortOptions {
+    OsSortOptions::new()
+        .profile(OsSortProfile::Windows)
+        .locale_profile(LocaleProfile::EnglishIndia)
+}
+
+#[test]
+fn matches_python_windows_os_basic_sort() {
+    let input = ["file10", "file2", "File3", "file1", "file_0"];
+
+    assert_eq!(
+        os_sorted_with_options(&input, windows_os_options()),
+        vec!["file_0", "file1", "file2", "File3", "file10"]
+    );
+}
+
+#[test]
+fn matches_python_windows_os_reverse_sort() {
+    let input = ["file10", "file2", "File3", "file1", "file_0"];
+
+    assert_eq!(
+        os_sorted_with_options(&input, windows_os_options().reverse(true)),
+        vec!["file10", "File3", "file2", "file1", "file_0"]
+    );
+}
+
+#[test]
+fn matches_python_windows_os_leading_zero_order() {
+    let input = ["a1", "a01", "a001"];
+
+    assert_eq!(
+        os_sorted_with_options(&input, windows_os_options()),
+        vec!["a001", "a01", "a1"]
+    );
+}
+
+#[test]
+fn matches_python_windows_os_key_sort() {
+    let input = ["foo0", "foo2", "goo1"];
+
+    assert_eq!(
+        os_sorted_by_key_with_options(
+            &input,
+            |value| value.replace('g', "f"),
+            windows_os_options(),
+        ),
+        vec!["foo0", "goo1", "foo2"]
+    );
+}
+
+#[test]
+fn matches_python_windows_os_path_sort() {
+    let input = [
+        "Folder10/file2.txt",
+        "Folder2/file10.txt",
+        "Folder2/file2.txt",
+        "folder1/file20.txt",
+    ];
+
+    assert_eq!(
+        os_sorted_with_options(&input, windows_os_options()),
+        vec![
+            "folder1/file20.txt",
+            "Folder2/file2.txt",
+            "Folder2/file10.txt",
+            "Folder10/file2.txt",
+        ]
+    );
+}
+
+#[test]
+fn matches_python_windows_os_unicode_sort() {
+    let input = ["Äpfel10", "apple2", "Apple10", "äpfel2", "Öl5", "Oase4"];
+
+    assert_eq!(
+        os_sorted_with_options(&input, windows_os_options()),
+        vec!["äpfel2", "Äpfel10", "apple2", "Apple10", "Oase4", "Öl5"]
+    );
+}
+
+#[test]
+fn matches_python_windows_os_mixed_indexes() {
+    let input = vec![
+        NaturalValue::from("10"),
+        NaturalValue::from(2),
+        NaturalValue::from("1"),
+        NaturalValue::from(11),
+        NaturalValue::from(5.5),
+        NaturalValue::None,
+        NaturalValue::from(f64::NAN),
+    ];
+
+    assert_eq!(
+        index_os_sorted_values_with_options(&input, windows_os_options()),
+        vec![2, 1, 4, 0, 3, 6, 5]
+    );
+}
+
+#[test]
+fn matches_python_windows_os_punctuation_sort() {
+    let input = [
+        "11111", "aaaaa", "foo0", "foo_0", "foo1", "foo2", "foo4", "foo10", "Foo3", "!", "#", "$",
+        "%", "&", "'", "(", ")", "+", "+11111", "+aaaaa", ",", "-", ";", "=", "@", "[", "]", "^",
+        "_", "`", "{", "}", "~", "§", "°", "´", "µ", "€",
+    ];
+
+    assert_eq!(
+        os_sorted_with_options(&input, windows_os_options()),
+        vec![
+            "'", "-", "!", "#", "$", "%", "&", "(", ")", ",", ";", "@", "[", "]", "^", "_", "`",
+            "{", "}", "~", "´", "€", "+", "+11111", "+aaaaa", "=", "§", "°", "µ", "11111", "aaaaa",
+            "foo_0", "foo0", "foo1", "foo2", "Foo3", "foo4", "foo10",
+        ]
     );
 }
