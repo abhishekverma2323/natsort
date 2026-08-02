@@ -9,30 +9,22 @@ the behavioral oracle. The Rust crate lives in `rust-port/`.
 
 ## Results at a glance
 
-- Natural sorting for integers, arbitrary-precision decimals, signs, and
-  scientific notation.
-- Unicode decimal, digit, and numeric-character handling.
-- Locale-aware, path-aware, and operating-system-aware sorting.
-- Typed mixed-value APIs for text, bytes, numbers, `None`, NaN, infinities,
-  and nested sequences.
-- ASCII, UTF-8, and Latin-1 decoding paths.
-- Python-compatible CLI behavior, including stdin, NUL-delimited input,
-  filters, exclusions, ranges, whitespace preservation, paths, reverse order,
-  and numeric modes.
-- Direct `Path`/`PathBuf` sorting APIs.
-- Eager and lazy `order_by_index` APIs.
-- Linux and Windows CI plus deterministic Python-vs-Rust differential fuzzing.
-- Rust faster in all 15 committed benchmark configurations.
+- Complete unmodified original suite: **344 / 344 passed** through the
+  Rust-backed compatibility adapter.
+- Original test integrity: **19 / 19 canonical Git blobs identical** to the
+  pinned upstream source commit.
+- Rust library tests: **381 passed**.
+- Rust Python-reference integration tests: **176 passed**.
+- Explicit CLI equivalence: **20 / 20 shared cases matched** with both unified
+  diff files empty.
+- Differential fuzzing: **11,727 matched cases, zero divergences** across
+  default, float, real, signed-integer, no-exponent, and path modes.
+- Fresh-clone and Docker full verification: **passed**.
+- Release CLI: **2,194,280 bytes (≈2.09 MiB)**.
+- First-party unsafe surface: one documented Windows-only FFI call site.
 
-Latest verified evidence:
-
-```text
-377 Rust library tests passed
-176 Python-reference parity tests passed
-1,000 / 1,000 local deterministic differential cases passed
-200 / 200 deterministic differential cases run in CI
-0 failures
-```
+The original Python implementation remains at the repository root as the
+behavioral oracle. Production Rust does not invoke or embed Python.
 
 ## Build and verify
 
@@ -251,68 +243,111 @@ Most API families also provide an explicit `_with_options` form.
 
 ## Validation
 
-### Rust and Python-reference tests
+### Complete original Python suite
+
+From the repository root:
 
 ```bash
-cd rust-port
-cargo test --all-targets
+make verify
 ```
 
-The integration suite in `rust-port/tests/python_parity.rs` uses reference
-outputs and behavior captured from the original Python implementation.
+This verifies canonical original-test blobs, Rust formatting, all Rust tests,
+Clippy with warnings denied, and the complete unmodified original Python suite
+through the Rust adapter.
 
-### Deterministic differential fuzzing
-
-A Python controller generates randomized inputs, asks the Python package for
-the expected order, runs the Rust CLI, and compares the complete output.
-
-Local extended run:
-
-```bash
-python parity/differential_fuzz.py \
-  --cases 1000 \
-  --seed 20260801
-```
-
-CI-bounded run:
-
-```bash
-python parity/differential_fuzz.py \
-  --cases 200 \
-  --seed 20260801 \
-  --python-oracle python
-```
-
-On failure, the exact seed, case, mode, arguments, input, expected output, and
-actual output are written to:
+Committed result:
 
 ```text
-parity/differential_fuzz_failure.json
+19 / 19 original test files identical
+381 Rust library tests passed
+176 Rust Python-reference tests passed
+344 original Python tests passed
 ```
+
+The compatibility path is:
+
+```text
+unmodified original pytest
+        ↓
+thin Python transport / callback / representation boundary
+        ↓
+Rust original-suite-adapter
+        ↓
+Rust implementation
+```
+
+The Python boundary does not provide an alternative natural-sorting algorithm.
+
+### Explicit CLI equivalence
+
+```bash
+make cli-diff
+```
+
+The original Python CLI and standalone Rust release CLI are run with identical
+arguments, stdin bytes, locale, and working directory.
+
+```text
+20 / 20 shared cases matched
+17 successful cases matched byte-for-byte
+3 error cases matched under documented diagnostic normalization
+both unified diff files empty
+```
+
+Evidence: `parity/evidence/cli/`.
+
+### Differential fuzzing
+
+Quick check:
+
+```bash
+make fuzz
+```
+
+Final committed session:
+
+```text
+Seed: 20260802
+Fixed-count: 5,000 / 5,000
+120-second run: 6,727 / 6,727
+Combined: 11,727
+Divergences: 0
+```
+
+A failure writes a complete reproduction payload to
+`parity/differential_fuzz_failure.json`.
 
 ## Performance
 
-The committed benchmark compares in-process Python and Rust sorting on the
-same deterministic UTF-8 datasets. Loading, process startup, and compilation
-are outside the timed region.
+The final judge-facing benchmark compares fresh Python and Rust CLI processes
+on identical deterministic corpus bytes. It includes startup, argument
+parsing, stdin reading, sorting, output generation, and termination.
 
-Median speedup by mode:
+| Scenario | Rust p50 speedup | Rust p99 speedup |
+|---|---:|---:|
+| Empty-input startup | 17.1× | 13.8× |
+| Default 1,000 items | 12.5× | 10.2× |
+| Float 1,000 items | 13.0× | 9.3× |
+| Real 1,000 items | 13.0× | 9.3× |
+| Path 1,000 items | 12.8× | 13.5× |
+| Locale 1,000 items | 14.3× | 8.2× |
+| Default 10,000 items | 8.0× | 6.9× |
+| Default 50,000 items | 2.2× | 3.9× |
 
-| Mode | Median Rust speedup |
-|---|---:|
-| Default | 2.12× |
-| Float | 4.10× |
-| Real | 4.47× |
-| Path | 5.04× |
-| Locale | 1.67× |
+Median peak-RSS reduction is 82.4% at 1,000 items, 60.6% at 10,000,
+and 10.1% at 50,000. The narrower large-input margin is reported explicitly.
 
-Rust was faster in all 15 measured mode/size combinations from 1,000 through
-50,000 entries.
+Full methodology, raw samples, corpus hashes, environment metadata, and binary
+hash:
 
-Full methodology and raw results:
+- `bench/methodology.md`
+- `bench/report.md`
+- `bench/results.json`
+- `bench/raw_latency_samples.json`
+- `bench/raw_rss_samples.json`
+- `bench/environment.json`
 
-- `parity/BENCHMARK_RESULTS.md`
-- `parity/benchmark_results.json`
+Historical in-process optimization results remain under `parity/`.
 
 ## Architecture
 
@@ -350,16 +385,21 @@ natsort/
 ├── natsort/                         # Original Python implementation
 ├── tests/                           # Original Python tests
 ├── rust-port/
-│   ├── src/                         # Rust library and CLI
-│   ├── tests/python_parity.rs       # Python-reference parity tests
+│   ├── src/                         # Rust library, CLI, adapter
+│   ├── tests/python_parity.rs       # Python-reference integration tests
 │   ├── README.md
 │   └── ARCHITECTURE.md
 ├── parity/
-│   ├── differential_fuzz.py
-│   ├── PYTHON_TEST_COVERAGE.md
-│   ├── BENCHMARK_RESULTS.md
-│   └── benchmark_results.json
-└── PORT_MORTEM_2026.md              # Hackathon submission guide
+│   ├── original_suite_adapter/      # Thin Python test boundary
+│   ├── cli/                         # Explicit CLI equivalence harness
+│   ├── test_hashes/                 # Canonical test manifests
+│   ├── evidence/                    # Verification and audit evidence
+│   └── PYTHON_TEST_COVERAGE.md
+├── fuzz/                            # Differential evidence
+├── bench/                           # p99/RSS benchmark package
+├── audit/                           # Generated metrics tooling
+├── EVIDENCE_INDEX.md
+└── PORT_MORTEM_2026.md
 ```
 
 ## License

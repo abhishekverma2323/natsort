@@ -15,15 +15,20 @@ Each decision explains:
 
 ## Related documentation
 
+- `README.md`
+- `EVIDENCE_INDEX.md`
 - `PORT_MORTEM_2026.md`
 - `rust-port/ARCHITECTURE.md`
 - `rust-port/README.md`
 - `parity/PYTHON_TEST_COVERAGE.md`
-- `parity/BENCHMARK_RESULTS.md`
+- `bench/methodology.md`
+- `bench/report.md`
+- `fuzz/log.txt`
+- `HONEST_NUMBERS.md`
 - `UNSAFE_AUDIT.md`
-- `evidence/differential_fuzz_65s.json`
 
 ---
+
 ## Decision 1 — Target observable behavior instead of Python internals
 
 ### Context
@@ -938,39 +943,261 @@ and make the submission more credible.
 
 ---
 
+## Decision 21 — Reject a Python-side behavioral facade
+
+### Context
+
+An early compatibility approach could satisfy Python tests by recreating
+behavior in Python while the Rust port remained incomplete. Passing tests
+through that route would not prove a working port.
+
+### Decision
+
+Remove the copied behavioral facade and require the unmodified original suite
+to obtain every sorting, parsing, numeric, path, locale, and CLI decision from
+the Rust adapter executable.
+
+The Python boundary may only provide transport, callback invocation,
+Python-specific representation wrapping, and host-version compatibility.
+
+### Alternatives considered
+
+- Keep a Python reimplementation as a fallback.
+- Claim parity from the Rust-only test inventory.
+- Rewrite the original tests for a Rust-native interface.
+
+### Rationale
+
+A port is proven only when the original behavioral inventory executes against
+the target-language implementation.
+
+### Impact and trade-off
+
+- The original suite takes longer because compatibility calls cross a process
+  boundary.
+- Hypothesis deadlines are disabled in the compatibility runner because the
+  subprocess boundary measures validation overhead rather than algorithmic
+  correctness.
+- The production Rust library and CLI remain Python-independent.
+- A missing or failing Rust adapter cannot be replaced by a Python sorting
+  path.
+
+### Evidence
+
+- `parity/original_suite_adapter/`
+- `parity/run_original_suite_against_rust.py`
+- `parity/evidence/genuine_full_suite_final.txt`
+- `rust-port/src/python_compat.rs`
+- `rust-port/src/bin/original_suite_adapter.rs`
+
+---
+
+## Decision 22 — Verify original tests with canonical Git blobs
+
+### Context
+
+Raw working-tree bytes can differ across Windows and Linux because Git may
+convert CRLF and LF line endings. A byte hash of checked-out files therefore
+can report a false modification.
+
+### Decision
+
+Compare the pinned source commit and current submission using canonical Git
+blob content. Separately reject any added, removed, staged, unstaged, or
+untracked test files.
+
+### Alternatives considered
+
+- Hash working-tree files directly.
+- Trust `git status` without a manifest.
+- Normalize line endings manually before hashing.
+
+### Rationale
+
+Git blobs are the repository's canonical content representation and remain
+stable across checkout policies.
+
+### Impact and trade-off
+
+- All 19 original test files have identical source/submission manifests.
+- Line-ending conversion does not weaken the check.
+- The verification remains reproducible with one command.
+
+### Evidence
+
+- `parity/verify_original_tests.py`
+- `parity/test_hashes/source.sha256`
+- `parity/test_hashes/submission.sha256`
+- `parity/test_hashes/verification.txt`
+
+---
+
+## Decision 23 — Add an explicit shared-input CLI diff
+
+### Context
+
+Unit tests and successful compilation do not directly show that two command
+line programs emit the same bytes, exit codes, and errors on shared inputs.
+
+### Decision
+
+Run the original Python CLI and standalone Rust release CLI on one committed
+case matrix with identical arguments, stdin bytes, locale, and working
+directory.
+
+Successful cases compare exit code, stdout, and stderr byte-for-byte. Error
+cases compare exact exit/stdout and the final diagnostic after normalizing only
+the executable display name, line endings, and wrapping whitespace.
+
+### Alternatives considered
+
+- Show a few manually copied examples.
+- Compare only sorted output.
+- Treat the original Python CLI tests as sufficient evidence.
+
+### Rationale
+
+A committed unified diff is easy for judges to inspect and difficult to
+misinterpret.
+
+### Impact and trade-off
+
+- 17 successful cases match exactly.
+- 3 error cases match under the documented diagnostic normalization.
+- Both committed diff files are empty.
+- Raw outputs and exit codes remain available for every case.
+
+### Evidence
+
+- `parity/cli/run_cli_equivalence.py`
+- `parity/evidence/cli/summary.json`
+- `parity/evidence/cli/cli_success_output.diff`
+- `parity/evidence/cli/cli_output.diff`
+- `parity/evidence/cli/raw/`
+
+---
+
+## Decision 24 — Measure startup, percentiles, and memory separately
+
+### Context
+
+The historical in-process benchmark measured sorting work after warm-up but
+did not answer judge-facing questions about startup, p99 latency, or peak RSS.
+
+### Decision
+
+Retain the in-process optimization benchmark and add a second end-to-end CLI
+benchmark that records:
+
+- fresh-process startup;
+- p50, p95, and p99 latency;
+- median throughput;
+- peak RSS;
+- binary size;
+- raw samples, corpus hashes, and environment metadata.
+
+### Alternatives considered
+
+- Replace historical results with one favorable headline.
+- Report mean or best-run latency only.
+- Exclude process startup from all published evidence.
+- Measure Python and Rust with different corpora.
+
+### Rationale
+
+The two benchmark layers answer different questions. Publishing both prevents
+a favorable methodology from hiding cold-start or memory behavior.
+
+### Impact and trade-off
+
+- Rust is 17.1× faster at startup p50.
+- Rust is 12.5× faster on the default 1,000-item p50 workload.
+- Rust remains 2.2× faster at 50,000 items, where the margin narrows.
+- Median RSS reduction narrows from 82.4% at 1,000 items to 10.1% at 50,000.
+- Raw samples make unusual variance inspectable.
+
+### Evidence
+
+- `bench/methodology.md`
+- `bench/results.json`
+- `bench/raw_latency_samples.json`
+- `bench/raw_rss_samples.json`
+- `bench/environment.json`
+- `bench/report.md`
+
+---
+
+## Decision 25 — Generate evidence from clean committed states
+
+### Context
+
+Evidence produced while harness or implementation files are uncommitted cannot
+be tied unambiguously to a repository revision.
+
+### Decision
+
+Commit each harness before its final run, record the implementation commit and
+binary hash where applicable, and retain raw logs or checksums alongside the
+summary.
+
+### Alternatives considered
+
+- Record only screenshots.
+- Generate all evidence after documentation edits without provenance.
+- Store only rounded headline numbers.
+
+### Rationale
+
+Commit provenance makes every long-running proof independently auditable.
+
+### Impact and trade-off
+
+- CLI, fuzz, benchmark, Docker, and audit artifacts record exact revisions.
+- Some evidence files refer to different sequential commits because each
+  proof layer was added and committed before the next one.
+- Later evidence/documentation commits do not silently rewrite earlier raw
+  results.
+
+### Evidence
+
+- `EVIDENCE_INDEX.md`
+- `parity/evidence/cli/summary.json`
+- `fuzz/results.json`
+- `bench/environment.json`
+- `parity/evidence/docker_image_metadata.txt`
+- `parity/evidence/audit/project_metrics.json`
+
+---
+
 ## Verification summary
 
 Current committed verification includes:
 
-- 344 original Python tests passed;
-- 377 Rust tests passed;
-- 176 Python-reference parity tests passed;
-- 200 deterministic differential cases passed in CI;
-- 1,523 cases passed during a 65.01989-second survivor run;
-- zero survivor-run divergences;
-- Ubuntu and Windows Rust CI.
-
-The survivor evidence was generated from harness commit:
-
-`c059868ee3c457897d3226332db7affc6df2110f`
-
-The evidence files were committed separately so the exact tested harness
-revision remains identifiable.
+- 19 / 19 original test files matching the pinned source commit;
+- 344 / 344 original Python tests passing against Rust-backed behavior;
+- 381 Rust library tests passing;
+- 176 Rust Python-reference parity tests passing;
+- 20 / 20 shared CLI cases matching with both diff files empty;
+- 11,727 differential fuzz cases with zero divergences;
+- successful fresh-clone verification;
+- successful Docker build and full verification;
+- end-to-end startup, p50/p95/p99, throughput, and peak-RSS evidence;
+- one generated honest-number and first-party unsafe audit.
 
 ## Accurate submission claim
 
-> This project is a high-coverage, behaviorally faithful, standalone
-> Python-to-Rust migration of natsort. It replaces Python's dynamic internals
-> with typed Rust modules, preserves difficult numeric, Unicode, locale, path,
-> CLI, and mixed-value behavior, and supports its claims with unit tests,
-> Python-reference parity tests, deterministic differential fuzzing,
-> cross-platform CI, an explicit unsafe audit, and reproducible benchmarks.
+> This project is a standalone, behaviorally faithful Python-to-Rust migration
+> of `natsort`. The complete unmodified original suite passes against
+> Rust-backed behavior, and difficult numeric, Unicode, locale, path,
+> mixed-value, and CLI behavior is supported by independent tests, exact CLI
+> diffs, differential fuzzing, fresh-clone and Docker verification, raw
+> benchmarks, and a generated safety audit.
 
 The project does not claim:
 
 - identical Python internals;
-- complete Python codec-registry support;
+- the complete Python codec registry;
 - lossless sorting of arbitrary non-UTF-8 paths;
 - zero first-party unsafe;
-- universal 100% API identity;
-- performance metrics that were not measured.
+- universal internal API identity;
+- benchmark metrics outside the committed methodology.

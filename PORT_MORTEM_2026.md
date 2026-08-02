@@ -5,319 +5,371 @@
 | Field | Value |
 |---|---|
 | Source project | `SethMMorton/natsort` |
-| Migration track | Python → Rust |
+| Source baseline | `b543bdce8771b6e7a7dae0c6745ddf7e80299797` |
+| Migration track | Track D · Python → Rust |
+| Port repository | `abhishekverma2323/natsort` |
+| Submission branch | `python-to-rust-port` |
 | Rust crate | `rust-port` |
 | License | MIT |
-| Working branch | `python-to-rust-port` |
-| Migration approach | Behavior-first, oracle-driven, typed Rust redesign |
+| Approach | Behavior-first, oracle-driven, typed Rust redesign |
 
 ## Executive summary
 
-This submission migrates the core observable behavior of Python's `natsort`
-library into an idiomatic Rust crate and CLI.
+This submission ports the observable behavior of Python's mature `natsort`
+library into a standalone Rust crate and CLI.
 
-The port handles substantially more than the basic `"file2" < "file10"`
-example. It includes:
+The project is not a toy `"file2" < "file10"` comparator. It implements:
 
-- arbitrary-precision integer and decimal comparison,
-- signed numbers and scientific notation,
-- Unicode decimal, digit, and numeric characters,
-- locale-aware and Czech-specific collation,
-- path-aware and OS-aware ordering,
-- mixed typed values and nested sequences,
-- bytes with ASCII, UTF-8, and Latin-1 decoders,
-- Python-compatible CLI behavior,
-- sorting indexes and lazy index reordering,
-- cross-platform CI,
-- deterministic Python-vs-Rust differential fuzzing,
-- reproducible performance benchmarks.
+- arbitrary-precision integers and decimals;
+- signed values, floating-point values, scientific notation, and `NOEXP`;
+- Unicode decimal, digit, and broad numeric-character behavior;
+- Unicode normalization and case modes;
+- locale-aware numeric normalization and ICU4X collation;
+- cross-platform path parsing and OS-aware ordering;
+- mixed typed values and nested sequences;
+- bytes with explicit ASCII, UTF-8, and Latin-1 decoding;
+- key generation, index sorting, and lazy index reordering;
+- Python-compatible CLI input, output, filters, exclusions, and errors.
 
-The original Python package remains in the repository and is used as the
-behavioral oracle.
+The original Python implementation and tests are retained unchanged. They act
+as the behavioral oracle; production Rust remains independent of Python.
 
-## Why this migration is difficult
+## The migration challenge
 
-Natural sorting is not equivalent to splitting ASCII digits and calling
-`parse::<u64>()`.
-
-Compatibility requires correct behavior for:
-
-- values larger than fixed-width integers,
-- numerically equivalent spellings with stable order,
-- signed zero and extreme exponents,
-- Unicode numeric categories beyond `0`–`9`,
-- locale grouping and decimal separators,
-- ICU collation and language-specific ordering,
-- Windows and Unix path conventions,
-- mixed bytes, text, numbers, `None`, NaN, and infinities,
-- Python CLI input/output edge cases.
-
-The Rust implementation addresses these as typed subsystems rather than a
-single ad-hoc comparator.
-
-## Evidence
-
-### Automated tests
-
-Latest verified local result:
+Natural sorting combines several domains whose edge cases interact:
 
 ```text
-377 Rust library tests passed
-176 Python-reference parity tests passed
-0 failed
+dynamic Python values
++ arbitrary numeric precision
++ Unicode normalization and numeric categories
++ locale collation and number punctuation
++ paths and operating-system conventions
++ stable ordering for equivalent values
++ CLI byte-level behavior
 ```
 
-The original Python suite is retained as the source behavior inventory.
+A fixed-width integer parser or ASCII-only split is insufficient. For example,
+the port must distinguish or equate values correctly across:
+
+- huge integers beyond `u64`;
+- `1`, `01`, and `1.0` under stable ordering;
+- signed zero, infinities, NaN, and extreme exponents;
+- Arabic-Indic, Devanagari, fullwidth, circled, fractional, and Roman numerics;
+- German, French, English, Czech, C/POSIX, and system-locale profiles;
+- nested directories, Windows separators, hidden files, and suffix heuristics;
+- text, bytes, direct numbers, `None`, and nested sequences.
+
+The Rust implementation addresses these as typed, independently tested modules.
+
+## A critical engineering correction
+
+During development, an early Python-side compatibility facade could make tests
+pass without proving a real port. That approach was rejected and removed.
+
+The final validation architecture is:
+
+```text
+Unmodified original tests
+        ↓
+Thin Python transport / callback / representation boundary
+        ↓
+Rust original-suite-adapter executable
+        ↓
+Rust sorting, parsing, numeric, Unicode, locale, path, and CLI logic
+```
+
+The compatibility boundary does not contain a copied natural-sorting
+algorithm. It may serialize Python values, invoke arbitrary Python callbacks,
+and preserve Python-specific wrappers, but behavioral decisions are returned
+by Rust.
+
+This redesign is why the final **344 / 344** result is meaningful.
+
+## Working-port proof
+
+### Original tests are unmodified
+
+The repository pins the source baseline and compares every tracked file in
+`tests/` using canonical Git blob content:
+
+```text
+source_test_files=19
+submission_test_files=19
+problems=0
+```
+
+This avoids false differences caused by CRLF/LF checkout conversion while
+still detecting added, removed, staged, unstaged, or modified test files.
+
+### Complete original suite runs against Rust
+
+```text
+344 passed, 3 warnings
+PYTEST_EXIT_CODE=0
+```
+
+The runner prints both the Rust-backed Python package path and the Rust adapter
+binary path before invoking the original suite.
+
+### Independent reproduction
+
+The same verification passed in:
+
+- the development checkout;
+- a fresh single-branch clone;
+- the supplied Docker image.
+
+The Docker run produced:
+
+```text
+381 Rust library tests passed
+176 Rust Python-reference parity tests passed
+344 original tests passed
+DOCKER_VERIFY_EXIT_CODE=0
+```
+
+Primary artifacts are indexed in `EVIDENCE_INDEX.md`.
+
+## Actual behavioral equivalence
+
+### Rust tests
+
+```text
+381 Rust library tests
+176 Python-reference integration tests
+0 failures
+```
+
+The integration suite contains committed reference behavior from the original
+Python implementation and covers flags, numeric families, Unicode, locales,
+paths, mixed values, bytes, OS profiles, and CLI behavior.
+
+### Explicit CLI diff
+
+The original Python CLI and standalone Rust release CLI receive identical
+arguments, stdin bytes, locale, and working directory.
+
+```text
+20 shared cases
+17 successful cases compared byte-for-byte
+3 error cases compared by exit/stdout and normalized final diagnostic
+20 matched
+0 mismatches
+both unified diffs empty
+```
+
+Raw stdout, stderr, and exit codes remain committed for inspection.
 
 ### Differential fuzzing
 
-Extended local run:
+Final session:
 
 ```text
-Seed: 20260801
-Cases: 1,000
-Result: 1,000 / 1,000 passed
+Seed: 20260802
+Fixed-count: 5,000 / 5,000 matched
+Duration: 120.022739 seconds
+Duration cases: 6,727 / 6,727 matched
+Combined: 11,727 cases
+Divergences: 0
 ```
 
-Bounded CI run:
+All six modes were exercised in both runs:
 
 ```text
-Seed: 20260801
-Cases: 200
-Result: 200 / 200 passed
-Modes: default, float, real, signed_int, float_noexp, path
+default · float · real · signed_int · float_noexp · path
 ```
 
-A failure produces a JSON reproduction containing the seed, exact case,
-arguments, stdin bytes, Python result, Rust result, return code, and stderr.
+Failures would create a reproduction payload containing seed, case, mode,
+arguments, stdin bytes, expected output, actual output, exit code, and stderr.
 
-### Cross-platform CI
+## Architecture
 
-The `Rust CI` workflow runs:
-
-- formatting,
-- all-target tests,
-- Clippy with warnings denied,
-- release CLI build,
-- release benchmark build,
-- Linux CLI smoke test,
-- Windows CLI smoke test,
-- Ubuntu Python-vs-Rust differential fuzzing.
-
-### Performance
-
-Rust is faster in all 15 committed benchmark configurations.
-
-| Mode | Median speedup |
-|---|---:|
-| Default | 2.12× |
-| Float | 4.10× |
-| Real | 4.47× |
-| Path | 5.04× |
-| Locale | 1.67× |
-
-Largest individual measured result:
+### Core pipeline
 
 ```text
-Path mode, 1,000 entries: 5.51× faster
+SortOptions / AlgorithmFlags
+        ↓
+text, Unicode, locale, and path transforms
+        ↓
+numeric-token recognition
+        ↓
+typed natural keys
+        ↓
+stable cached-key comparison
+        ↓
+sorted clones, values, or indexes
 ```
 
-The comparison uses identical deterministic datasets and measures only
-in-process sorting after warm-up.
+### Key design choices
 
-## Compatibility overview
+- **Typed dynamic values:** `NaturalValue` replaces arbitrary Python object
+  dispatch without using `Any` or downcasting.
+- **Arbitrary precision:** normalized numeric parts preserve huge integers,
+  high-precision decimals, and extreme exponents.
+- **Stable equivalence:** equal natural keys retain original input order.
+- **Key caching:** inputs are tokenized once before comparison.
+- **Unicode separation:** decimal, digit, and broader numeric categories remain
+  distinct.
+- **ICU4X locale keys:** explicit locale profiles replace global Python locale
+  state.
+- **Dedicated paths and OS profiles:** generic lexical paths and native
+  OS-aware ordering remain separate APIs.
+- **Safe alternatives:** fallible operations expose `Result` forms.
 
-| Python behavior | Rust status | Evidence |
+Detailed module responsibilities are in `rust-port/ARCHITECTURE.md`.
+
+## Compatibility matrix
+
+| Behavior | Rust status | Main evidence |
 |---|---|---|
 | Natural integer sorting | Direct | unit + parity + fuzz |
-| Leading zeros and stable ties | Direct | unit + parity |
-| Arbitrary-size integers | Direct | unit + parity |
-| Float, real, signs, exponent, NOEXP | Direct | unit + parity + fuzz |
-| Unicode decimals/digits/numerics | Direct | generated data + exhaustive scalar scan |
-| Case transforms and normalization | Direct/Semantic | unit + parity |
-| Locale alphabetic/numeric sorting | Direct | ICU profiles + parity |
-| Czech `cs_CZ` regression | Direct | issue #140 corpus |
+| Leading-zero stability | Direct | unit + original suite |
+| Arbitrary-size numbers | Direct | unit + original suite |
+| Float/real/sign/exponent/NOEXP | Direct | unit + parity + fuzz |
+| Unicode decimal/digit/numeric | Direct | generated data + exhaustive tests |
+| Case and normalization modes | Direct/Semantic | unit + original suite |
+| Locale sorting | Direct/Semantic | ICU profiles + parity |
+| Czech issue #140 regression | Direct | dedicated corpus |
 | Path strings | Direct | unit + parity + fuzz |
-| Direct `Path`/`PathBuf` input | Rust API equivalent | dedicated APIs |
-| OS-aware sorting | Direct/Semantic | Windows/Unix profiles |
-| Mixed and nested values | Typed Rust equivalent | `NaturalValue` tests |
+| Direct `Path`/`PathBuf` input | Rust equivalent | dedicated APIs |
+| OS-aware sorting | Direct/Semantic | Windows/Unix profile tests |
+| Mixed and nested values | Rust equivalent | `NaturalValue` |
 | Bytes decoding | Direct/Semantic | ASCII, UTF-8, Latin-1 |
-| Key generation | Typed Rust equivalent | key/keygen tests |
-| Index sorting | Direct | unit + parity |
-| Lazy `order_by_index` | Rust iterator equivalent | iterator tests |
-| CLI | Mostly direct | unit + parity + smoke + fuzz |
-| Python internal factories | N/A | replaced by typed modules |
-| Python key tuple representation | Language-specific | `NaturalKey` |
+| Key generation | Rust equivalent | typed keys/generators |
+| Index sorting and reordering | Direct/Rust equivalent | eager + lazy APIs |
+| CLI | Direct/Semantic | original suite + explicit diff |
+| Python private factories | Replaced | typed Rust modules |
+| Python tuple key shape | Language-specific | `NaturalKey` |
 
-Full mapping: `parity/PYTHON_TEST_COVERAGE.md`.
+Full file-level inventory: `parity/PYTHON_TEST_COVERAGE.md`.
 
-## Architecture highlights
+## Performance and memory
 
-The migration is divided into independently tested layers:
+Two benchmark layers are retained:
+
+1. historical in-process optimization benchmarks under `parity/`;
+2. final judge-facing end-to-end CLI benchmarks under `bench/`.
+
+The final benchmark includes process startup, argument parsing, stdin reading,
+sorting, output generation, and termination.
+
+### Latency
+
+| Scenario | Rust p50 speedup | Rust p99 speedup |
+|---|---:|---:|
+| Startup | 17.1× | 13.8× |
+| Default 1,000 | 12.5× | 10.2× |
+| Float 1,000 | 13.0× | 9.3× |
+| Real 1,000 | 13.0× | 9.3× |
+| Path 1,000 | 12.8× | 13.5× |
+| Locale 1,000 | 14.3× | 8.2× |
+| Default 10,000 | 8.0× | 6.9× |
+| Default 50,000 | 2.2× | 3.9× |
+
+### Peak RSS
+
+| Corpus | Python median | Rust median | Reduction |
+|---|---:|---:|---:|
+| Default 1,000 | 17,496 KiB | 3,076 KiB | 82.4% |
+| Default 10,000 | 20,136 KiB | 7,928 KiB | 60.6% |
+| Default 50,000 | 31,704 KiB | 28,504 KiB | 10.1% |
+
+The reduced advantage on the largest corpus is reported rather than hidden.
+Raw samples and environment details are committed.
+
+## Safety and dependency audit
+
+Generated audit:
 
 ```text
-options
-  → text/path/locale transformation
-  → numeric tokenization
-  → typed natural keys
-  → stable index comparison
-  → cloned values or sorted indexes
+First-party unsafe blocks:       1
+Foreign ABI declarations:       1
+Unsafe functions:               0
+Direct Cargo dependencies:      7
+Locked Cargo packages:          49
+Rust release binary:            2,194,280 bytes
 ```
 
-Important design decisions:
-
-- Cache keys before sorting to avoid repeated tokenization.
-- Preserve arbitrary numeric precision.
-- Keep mixed values typed through `NaturalValue`.
-- Use ICU4X for locale sort keys.
-- Expose dedicated path and OS-sort APIs.
-- Pair convenience APIs with safe `Result` alternatives.
-- Treat Python as an oracle, not as an architecture template.
-
-Detailed design: `rust-port/ARCHITECTURE.md`.
-
-## Repository guide
-
-```text
-rust-port/src/                     Rust library and CLI implementation
-rust-port/tests/python_parity.rs   Python-reference integration suite
-rust-port/README.md                User-facing crate guide
-rust-port/ARCHITECTURE.md          Technical design
-parity/differential_fuzz.py        Live Python-vs-Rust fuzz oracle
-parity/PYTHON_TEST_COVERAGE.md     Compatibility inventory
-parity/BENCHMARK_RESULTS.md        Human-readable performance report
-parity/benchmark_results.json      Raw benchmark evidence
-.github/workflows/rust-ci.yml      Linux, Windows, and fuzz CI
-```
+The only unsafe operation is a narrowly scoped Windows-only call to
+`StrCmpLogicalW`. Its UTF-16 buffer lifetime and ownership invariants are
+documented adjacent to the call. `rust-port/scripts/check_unsafe.sh` causes CI
+to fail if the first-party unsafe surface expands.
 
 ## Reproduction commands
 
-### Verify the Rust port
-
 ```bash
-cd rust-port
-cargo fmt --all -- --check
-cargo test --all-targets
-cargo clippy --all-targets -- -D warnings
+make build
+make verify
+make cli-diff
+make fuzz
+make bench-final
+make audit-final
 ```
 
-### Build and demonstrate the CLI
+Full non-mutating submission gate:
 
 ```bash
-cargo build --release --bin natsort
-
-./target/release/natsort \
-  file10 file2 file1 value20 value3
+make submission-check
 ```
 
-### Run differential fuzzing
-
-From the repository root with the Python package installed:
+Docker:
 
 ```bash
-python parity/differential_fuzz.py \
-  --cases 1000 \
-  --seed 20260801
+docker build -t natsort-rust-port .
+docker run --rm natsort-rust-port
 ```
 
-### Re-run benchmarks
+## Repository guide
 
-```bash
-python parity/run_benchmarks.py \
-  --seed 20260801 \
-  --sizes 1000 10000 50000
-```
+| Location | Purpose |
+|---|---|
+| `rust-port/src/` | Rust library, CLI, compatibility adapter |
+| `rust-port/tests/python_parity.rs` | Python-reference integration suite |
+| `parity/original_suite_adapter/` | Thin Python test boundary |
+| `parity/test_hashes/` | Canonical original/submission test manifests |
+| `parity/evidence/` | Working-port, CLI, Docker, and audit evidence |
+| `fuzz/` | Differential harness, logs, checksums, summaries |
+| `bench/` | Methodology, raw samples, p99/RSS results |
+| `audit/` | Reproducible metrics generator |
+| `DECISIONS.md` | Engineering trade-offs and rejected alternatives |
+| `EVIDENCE_INDEX.md` | Claim-to-proof map |
 
-## Suggested judge demo
+## Honest limitations
 
-A compact five-minute walkthrough:
+- The Python compatibility boundary uses subprocess IPC and is not presented
+  as production performance.
+- Error-message comparison normalizes only executable display names, line
+  endings, and wrapping whitespace.
+- Built-in decoders are ASCII, UTF-8, and Latin-1—not Python's entire codec
+  registry.
+- Non-UTF-8 Rust paths use documented lossy text conversion.
+- Locale and OS-sort behavior can depend on platform profile and locale data;
+  Docker pins the Linux validation environment.
+- Native Windows system-profile sorting retains one documented FFI call.
+- Python's private factories and exact tuple key layouts are intentionally
+  replaced by typed Rust structures.
 
-1. **Show the migration boundary**
-   - original Python package in the root,
-   - Rust crate under `rust-port/`.
+## Why this submission is credible
 
-2. **Run basic and advanced CLI examples**
-   - natural filenames,
-   - signed scientific numbers,
-   - mixed path separators.
-
-3. **Show typed Rust APIs**
-   - `NaturalValue`,
-   - `natsorted_paths`,
-   - lazy `order_by_index_iter`.
-
-4. **Run tests**
-   - `cargo test --all-targets`.
-
-5. **Run a short live differential check**
-   - 50 deterministic Python-vs-Rust cases.
-
-6. **Open benchmark results**
-   - emphasize all 15 configurations,
-   - highlight 5.04× median path speedup.
-
-7. **Open CI**
-   - Ubuntu,
-   - Windows,
-   - deterministic differential fuzz job.
-
-## Honest language-specific differences
-
-This is not a line-for-line rewrite and does not claim identical Python
-internals.
-
-Documented differences:
-
-- Python's dynamic values become `NaturalValue`.
-- Python tuple keys become typed `NaturalKey` values.
-- Python exceptions become Rust errors or documented convenience panics.
-- Only ASCII, UTF-8, and Latin-1 built-in decoders are provided.
-- `Path` values are sorted through text and therefore use lossy conversion for
-  non-UTF-8 paths.
-- Python-only internal factories, fixtures, and profiling tools are not public
-  Rust APIs.
-
-These differences do not weaken the targeted sorting behavior; they make the
-migration explicit and idiomatic for Rust.
-
-## Submission checklist
-
-- [x] Original source project retained
-- [x] Rust implementation isolated in `rust-port`
-- [x] Core and advanced sorting behavior migrated
-- [x] Python-reference parity suite
-- [x] Deterministic differential fuzzing
-- [x] Linux CI
-- [x] Windows CI
-- [x] Clippy warnings denied
-- [x] Release CLI
-- [x] Reproducible benchmark harness
-- [x] Before/after optimization evidence
-- [x] Compatibility inventory
-- [x] Architecture documentation
-- [x] Known differences documented
-- [x] Judge demo flow documented
-
-## Key implementation milestones
+The project does not ask judges to trust a percentage written in a README.
+It supplies independent, inspectable proof layers:
 
 ```text
-CLI compatibility
-Differential fuzzing and path normalization
-Cached-key performance optimization
-Cross-platform CI
-CLI whitespace and full numeric corpus parity
-Latin-1 decoder compatibility
-Direct Path/PathBuf APIs and lazy index ordering
-Czech locale and exhaustive Unicode validation
-Deterministic differential fuzzing in CI
+canonical source/test hashes
++ complete original suite
++ Rust unit and parity tests
++ exact CLI output diffs
++ differential fuzzing
++ fresh-clone verification
++ Docker verification
++ raw benchmark samples
++ generated safety/metrics audit
 ```
 
 ## Final claim
 
-The submission demonstrates a high-coverage, behaviorally faithful migration
-of a mature Python natural-sorting library into an idiomatic, tested, faster,
-cross-platform Rust implementation.
-
-It deliberately avoids claiming byte-for-byte or internal API identity.
-Instead, it provides reproducible evidence for the public sorting behaviors
-that matter.
+This is a standalone, behaviorally faithful Rust migration of `natsort` with
+the complete unmodified original suite passing against Rust-backed behavior.
+The difficult numeric, Unicode, locale, path, mixed-value, and CLI surfaces are
+covered by independent evidence, while language-specific differences and the
+single native FFI boundary are documented explicitly.

@@ -179,8 +179,8 @@ Sorting repeatedly compares the same inputs. The optimized implementation
 precomputes natural keys and sorts indexes over those cached keys instead of
 re-tokenizing during every comparator call.
 
-This change is the main performance foundation behind the committed benchmark
-results, where Rust is faster in all 15 configurations.
+This change is the main performance foundation behind both the historical
+in-process benchmark and the final end-to-end startup/p99/RSS benchmark.
 
 ## Error strategy
 
@@ -199,15 +199,47 @@ its position, and the input length.
 
 ## Verification architecture
 
-The project uses four complementary layers:
+The project uses independent proof layers rather than one aggregate percentage:
 
-1. Rust unit tests for module-level behavior and invariants.
-2. Python-reference integration tests for observable compatibility.
-3. Deterministic differential fuzzing against the live Python oracle.
-4. Cross-platform GitHub Actions on Ubuntu and Windows.
+1. **Rust unit tests** validate module-level invariants.
+2. **Python-reference integration tests** validate committed observable
+   behavior across the Rust API and CLI.
+3. **The complete unmodified original suite** runs through a thin
+   Python-to-Rust compatibility boundary.
+4. **Explicit CLI diffing** compares shared inputs, output bytes, errors, and
+   exit codes.
+5. **Deterministic differential fuzzing** compares generated inputs against the
+   live original Python oracle.
+6. **Fresh-clone and Docker verification** prove reproducibility outside the
+   development checkout.
+7. **Raw latency/RSS benchmarks and generated audits** make performance,
+   dependency, LOC, and unsafe claims inspectable.
 
-The fuzzer records a complete reproduction payload on failure, while CI
-uploads that payload as an artifact.
+### Original-suite adapter
+
+```text
+Original pytest suite
+    │
+    ├── Python callback invocation where the public API accepts callbacks
+    ├── Python-specific identity and wrapper preservation
+    ├── value serialization / response decoding
+    └── host-Unicode-version compatibility
+    │
+    ▼
+original-suite-adapter Rust executable
+    │
+    ▼
+Rust parsing, sorting, locale, path, value, and CLI implementation
+```
+
+The adapter design deliberately excludes a Python behavioral fallback.
+Production Rust builds do not require Python.
+
+### Evidence provenance
+
+Long-running evidence records the exact tested commit, deterministic seed,
+binary SHA-256, raw samples, or checksums. The claim-to-proof map is maintained
+in `EVIDENCE_INDEX.md`.
 
 ## Migration boundaries
 

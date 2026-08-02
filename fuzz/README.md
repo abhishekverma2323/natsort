@@ -1,19 +1,66 @@
 # Differential Fuzzing
 
-The canonical harness entry point is:
+The maintained harness is `parity/differential_fuzz.py`; `fuzz/harness.py`
+provides the canonical judge-facing entry point.
+
+## Quick deterministic check
 
 ```bash
 make fuzz
 ```
 
-`fuzz/harness.py` delegates to the maintained implementation at
-`parity/differential_fuzz.py`.
+This runs 1,000 generated cases with seed `20260801`.
 
-Existing final-duration evidence is currently stored under `evidence/`:
+## Final committed session
 
-- `evidence/differential_fuzz_65s.json`
-- `evidence/differential_fuzz_65s.log`
-- `evidence/differential_fuzz_65s.sha256`
+```text
+Seed: 20260802
+Fixed-count run: 5,000 / 5,000 matched
+Duration run: 120.022739 seconds
+Duration cases: 6,727 / 6,727 matched
+Total cases: 11,727
+Divergences: 0
+```
 
-A final rerun against the submission commit will be recorded as `fuzz/log.txt`
-with its seed, duration, case count, and divergence count.
+All six modes were exercised:
+
+```text
+default
+float
+real
+signed_int
+float_noexp
+path
+```
+
+Artifacts:
+
+- `fuzz/log.txt`
+- `fuzz/results.json`
+- `fuzz/evidence/count_summary.json`
+- `fuzz/evidence/duration_summary.json`
+- `fuzz/evidence/count_run.log`
+- `fuzz/evidence/duration_run.log`
+- `fuzz/checksums.sha256`
+
+## Reproduce the two final run shapes
+
+```bash
+.port-venv/bin/python parity/differential_fuzz.py \
+  --cases 5000 \
+  --seed 20260802 \
+  --python-oracle .port-venv/bin/python \
+  --summary-file /tmp/natsort-count-summary.json
+```
+
+```bash
+.port-venv/bin/python parity/differential_fuzz.py \
+  --duration-seconds 120 \
+  --seed 20260802 \
+  --python-oracle .port-venv/bin/python \
+  --summary-file /tmp/natsort-duration-summary.json
+```
+
+A divergence writes `parity/differential_fuzz_failure.json` with the seed,
+exact input, mode, arguments, Python result, Rust result, return codes, and
+stderr needed to reproduce the failure.
