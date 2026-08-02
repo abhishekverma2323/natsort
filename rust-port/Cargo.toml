@@ -17,3 +17,7 @@ sys-locale = "0.3.2"
 [[bin]]
 name = "natsort"
 path = "src/bin/natsort.rs"
+
+[[bin]]
+name = "original-suite-adapter"
+path = "src/bin/original_suite_adapter.rs"
