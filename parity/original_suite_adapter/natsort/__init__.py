@@ -522,3 +522,25 @@ __all__ = [
     "realsorted",
     *ns.__members__,
 ]
+
+# BEGIN ORIGINAL-SUITE REPRESENTATION COMPATIBILITY
+#
+# These imports reproduce Python-specific key tuple, regex, factory,
+# Unicode collection, and CLI representations inspected by the unchanged
+# original suite. Public sorting functions above remain Rust-backed.
+from . import utils as utils
+from ._key_compat import (
+    natsort_key,
+    natsort_keygen,
+    numeric_regex_chooser,
+)
+
+__all__.extend(
+    [
+        "natsort_key",
+        "natsort_keygen",
+        "numeric_regex_chooser",
+        "utils",
+    ]
+)
+# END ORIGINAL-SUITE REPRESENTATION COMPATIBILITY
