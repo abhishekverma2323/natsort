@@ -67,3 +67,9 @@ docker-build:
 clean:
 	rm -rf $(VENV)
 	cargo clean --manifest-path $(CARGO_MANIFEST)
+
+.PHONY: cli-diff
+cli-diff: setup build
+	$(VENV_PYTHON) parity/cli/run_cli_equivalence.py \
+		--python-executable $(VENV_PYTHON) \
+		--rust-binary rust-port/target/release/natsort
