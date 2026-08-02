@@ -2,7 +2,11 @@ use std::env;
 use std::io::{self, Read, Write};
 use std::process::ExitCode;
 
-use rust_port::{AlgorithmFlags, SortOptions, natsorted_with_options};
+use num_bigint::BigInt;
+use rust_port::{
+    AlgorithmFlags, NaturalValue, SortOptions, index_natsorted_values_with_options,
+    natsorted_with_options,
+};
 
 fn emit_flags() {
     let flags = [
@@ -147,6 +151,148 @@ fn sort_strings(algorithm_bits: i64, reverse: bool) -> Result<(), String> {
     Ok(())
 }
 
+fn read_bytes<'a>(input: &'a [u8], offset: &mut usize, length: usize) -> Result<&'a [u8], String> {
+    let end = offset
+        .checked_add(length)
+        .ok_or_else(|| "typed request boundary overflowed".to_string())?;
+
+    let bytes = input
+        .get(*offset..end)
+        .ok_or_else(|| "typed request ended unexpectedly".to_string())?;
+
+    *offset = end;
+    Ok(bytes)
+}
+
+fn decode_natural_value(input: &[u8], offset: &mut usize) -> Result<NaturalValue, String> {
+    let tag = *input
+        .get(*offset)
+        .ok_or_else(|| "typed value tag was missing".to_string())?;
+
+    *offset = offset
+        .checked_add(1)
+        .ok_or_else(|| "typed value offset overflowed".to_string())?;
+
+    match tag {
+        0 => {
+            let length = usize::try_from(read_u64(input, offset)?)
+                .map_err(|_| "text length does not fit in usize".to_string())?;
+
+            let bytes = read_bytes(input, offset, length)?;
+            let value = String::from_utf8(bytes.to_vec())
+                .map_err(|error| format!("text value is not UTF-8: {error}"))?;
+
+            Ok(NaturalValue::Text(value))
+        }
+
+        1 => {
+            let length = usize::try_from(read_u64(input, offset)?)
+                .map_err(|_| "byte length does not fit in usize".to_string())?;
+
+            Ok(NaturalValue::Bytes(
+                read_bytes(input, offset, length)?.to_vec(),
+            ))
+        }
+
+        2 => {
+            let length = usize::try_from(read_u64(input, offset)?)
+                .map_err(|_| "integer length does not fit in usize".to_string())?;
+
+            let bytes = read_bytes(input, offset, length)?;
+            let value = std::str::from_utf8(bytes)
+                .map_err(|error| format!("integer text is not UTF-8: {error}"))?
+                .parse::<BigInt>()
+                .map_err(|error| format!("invalid integer value: {error}"))?;
+
+            Ok(NaturalValue::Integer(value))
+        }
+
+        3 => {
+            let bytes = read_bytes(input, offset, 8)?;
+            let array: [u8; 8] = bytes
+                .try_into()
+                .map_err(|_| "invalid floating-point field".to_string())?;
+
+            Ok(NaturalValue::Float(f64::from_le_bytes(array)))
+        }
+
+        4 => Ok(NaturalValue::None),
+
+        5 => {
+            let count = usize::try_from(read_u64(input, offset)?)
+                .map_err(|_| "sequence count does not fit in usize".to_string())?;
+
+            let mut values = Vec::with_capacity(count);
+
+            for _ in 0..count {
+                values.push(decode_natural_value(input, offset)?);
+            }
+
+            Ok(NaturalValue::Sequence(values))
+        }
+
+        _ => Err(format!("unknown typed value tag: {tag}")),
+    }
+}
+
+fn decode_values(input: &[u8]) -> Result<Vec<NaturalValue>, String> {
+    let mut offset = 0;
+
+    let count = usize::try_from(read_u64(input, &mut offset)?)
+        .map_err(|_| "value count does not fit in usize".to_string())?;
+
+    let mut values = Vec::with_capacity(count);
+
+    for _ in 0..count {
+        values.push(decode_natural_value(input, &mut offset)?);
+    }
+
+    if offset != input.len() {
+        return Err("typed request contained trailing bytes".to_string());
+    }
+
+    Ok(values)
+}
+
+fn encode_indexes(indexes: &[usize]) -> Result<Vec<u8>, String> {
+    let count =
+        u64::try_from(indexes.len()).map_err(|_| "index count does not fit in u64".to_string())?;
+
+    let mut output = Vec::with_capacity(8 + indexes.len() * 8);
+    output.extend_from_slice(&count.to_le_bytes());
+
+    for index in indexes {
+        let value =
+            u64::try_from(*index).map_err(|_| "sorted index does not fit in u64".to_string())?;
+
+        output.extend_from_slice(&value.to_le_bytes());
+    }
+
+    Ok(output)
+}
+
+fn sort_values(algorithm_bits: i64, reverse: bool) -> Result<(), String> {
+    let mut request = Vec::new();
+
+    io::stdin()
+        .read_to_end(&mut request)
+        .map_err(|error| format!("failed to read typed request: {error}"))?;
+
+    let values = decode_values(&request)?;
+
+    let options =
+        SortOptions::from_algorithm(AlgorithmFlags::from_bits(algorithm_bits)).reverse(reverse);
+
+    let indexes = index_natsorted_values_with_options(&values, options);
+    let response = encode_indexes(&indexes)?;
+
+    io::stdout()
+        .write_all(&response)
+        .map_err(|error| format!("failed to write index response: {error}"))?;
+
+    Ok(())
+}
+
 fn parse_reverse(value: &str) -> Result<bool, String> {
     match value {
         "0" => Ok(false),
@@ -188,8 +334,29 @@ fn run() -> Result<(), String> {
             sort_strings(algorithm_bits, reverse)
         }
 
+        Some("sort-values") => {
+            let algorithm_bits = arguments
+                .next()
+                .ok_or_else(|| "missing algorithm bits".to_string())?
+                .parse::<i64>()
+                .map_err(|error| format!("invalid algorithm bits: {error}"))?;
+
+            let reverse = parse_reverse(
+                &arguments
+                    .next()
+                    .ok_or_else(|| "missing reverse value".to_string())?,
+            )?;
+
+            if arguments.next().is_some() {
+                return Err("sort-values received unexpected additional arguments".to_string());
+            }
+
+            sort_values(algorithm_bits, reverse)
+        }
+
         _ => Err("usage: original-suite-adapter flags | \
-             sort-strings ALGORITHM_BITS REVERSE"
+             sort-strings ALGORITHM_BITS REVERSE | \
+             sort-values ALGORITHM_BITS REVERSE"
             .to_string()),
     }
 }

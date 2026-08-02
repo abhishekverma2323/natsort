@@ -7,7 +7,7 @@ import os
 import struct
 import subprocess
 from collections.abc import Callable, Iterable
-from pathlib import Path
+from pathlib import Path, PurePath
 from typing import Any, TypeVar
 
 
@@ -140,6 +140,108 @@ def _decode_strings(data: bytes) -> list[str]:
     return items
 
 
+
+_TAG_TEXT = 0
+_TAG_BYTES = 1
+_TAG_INTEGER = 2
+_TAG_FLOAT = 3
+_TAG_NONE = 4
+_TAG_SEQUENCE = 5
+
+
+def _encode_sized_value(tag: int, payload: bytes) -> bytes:
+    return (
+        bytes([tag])
+        + struct.pack("<Q", len(payload))
+        + payload
+    )
+
+
+def _encode_value(value: Any) -> bytes:
+    if value is None:
+        return bytes([_TAG_NONE])
+
+    if isinstance(value, os.PathLike):
+        value = os.fspath(value)
+
+    if isinstance(value, str):
+        return _encode_sized_value(
+            _TAG_TEXT,
+            value.encode("utf-8"),
+        )
+
+    if isinstance(value, (bytes, bytearray, memoryview)):
+        return _encode_sized_value(
+            _TAG_BYTES,
+            bytes(value),
+        )
+
+    if isinstance(value, bool):
+        value = int(value)
+
+    if isinstance(value, int):
+        return _encode_sized_value(
+            _TAG_INTEGER,
+            str(value).encode("ascii"),
+        )
+
+    if isinstance(value, float):
+        return bytes([_TAG_FLOAT]) + struct.pack("<d", value)
+
+    if isinstance(value, (list, tuple)):
+        output = bytearray([_TAG_SEQUENCE])
+        output.extend(struct.pack("<Q", len(value)))
+
+        for item in value:
+            output.extend(_encode_value(item))
+
+        return bytes(output)
+
+    raise TypeError(
+        "Rust original-suite adapter does not support value type "
+        f"{type(value).__name__!r}"
+    )
+
+
+def _encode_values(values: list[Any]) -> bytes:
+    output = bytearray(struct.pack("<Q", len(values)))
+
+    for value in values:
+        output.extend(_encode_value(value))
+
+    return bytes(output)
+
+
+def _decode_indexes(data: bytes) -> list[int]:
+    count, offset = _read_u64(data, 0)
+    indexes: list[int] = []
+
+    for _ in range(count):
+        index, offset = _read_u64(data, offset)
+        indexes.append(index)
+
+    if offset != len(data):
+        raise RuntimeError(
+            "Rust adapter index response contained trailing bytes"
+        )
+
+    return indexes
+
+
+def _contains_top_level_bytes(values: list[Any]) -> bool:
+    return any(
+        isinstance(value, (bytes, bytearray, memoryview))
+        for value in values
+    )
+
+
+def _contains_top_level_text(values: list[Any]) -> bool:
+    return any(
+        isinstance(value, (str, PurePath))
+        for value in values
+    )
+
+
 ns = enum.IntEnum(
     "ns",
     _load_flags_from_rust(),
@@ -163,31 +265,42 @@ def natsorted(
     reverse: bool = False,
     alg: int = ns.DEFAULT,
 ) -> list[_T]:
-    """Route supported original natsort calls to the Rust implementation."""
+    """Route original natsort calls to the Rust implementation."""
     items = list(seq)
 
-    if key is not None:
-        raise NotImplementedError(
-            "Rust-backed key functions are added in a later adapter batch"
-        )
+    if key is None:
+        values: list[Any] = items
 
-    if not all(isinstance(item, str) for item in items):
-        raise NotImplementedError(
-            "This adapter batch currently supports text-only input"
-        )
-
-    text_items = [item for item in items if isinstance(item, str)]
+        if (
+            _contains_top_level_bytes(values)
+            and _contains_top_level_text(values)
+        ):
+            raise TypeError(
+                "bytes and text cannot be naturally sorted together "
+                "without a decoder"
+            )
+    else:
+        values = [key(item) for item in items]
 
     response = _run_adapter(
         [
-            "sort-strings",
+            "sort-values",
             str(int(alg)),
             "1" if reverse else "0",
         ],
-        input_data=_encode_strings(text_items),
+        input_data=_encode_values(values),
     )
 
-    return _decode_strings(response)  # type: ignore[return-value]
+    indexes = _decode_indexes(response)
+
+    for index in indexes:
+        if index >= len(items):
+            raise RuntimeError(
+                "Rust adapter returned an out-of-range index: "
+                f"{index}"
+            )
+
+    return [items[index] for index in indexes]
 
 
 globals().update(ns.__members__)
