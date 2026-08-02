@@ -79,3 +79,7 @@ bench-final: setup build
 		--python-executable $(VENV_PYTHON) \
 		--rust-binary rust-port/target/release/natsort \
 		--output-directory bench
+.PHONY: audit-final
+audit-final: build
+	python3 audit/run_project_audit.py \
+		--output-directory parity/evidence/audit
