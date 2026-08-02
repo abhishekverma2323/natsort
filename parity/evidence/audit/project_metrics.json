@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "generated_at_utc": "2026-08-02T15:31:22.346581Z",
+  "git": {
+    "commit": "43719532854ba2f6e926648cb9ae8fdceec13ac2",
+    "branch": "python-to-rust-port",
+    "working_tree_clean_before_run": true,
+    "source_commit": "b543bdce8771b6e7a7dae0c6745ddf7e80299797"
+  },
+  "tests": {
+    "rust_library_tests": 381,
+    "rust_python_parity_tests": 176
+  },
+  "evidence": {
+    "original_test_files": 19,
+    "original_test_integrity_problems": 0,
+    "original_suite_passed": 344,
+    "cli": {
+      "total_cases": 20,
+      "matched_cases": 20,
+      "mismatches": [],
+      "success_exact_cases": 17,
+      "error_semantic_cases": 3
+    },
+    "fuzz": {
+      "total_completed_cases": 11727,
+      "total_divergences": 0,
+      "seed": 20260802
+    },
+    "benchmark": {
+      "scenario_count": 8,
+      "rss_scenario_count": 3,
+      "rust_binary_size_bytes": 2194280,
+      "rust_binary_sha256": "6d0472b14e81dc65ccb4c53eae8c18bac7d1b37b126895f46dad1b6663a4d5c8"
+    }
+  },
+  "line_metrics": {
+    "rust_production": {
+      "files": 19,
+      "physical_lines": 11127,
+      "nonblank_lines": 9291
+    },
+    "rust_generated": {
+      "files": 1,
+      "physical_lines": 457,
+      "nonblank_lines": 439
+    },
+    "python_boundary": {
+      "files": 11,
+      "physical_lines": 1910,
+      "nonblank_lines": 1474
+    },
+    "judge_tooling": {
+      "files": 8,
+      "physical_lines": 2215,
+      "nonblank_lines": 1884
+    }
+  },
+  "file_inventory": {
+    "rust_production": [
+      "rust-port/src/algorithm.rs",
+      "rust-port/src/api.rs",
+      "rust-port/src/bin/benchmark.rs",
+      "rust-port/src/bin/natsort.rs",
+      "rust-port/src/bin/original_suite_adapter.rs",
+      "rust-port/src/cli.rs",
+      "rust-port/src/decode.rs",
+      "rust-port/src/lib.rs",
+      "rust-port/src/locale.rs",
+      "rust-port/src/options.rs",
+      "rust-port/src/os_sort.rs",
+      "rust-port/src/path.rs",
+      "rust-port/src/python_compat.rs",
+      "rust-port/src/separator.rs",
+      "rust-port/src/sort.rs",
+      "rust-port/src/text.rs",
+      "rust-port/src/token.rs",
+      "rust-port/src/value.rs",
+      "rust-port/src/value_api.rs"
+    ],
+    "rust_generated": [
+      "rust-port/src/unicode_numeric.rs"
+    ],
+    "python_boundary": [
+      "parity/original_suite_adapter/natsort/__init__.py",
+      "parity/original_suite_adapter/natsort/__main__.py",
+      "parity/original_suite_adapter/natsort/compat/__init__.py",
+      "parity/original_suite_adapter/natsort/compat/fake_fastnumbers.py",
+      "parity/original_suite_adapter/natsort/compat/fastnumbers.py",
+      "parity/original_suite_adapter/natsort/compat/locale.py",
+      "parity/original_suite_adapter/natsort/ns_enum.py",
+      "parity/original_suite_adapter/natsort/unicode_numbers.py",
+      "parity/original_suite_adapter/natsort/unicode_numeric_hex.py",
+      "parity/original_suite_adapter/natsort/utils.py",
+      "parity/run_original_suite_against_rust.py"
+    ],
+    "judge_tooling": [
+      "bench/__init__.py",
+      "bench/run_judge_benchmarks.py",
+      "fuzz/__init__.py",
+      "fuzz/harness.py",
+      "parity/cli/__init__.py",
+      "parity/cli/run_cli_equivalence.py",
+      "parity/differential_fuzz.py",
+      "parity/verify_original_tests.py"
+    ]
+  },
+  "original_tree_integrity": {
+    "natsort": {
+      "source_files": 12,
+      "submission_files": 12,
+      "removed": [],
+      "added": [],
+      "modified": [],
+      "unchanged": true
+    },
+    "tests": {
+      "source_files": 19,
+      "submission_files": 19,
+      "removed": [],
+      "added": [],
+      "modified": [],
+      "unchanged": true
+    }
+  },
+  "dependencies": {
+    "dependencies": [
+      "grift_unicode",
+      "icu_collator",
+      "icu_locale",
+      "num-bigint",
+      "sys-locale",
+      "unicode-casefold",
+      "unicode-normalization"
+    ],
+    "dev_dependencies": [],
+    "build_dependencies": [],
+    "direct_dependency_count": 7,
+    "locked_package_count": 49
+  },
+  "unsafe": {
+    "unsafe_blocks": 1,
+    "unsafe_functions": 0,
+    "foreign_declarations": 1,
+    "matches": [
+      {
+        "path": "rust-port/src/os_sort.rs",
+        "line": 407,
+        "kinds": [
+          "foreign_declaration"
+        ],
+        "source": "unsafe extern \"system\" {"
+      },
+      {
+        "path": "rust-port/src/os_sort.rs",
+        "line": 419,
+        "kinds": [
+          "unsafe_block"
+        ],
+        "source": "let result = unsafe { str_cmp_logical_w(left_wide.as_ptr(), right_wide.as_ptr()) };"
+      }
+    ],
+    "guard_script": "rust-port/scripts/check_unsafe.sh",
+    "guard_exit_code": 0,
+    "guard_stdout": "PASS: First-party unsafe usage matches the documented Windows-only boundary.\nunsafe_extern_blocks=1\nunsafe_call_sites=1",
+    "guard_stderr": ""
+  }
+}

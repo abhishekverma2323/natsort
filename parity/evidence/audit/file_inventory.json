@@ -1,0 +1,49 @@
+{
+  "rust_production": [
+    "rust-port/src/algorithm.rs",
+    "rust-port/src/api.rs",
+    "rust-port/src/bin/benchmark.rs",
+    "rust-port/src/bin/natsort.rs",
+    "rust-port/src/bin/original_suite_adapter.rs",
+    "rust-port/src/cli.rs",
+    "rust-port/src/decode.rs",
+    "rust-port/src/lib.rs",
+    "rust-port/src/locale.rs",
+    "rust-port/src/options.rs",
+    "rust-port/src/os_sort.rs",
+    "rust-port/src/path.rs",
+    "rust-port/src/python_compat.rs",
+    "rust-port/src/separator.rs",
+    "rust-port/src/sort.rs",
+    "rust-port/src/text.rs",
+    "rust-port/src/token.rs",
+    "rust-port/src/value.rs",
+    "rust-port/src/value_api.rs"
+  ],
+  "rust_generated": [
+    "rust-port/src/unicode_numeric.rs"
+  ],
+  "python_boundary": [
+    "parity/original_suite_adapter/natsort/__init__.py",
+    "parity/original_suite_adapter/natsort/__main__.py",
+    "parity/original_suite_adapter/natsort/compat/__init__.py",
+    "parity/original_suite_adapter/natsort/compat/fake_fastnumbers.py",
+    "parity/original_suite_adapter/natsort/compat/fastnumbers.py",
+    "parity/original_suite_adapter/natsort/compat/locale.py",
+    "parity/original_suite_adapter/natsort/ns_enum.py",
+    "parity/original_suite_adapter/natsort/unicode_numbers.py",
+    "parity/original_suite_adapter/natsort/unicode_numeric_hex.py",
+    "parity/original_suite_adapter/natsort/utils.py",
+    "parity/run_original_suite_against_rust.py"
+  ],
+  "judge_tooling": [
+    "bench/__init__.py",
+    "bench/run_judge_benchmarks.py",
+    "fuzz/__init__.py",
+    "fuzz/harness.py",
+    "parity/cli/__init__.py",
+    "parity/cli/run_cli_equivalence.py",
+    "parity/differential_fuzz.py",
+    "parity/verify_original_tests.py"
+  ]
+}

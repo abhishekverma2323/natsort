@@ -1,0 +1,17 @@
+cargo build --manifest-path rust-port/Cargo.toml --release --bins
+    Finished `release` profile [optimized] target(s) in 0.85s
+python3 audit/run_project_audit.py \
+	--output-directory parity/evidence/audit
+PROJECT AUDIT SUMMARY
+commit=43719532854ba2f6e926648cb9ae8fdceec13ac2
+rust_library_tests=381
+rust_python_parity_tests=176
+original_suite_passed=344
+cli_matched=20/20
+fuzz_cases=11727
+fuzz_divergences=0
+unsafe_blocks=1
+foreign_declarations=1
+PASS: Honest-number and safety audit created
+
+PROJECT_AUDIT_EXIT_CODE=0

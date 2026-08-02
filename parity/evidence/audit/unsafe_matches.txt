@@ -1,0 +1,2 @@
+rust-port/src/os_sort.rs:407:foreign_declaration: unsafe extern "system" {
+rust-port/src/os_sort.rs:419:unsafe_block: let result = unsafe { str_cmp_logical_w(left_wide.as_ptr(), right_wide.as_ptr()) };
