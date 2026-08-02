@@ -1,0 +1,43 @@
+===== PORT MORTEM 2026 DIFFERENTIAL FUZZ SURVIVOR =====
+Git commit: c059868ee3c457897d3226332db7affc6df2110f
+Git branch: python-to-rust-port
+UTC start: 2026-08-02T08:19:56Z
+Controller Python: Python 3.14.4
+Oracle Python: Python 3.14.4
+Rust: rustc 1.97.1 (8bab26f4f 2026-07-14)
+Cargo: cargo 1.97.1 (c980f4866 2026-06-30)
+
+Building Rust CLI...
+Passed 100 cases in 4.74 seconds
+Passed 200 cases in 8.67 seconds
+Passed 300 cases in 12.68 seconds
+Passed 400 cases in 17.57 seconds
+Passed 500 cases in 22.08 seconds
+Passed 600 cases in 26.74 seconds
+Passed 700 cases in 30.74 seconds
+Passed 800 cases in 34.92 seconds
+Passed 900 cases in 39.86 seconds
+Passed 1000 cases in 43.89 seconds
+Passed 1100 cases in 48.05 seconds
+Passed 1200 cases in 51.71 seconds
+Passed 1300 cases in 55.68 seconds
+Passed 1400 cases in 59.72 seconds
+Passed 1500 cases in 64.02 seconds
+
+DIFFERENTIAL FUZZING PASSED
+Seed: 20260801
+Run mode: duration
+Requested duration: 65.00 seconds
+Elapsed: 65.02 seconds
+Cases: 1523
+Zero divergences: yes
+default: 272
+float: 256
+real: 260
+signed_int: 234
+float_noexp: 236
+path: 265
+Summary: /mnt/d/natsort/evidence/differential_fuzz_65s.json
+
+Command exit status: 0
+UTC end: 2026-08-02T08:21:04Z
