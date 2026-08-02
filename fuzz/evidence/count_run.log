@@ -1,0 +1,68 @@
+Building Rust CLI...
+Passed 100/5000 cases
+Passed 200/5000 cases
+Passed 300/5000 cases
+Passed 400/5000 cases
+Passed 500/5000 cases
+Passed 600/5000 cases
+Passed 700/5000 cases
+Passed 800/5000 cases
+Passed 900/5000 cases
+Passed 1000/5000 cases
+Passed 1100/5000 cases
+Passed 1200/5000 cases
+Passed 1300/5000 cases
+Passed 1400/5000 cases
+Passed 1500/5000 cases
+Passed 1600/5000 cases
+Passed 1700/5000 cases
+Passed 1800/5000 cases
+Passed 1900/5000 cases
+Passed 2000/5000 cases
+Passed 2100/5000 cases
+Passed 2200/5000 cases
+Passed 2300/5000 cases
+Passed 2400/5000 cases
+Passed 2500/5000 cases
+Passed 2600/5000 cases
+Passed 2700/5000 cases
+Passed 2800/5000 cases
+Passed 2900/5000 cases
+Passed 3000/5000 cases
+Passed 3100/5000 cases
+Passed 3200/5000 cases
+Passed 3300/5000 cases
+Passed 3400/5000 cases
+Passed 3500/5000 cases
+Passed 3600/5000 cases
+Passed 3700/5000 cases
+Passed 3800/5000 cases
+Passed 3900/5000 cases
+Passed 4000/5000 cases
+Passed 4100/5000 cases
+Passed 4200/5000 cases
+Passed 4300/5000 cases
+Passed 4400/5000 cases
+Passed 4500/5000 cases
+Passed 4600/5000 cases
+Passed 4700/5000 cases
+Passed 4800/5000 cases
+Passed 4900/5000 cases
+Passed 5000/5000 cases
+
+DIFFERENTIAL FUZZING PASSED
+Seed: 20260802
+Run mode: cases
+Requested cases: 5000
+Elapsed: 93.91 seconds
+Cases: 5000
+Zero divergences: yes
+default: 829
+float: 803
+real: 842
+signed_int: 861
+float_noexp: 865
+path: 800
+Summary: /tmp/natsort_final_fuzz/count_summary.json
+
+COUNT_RUN_EXIT_CODE=0

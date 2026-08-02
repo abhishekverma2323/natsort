@@ -1,0 +1,28 @@
+FINAL DIFFERENTIAL FUZZ SESSION
+
+implementation_commit=074659134bfaf41ab9bae076a1b1d4343ac7e733
+branch=python-to-rust-port
+seed=20260802
+python_module=/mnt/d/natsort/natsort/__init__.py
+rust_binary_sha256=8616cefc6417f99621cc43ec6bdeb9f7bf42c83164d1ae6b0ae34babbcfdd076
+
+FIXED-COUNT RUN
+requested_cases=5000
+completed_cases=5000
+passed_cases=5000
+elapsed_seconds=93.905629
+zero_divergences=true
+mode_counts={"default": 829, "float": 803, "float_noexp": 865, "path": 800, "real": 842, "signed_int": 861}
+
+DURATION RUN
+requested_duration_seconds=120.0
+elapsed_seconds=120.022739
+completed_cases=6727
+passed_cases=6727
+duration_target_met=true
+zero_divergences=true
+mode_counts={"default": 1116, "float": 1104, "float_noexp": 1143, "path": 1087, "real": 1120, "signed_int": 1157}
+
+total_completed_cases=11727
+total_divergences=0
+failure_artifact=absent

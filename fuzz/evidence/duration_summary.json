@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "seed": 20260802,
+  "run_mode": "duration",
+  "requested_cases": null,
+  "requested_duration_seconds": 120.0,
+  "completed_cases": 6727,
+  "passed_cases": 6727,
+  "elapsed_seconds": 120.022739,
+  "started_at_utc": "2026-08-02T15:08:20.572152Z",
+  "ended_at_utc": "2026-08-02T15:10:20.585595Z",
+  "duration_target_met": true,
+  "zero_divergences": true,
+  "mode_counts": {
+    "default": 1116,
+    "float": 1104,
+    "real": 1120,
+    "signed_int": 1157,
+    "float_noexp": 1143,
+    "path": 1087
+  },
+  "python_oracle": "/usr/bin/python3.14",
+  "controller_python": "/mnt/d/natsort/.tox/py/bin/python",
+  "rust_binary": "/mnt/d/natsort/rust-port/target/debug/natsort",
+  "platform": "linux",
+  "command": [
+    "parity/differential_fuzz.py",
+    "--duration-seconds",
+    "120",
+    "--seed",
+    "20260802",
+    "--python-oracle",
+    "/mnt/d/natsort/.tox/py/bin/python",
+    "--summary-file",
+    "/tmp/natsort_final_fuzz/duration_summary.json"
+  ],
+  "failure_file": "/mnt/d/natsort/parity/differential_fuzz_failure.json"
+}

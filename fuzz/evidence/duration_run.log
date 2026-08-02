@@ -1,0 +1,85 @@
+Building Rust CLI...
+Passed 100 cases in 2.22 seconds
+Passed 200 cases in 4.06 seconds
+Passed 300 cases in 6.29 seconds
+Passed 400 cases in 8.00 seconds
+Passed 500 cases in 9.53 seconds
+Passed 600 cases in 11.03 seconds
+Passed 700 cases in 12.55 seconds
+Passed 800 cases in 14.06 seconds
+Passed 900 cases in 15.54 seconds
+Passed 1000 cases in 17.04 seconds
+Passed 1100 cases in 18.50 seconds
+Passed 1200 cases in 19.88 seconds
+Passed 1300 cases in 21.45 seconds
+Passed 1400 cases in 22.84 seconds
+Passed 1500 cases in 24.27 seconds
+Passed 1600 cases in 25.72 seconds
+Passed 1700 cases in 27.19 seconds
+Passed 1800 cases in 28.67 seconds
+Passed 1900 cases in 30.86 seconds
+Passed 2000 cases in 32.73 seconds
+Passed 2100 cases in 34.27 seconds
+Passed 2200 cases in 36.27 seconds
+Passed 2300 cases in 38.27 seconds
+Passed 2400 cases in 40.01 seconds
+Passed 2500 cases in 41.70 seconds
+Passed 2600 cases in 43.24 seconds
+Passed 2700 cases in 44.59 seconds
+Passed 2800 cases in 45.96 seconds
+Passed 2900 cases in 47.60 seconds
+Passed 3000 cases in 48.98 seconds
+Passed 3100 cases in 50.50 seconds
+Passed 3200 cases in 52.02 seconds
+Passed 3300 cases in 53.48 seconds
+Passed 3400 cases in 54.81 seconds
+Passed 3500 cases in 56.24 seconds
+Passed 3600 cases in 57.70 seconds
+Passed 3700 cases in 59.17 seconds
+Passed 3800 cases in 61.71 seconds
+Passed 3900 cases in 63.25 seconds
+Passed 4000 cases in 64.79 seconds
+Passed 4100 cases in 66.37 seconds
+Passed 4200 cases in 68.58 seconds
+Passed 4300 cases in 71.18 seconds
+Passed 4400 cases in 73.05 seconds
+Passed 4500 cases in 75.06 seconds
+Passed 4600 cases in 76.96 seconds
+Passed 4700 cases in 78.47 seconds
+Passed 4800 cases in 79.91 seconds
+Passed 4900 cases in 81.34 seconds
+Passed 5000 cases in 83.01 seconds
+Passed 5100 cases in 84.81 seconds
+Passed 5200 cases in 87.65 seconds
+Passed 5300 cases in 89.51 seconds
+Passed 5400 cases in 92.43 seconds
+Passed 5500 cases in 94.23 seconds
+Passed 5600 cases in 95.64 seconds
+Passed 5700 cases in 97.52 seconds
+Passed 5800 cases in 98.96 seconds
+Passed 5900 cases in 100.38 seconds
+Passed 6000 cases in 101.84 seconds
+Passed 6100 cases in 103.43 seconds
+Passed 6200 cases in 104.94 seconds
+Passed 6300 cases in 106.53 seconds
+Passed 6400 cases in 109.28 seconds
+Passed 6500 cases in 111.68 seconds
+Passed 6600 cases in 114.85 seconds
+Passed 6700 cases in 119.03 seconds
+
+DIFFERENTIAL FUZZING PASSED
+Seed: 20260802
+Run mode: duration
+Requested duration: 120.00 seconds
+Elapsed: 120.02 seconds
+Cases: 6727
+Zero divergences: yes
+default: 1116
+float: 1104
+real: 1120
+signed_int: 1157
+float_noexp: 1143
+path: 1087
+Summary: /tmp/natsort_final_fuzz/duration_summary.json
+
+DURATION_RUN_EXIT_CODE=0
