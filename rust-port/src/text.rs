@@ -81,6 +81,44 @@ pub(crate) fn prepare_input(input: &str, options: SortOptions) -> String {
     }
 }
 
+/// Return the transformed, decomposed source used by Python natsort's
+/// CAPITALFIRST/UNGROUPLETTERS gross-sort prefix.
+///
+/// Unlike `prepare_input`, this intentionally does not recompose locale text.
+/// Therefore characters such as `Ä` contribute `A` as their first prefix,
+/// matching Python's normalized first-character behaviour.
+pub(crate) fn capital_first_prefix_source(input: &str, options: SortOptions) -> String {
+    let normalized = normalize_input(input, options.compatibility_normalize);
+
+    let dumb_locale = options.locale_alpha && options.locale_profile.uses_dumb_collation();
+
+    if dumb_locale {
+        if options.lowercase_first {
+            swap_case(&normalized)
+        } else {
+            normalized
+        }
+    } else {
+        let case_ordered = if options.lowercase_first {
+            swap_case(&normalized)
+        } else {
+            normalized
+        };
+
+        let case_transformed = if options.ignore_case {
+            case_fold(&case_ordered)
+        } else {
+            case_ordered
+        };
+
+        if options.locale_numeric {
+            normalize_localized_numbers(&case_transformed, options.locale_profile, options.float)
+        } else {
+            case_transformed
+        }
+    }
+}
+
 pub(crate) fn transform_text_component(input: &str, options: SortOptions) -> String {
     let dumb_locale = options.locale_alpha && options.locale_profile.uses_dumb_collation();
 

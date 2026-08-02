@@ -1,10 +1,12 @@
 use crate::locale::locale_sort_key;
+use crate::path::path_components;
 use crate::separator::numeric_prefix;
 use num_bigint::BigInt;
 use std::cmp::Ordering;
 
 use crate::options::SortOptions;
 use crate::sort::{compare_numeric_strings, string_key_components};
+use crate::text::capital_first_prefix_source;
 use crate::token::Token;
 
 #[derive(Debug, Clone, PartialEq)]
@@ -236,14 +238,48 @@ fn bytes_key(input: &[u8], options: SortOptions) -> NaturalKey {
     }
 }
 
+fn wrap_capital_first(key: NaturalKey, prefix: String, options: SortOptions) -> NaturalKey {
+    if options.capital_first && options.locale_alpha {
+        NaturalKey::Sequence(vec![NaturalKey::Atomic(vec![KeyAtom::Text(prefix)]), key])
+    } else {
+        key
+    }
+}
+
+fn text_component_key(input: &str, tokens: &[Token], options: SortOptions) -> NaturalKey {
+    let key = NaturalKey::Atomic(token_atoms(tokens, options));
+
+    if !(options.capital_first && options.locale_alpha) {
+        return key;
+    }
+
+    let number_prefix = numeric_prefix(options);
+
+    let prefix = match tokens.first() {
+        Some(Token::Text(value)) if value == number_prefix => value.clone(),
+        _ => capital_first_prefix_source(input, options)
+            .chars()
+            .next()
+            .map(|character| character.to_string())
+            .unwrap_or_else(|| number_prefix.to_string()),
+    };
+
+    wrap_capital_first(key, prefix, options)
+}
+
 fn text_key(input: &str, options: SortOptions) -> NaturalKey {
     let components = string_key_components(input, options);
 
     if options.path {
+        let original_components = path_components(input);
+
+        debug_assert_eq!(original_components.len(), components.len(),);
+
         NaturalKey::Sequence(
-            components
+            original_components
                 .iter()
-                .map(|component| NaturalKey::Atomic(token_atoms(component, options)))
+                .zip(components.iter())
+                .map(|(original, tokens)| text_component_key(original, tokens, options))
                 .collect(),
         )
     } else {
@@ -251,7 +287,7 @@ fn text_key(input: &str, options: SortOptions) -> NaturalKey {
             .first()
             .expect("non-path string key has one component");
 
-        NaturalKey::Atomic(token_atoms(tokens, options))
+        text_component_key(input, tokens, options)
     }
 }
 
@@ -280,8 +316,14 @@ fn wrap_for_path(key: NaturalKey, options: SortOptions) -> NaturalKey {
     }
 }
 
+fn wrap_numeric_key(key: NaturalKey, options: SortOptions) -> NaturalKey {
+    let key = wrap_capital_first(key, numeric_prefix(options).to_string(), options);
+
+    wrap_for_path(key, options)
+}
+
 fn integer_key(value: &BigInt, options: SortOptions) -> NaturalKey {
-    wrap_for_path(
+    wrap_numeric_key(
         numeric_atomic_key(NumericKey::Finite(value.to_string()), None, options),
         options,
     )
@@ -308,7 +350,7 @@ fn float_key(value: f64, options: SortOptions) -> NaturalKey {
         numeric_atomic_key(NumericKey::Finite(value.to_string()), None, options)
     };
 
-    wrap_for_path(key, options)
+    wrap_numeric_key(key, options)
 }
 
 fn none_key(options: SortOptions) -> NaturalKey {
@@ -318,7 +360,7 @@ fn none_key(options: SortOptions) -> NaturalKey {
         NumericKey::NegativeInfinity
     };
 
-    wrap_for_path(numeric_atomic_key(infinity, Some("2"), options), options)
+    wrap_numeric_key(numeric_atomic_key(infinity, Some("2"), options), options)
 }
 
 pub fn natsort_key_with_options(value: &NaturalValue, options: SortOptions) -> NaturalKey {

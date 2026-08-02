@@ -55,7 +55,10 @@ impl SortOptions {
             .ignore_case(algorithm.intersects(AlgorithmFlags::IGNORECASE))
             .lowercase_first(algorithm.intersects(AlgorithmFlags::LOWERCASEFIRST))
             .group_letters(algorithm.intersects(AlgorithmFlags::GROUPLETTERS))
-            .capital_first(algorithm.intersects(AlgorithmFlags::UNGROUPLETTERS))
+            .capital_first(
+                algorithm.intersects(AlgorithmFlags::UNGROUPLETTERS)
+                    && algorithm.intersects(AlgorithmFlags::LOCALEALPHA),
+            )
             .nan_last(algorithm.intersects(AlgorithmFlags::NANLAST))
             .compatibility_normalize(algorithm.intersects(AlgorithmFlags::COMPATIBILITYNORMALIZE))
             .num_after(algorithm.intersects(AlgorithmFlags::NUMAFTER))

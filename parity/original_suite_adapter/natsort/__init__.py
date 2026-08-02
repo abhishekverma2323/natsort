@@ -3,7 +3,9 @@
 from __future__ import annotations
 
 import enum
+import locale as _locale
 import os
+import platform
 import struct
 import subprocess
 from collections.abc import Callable, Iterable
@@ -34,6 +36,19 @@ def _adapter_binary() -> Path:
         return Path(configured)
 
     return _DEFAULT_BINARY
+
+
+
+def _current_locale_identifier() -> str:
+    """Return the locale selected by the unchanged Python test fixture."""
+    current = _locale.setlocale(_locale.LC_ALL)
+
+    if current in {"C", "POSIX"}:
+        return current
+
+    language, _encoding = _locale.getlocale()
+
+    return language or current or "en_US"
 
 
 def _run_adapter(
@@ -251,25 +266,34 @@ ns = enum.IntEnum(
 NSType = ns | int
 
 
+def decoder(encoding: str) -> Callable[[Any], Any]:
+    """Return a bytes decoder while preserving non-byte identity."""
+
+    def decode(value: Any) -> Any:
+        if isinstance(value, bytes):
+            return value.decode(encoding)
+
+        return value
+
+    return decode
+
+
+def as_ascii(value: Any) -> Any:
+    """Decode ASCII bytes while preserving non-byte values."""
+    return decoder("ascii")(value)
+
+
 def as_utf8(value: Any) -> Any:
     """Decode UTF-8 bytes while preserving non-byte values."""
-    if isinstance(value, bytes):
-        return value.decode("utf-8")
-
-    return value
+    return decoder("utf-8")(value)
 
 
-def natsorted(
-    seq: Iterable[_T],
-    key: Callable[[_T], Any] | None = None,
-    reverse: bool = False,
-    alg: int = ns.DEFAULT,
-) -> list[_T]:
-    """Route original natsort calls to the Rust implementation."""
-    items = list(seq)
-
+def _prepare_sort_values(
+    items: list[Any],
+    key: Callable[[Any], Any] | None,
+) -> list[Any]:
     if key is None:
-        values: list[Any] = items
+        values = items
 
         if (
             _contains_top_level_bytes(values)
@@ -279,26 +303,199 @@ def natsorted(
                 "bytes and text cannot be naturally sorted together "
                 "without a decoder"
             )
-    else:
-        values = [key(item) for item in items]
+
+        return values
+
+    return [key(item) for item in items]
+
+
+
+def _effective_algorithm_bits(alg: int) -> int:
+    """Apply Python natsort flag interaction rules."""
+    bits = int(alg)
+
+    # CAPITALFIRST and UNGROUPLETTERS share bit 512, but this option
+    # only affects sorting when LOCALEALPHA is active.
+    if not bits & int(ns.LOCALEALPHA):
+        bits &= ~int(ns.UNGROUPLETTERS)
+
+    return bits
+
+
+def _natural_sort_indexes(
+    items: list[Any],
+    key: Callable[[Any], Any] | None,
+    reverse: bool,
+    alg: int,
+) -> list[int]:
+    values = _prepare_sort_values(items, key)
 
     response = _run_adapter(
         [
             "sort-values",
-            str(int(alg)),
+            str(_effective_algorithm_bits(alg)),
             "1" if reverse else "0",
+            _current_locale_identifier(),
         ],
         input_data=_encode_values(values),
     )
 
     indexes = _decode_indexes(response)
 
-    for index in indexes:
-        if index >= len(items):
-            raise RuntimeError(
-                "Rust adapter returned an out-of-range index: "
-                f"{index}"
+    if any(index >= len(items) for index in indexes):
+        raise RuntimeError(
+            "Rust adapter returned an out-of-range natural-sort index"
+        )
+
+    return indexes
+
+
+def natsorted(
+    seq: Iterable[_T],
+    key: Callable[[_T], Any] | None = None,
+    reverse: bool = False,
+    alg: int = ns.DEFAULT,
+) -> list[_T]:
+    """Sort through the Rust NaturalValue implementation."""
+    items = list(seq)
+    indexes = _natural_sort_indexes(items, key, reverse, alg)
+
+    return [items[index] for index in indexes]
+
+
+def realsorted(
+    seq: Iterable[_T],
+    key: Callable[[_T], Any] | None = None,
+    reverse: bool = False,
+    alg: int = ns.DEFAULT,
+) -> list[_T]:
+    return natsorted(
+        seq,
+        key=key,
+        reverse=reverse,
+        alg=int(alg) | int(ns.REAL),
+    )
+
+
+def humansorted(
+    seq: Iterable[_T],
+    key: Callable[[_T], Any] | None = None,
+    reverse: bool = False,
+    alg: int = ns.DEFAULT,
+) -> list[_T]:
+    return natsorted(
+        seq,
+        key=key,
+        reverse=reverse,
+        alg=int(alg) | int(ns.LOCALE),
+    )
+
+
+def index_natsorted(
+    seq: Iterable[_T],
+    key: Callable[[_T], Any] | None = None,
+    reverse: bool = False,
+    alg: int = ns.DEFAULT,
+) -> list[int]:
+    items = list(seq)
+
+    return _natural_sort_indexes(items, key, reverse, alg)
+
+
+def index_realsorted(
+    seq: Iterable[_T],
+    key: Callable[[_T], Any] | None = None,
+    reverse: bool = False,
+    alg: int = ns.DEFAULT,
+) -> list[int]:
+    return index_natsorted(
+        seq,
+        key=key,
+        reverse=reverse,
+        alg=int(alg) | int(ns.REAL),
+    )
+
+
+def index_humansorted(
+    seq: Iterable[_T],
+    key: Callable[[_T], Any] | None = None,
+    reverse: bool = False,
+    alg: int = ns.DEFAULT,
+) -> list[int]:
+    return index_natsorted(
+        seq,
+        key=key,
+        reverse=reverse,
+        alg=int(alg) | int(ns.LOCALE),
+    )
+
+
+def order_by_index(
+    seq: Any,
+    index: Iterable[int],
+    iter: bool = False,
+) -> Any:
+    ordered = (seq[position] for position in index)
+
+    return ordered if iter else list(ordered)
+
+
+def os_sorted(
+    seq: Iterable[_T],
+    key: Callable[[_T], Any] | None = None,
+    reverse: bool = False,
+    presort: bool = False,
+) -> list[_T]:
+    """Route OS sorting through the matching Rust implementation."""
+    items = list(seq)
+
+    # Original natsort falls back to natural locale/path sorting on
+    # Unix when PyICU is unavailable. Sorting still executes in Rust.
+    if platform.system() != "Windows":
+        try:
+            __import__("icu")
+        except ImportError:
+            alg = (
+                int(ns.LOCALE)
+                | int(ns.PATH)
+                | int(ns.IGNORECASE)
             )
+
+            if presort:
+                alg |= int(ns.PRESORT)
+
+            return natsorted(
+                items,
+                key=key,
+                reverse=reverse,
+                alg=alg,
+            )
+
+    values = (
+        items
+        if key is None
+        else [key(item) for item in items]
+    )
+
+    response = _run_adapter(
+        [
+            "os-sort-values",
+            "1" if reverse else "0",
+            "1" if presort else "0",
+            "windows"
+            if platform.system() == "Windows"
+            else "unix",
+            _current_locale_identifier(),
+        ],
+        input_data=_encode_values(values),
+    )
+
+    indexes = _decode_indexes(response)
+
+    if any(index >= len(items) for index in indexes):
+        raise RuntimeError(
+            "Rust adapter returned an out-of-range OS-sort index"
+        )
 
     return [items[index] for index in indexes]
 
@@ -307,10 +504,21 @@ globals().update(ns.__members__)
 
 __rust_adapter__ = True
 
+__version__ = "0.1.0"
+
 __all__ = [
     "NSType",
+    "as_ascii",
     "as_utf8",
+    "decoder",
+    "humansorted",
+    "index_humansorted",
+    "index_natsorted",
+    "index_realsorted",
     "natsorted",
     "ns",
+    "order_by_index",
+    "os_sorted",
+    "realsorted",
     *ns.__members__,
 ]
