@@ -1,0 +1,6162 @@
+[
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 0,
+    "elapsed_ms": 209.609115,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 0,
+    "elapsed_ms": 16.96279,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 1,
+    "elapsed_ms": 8.091409,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 1,
+    "elapsed_ms": 125.350413,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 2,
+    "elapsed_ms": 111.800558,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 2,
+    "elapsed_ms": 7.908295,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 3,
+    "elapsed_ms": 6.146509,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 3,
+    "elapsed_ms": 124.586856,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 4,
+    "elapsed_ms": 253.253998,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 4,
+    "elapsed_ms": 12.490968,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 5,
+    "elapsed_ms": 9.676293,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 5,
+    "elapsed_ms": 372.596478,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 6,
+    "elapsed_ms": 328.658442,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 6,
+    "elapsed_ms": 23.032858,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 7,
+    "elapsed_ms": 9.550463,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 7,
+    "elapsed_ms": 122.647902,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 8,
+    "elapsed_ms": 111.228338,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 8,
+    "elapsed_ms": 18.875488,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 9,
+    "elapsed_ms": 16.229795,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 9,
+    "elapsed_ms": 306.718009,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 10,
+    "elapsed_ms": 251.365961,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 10,
+    "elapsed_ms": 14.215015,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 11,
+    "elapsed_ms": 11.830342,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 11,
+    "elapsed_ms": 128.833819,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 12,
+    "elapsed_ms": 209.329061,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 12,
+    "elapsed_ms": 6.65139,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 13,
+    "elapsed_ms": 5.748609,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 13,
+    "elapsed_ms": 180.77977,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 14,
+    "elapsed_ms": 119.481698,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 14,
+    "elapsed_ms": 6.253094,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 15,
+    "elapsed_ms": 5.696477,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 15,
+    "elapsed_ms": 111.36328,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 16,
+    "elapsed_ms": 153.006346,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 16,
+    "elapsed_ms": 11.881824,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 17,
+    "elapsed_ms": 14.935753,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 17,
+    "elapsed_ms": 263.265783,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 18,
+    "elapsed_ms": 115.630747,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 18,
+    "elapsed_ms": 6.242581,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 19,
+    "elapsed_ms": 5.927036,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 19,
+    "elapsed_ms": 113.853185,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 20,
+    "elapsed_ms": 230.836964,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 20,
+    "elapsed_ms": 6.67825,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 21,
+    "elapsed_ms": 7.082578,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 21,
+    "elapsed_ms": 113.051661,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 22,
+    "elapsed_ms": 109.93611,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 22,
+    "elapsed_ms": 6.644428,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 23,
+    "elapsed_ms": 5.67443,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 23,
+    "elapsed_ms": 113.241512,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 24,
+    "elapsed_ms": 109.60616,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 24,
+    "elapsed_ms": 6.922102,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 25,
+    "elapsed_ms": 6.515778,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 25,
+    "elapsed_ms": 109.389532,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 26,
+    "elapsed_ms": 113.042709,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 26,
+    "elapsed_ms": 6.79441,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 27,
+    "elapsed_ms": 6.744475,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 27,
+    "elapsed_ms": 143.801402,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 28,
+    "elapsed_ms": 261.903272,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 28,
+    "elapsed_ms": 9.624301,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 29,
+    "elapsed_ms": 7.848439,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 29,
+    "elapsed_ms": 162.228801,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 30,
+    "elapsed_ms": 271.427921,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 30,
+    "elapsed_ms": 9.628888,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 31,
+    "elapsed_ms": 7.392698,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 31,
+    "elapsed_ms": 136.869075,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 32,
+    "elapsed_ms": 329.463176,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 32,
+    "elapsed_ms": 24.654344,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 33,
+    "elapsed_ms": 16.45525,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 33,
+    "elapsed_ms": 300.893757,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 34,
+    "elapsed_ms": 175.305306,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 34,
+    "elapsed_ms": 16.941568,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 35,
+    "elapsed_ms": 18.432944,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 35,
+    "elapsed_ms": 121.7634,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 36,
+    "elapsed_ms": 114.883266,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 36,
+    "elapsed_ms": 6.747585,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 37,
+    "elapsed_ms": 5.423972,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 37,
+    "elapsed_ms": 355.60494,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 38,
+    "elapsed_ms": 137.92427,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 38,
+    "elapsed_ms": 6.848315,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 39,
+    "elapsed_ms": 5.791287,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 39,
+    "elapsed_ms": 209.677321,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 40,
+    "elapsed_ms": 112.917139,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 40,
+    "elapsed_ms": 6.497979,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 41,
+    "elapsed_ms": 6.275445,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 41,
+    "elapsed_ms": 112.174562,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 42,
+    "elapsed_ms": 119.904219,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 42,
+    "elapsed_ms": 7.177671,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 43,
+    "elapsed_ms": 5.641037,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 43,
+    "elapsed_ms": 303.904466,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 44,
+    "elapsed_ms": 140.367813,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 44,
+    "elapsed_ms": 7.499388,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 45,
+    "elapsed_ms": 9.793208,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 45,
+    "elapsed_ms": 216.705106,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 46,
+    "elapsed_ms": 114.202832,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 46,
+    "elapsed_ms": 7.515418,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 47,
+    "elapsed_ms": 5.375403,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 47,
+    "elapsed_ms": 108.634037,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 48,
+    "elapsed_ms": 260.764604,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 48,
+    "elapsed_ms": 26.491017,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 49,
+    "elapsed_ms": 13.368758,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 49,
+    "elapsed_ms": 128.943825,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 50,
+    "elapsed_ms": 110.514185,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 50,
+    "elapsed_ms": 6.979708,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 51,
+    "elapsed_ms": 5.857284,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 51,
+    "elapsed_ms": 109.767457,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 52,
+    "elapsed_ms": 107.881002,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 52,
+    "elapsed_ms": 7.016661,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 53,
+    "elapsed_ms": 5.331828,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 53,
+    "elapsed_ms": 274.126553,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 54,
+    "elapsed_ms": 127.388511,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 54,
+    "elapsed_ms": 6.852588,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 55,
+    "elapsed_ms": 13.872011,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 55,
+    "elapsed_ms": 366.159093,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 56,
+    "elapsed_ms": 244.972134,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 56,
+    "elapsed_ms": 9.176106,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 57,
+    "elapsed_ms": 5.583257,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 57,
+    "elapsed_ms": 114.552969,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 58,
+    "elapsed_ms": 302.292065,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 58,
+    "elapsed_ms": 31.140215,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 59,
+    "elapsed_ms": 13.962808,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 59,
+    "elapsed_ms": 267.818942,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 60,
+    "elapsed_ms": 124.014581,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 60,
+    "elapsed_ms": 7.909446,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 61,
+    "elapsed_ms": 5.599436,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 61,
+    "elapsed_ms": 117.053771,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 62,
+    "elapsed_ms": 114.324877,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 62,
+    "elapsed_ms": 8.006935,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 63,
+    "elapsed_ms": 6.055623,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 63,
+    "elapsed_ms": 113.486879,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 64,
+    "elapsed_ms": 112.124169,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 64,
+    "elapsed_ms": 7.103872,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 65,
+    "elapsed_ms": 6.248585,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 65,
+    "elapsed_ms": 115.015645,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 66,
+    "elapsed_ms": 235.178987,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 66,
+    "elapsed_ms": 7.643254,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 67,
+    "elapsed_ms": 5.935128,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 67,
+    "elapsed_ms": 111.590003,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 68,
+    "elapsed_ms": 114.015151,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 68,
+    "elapsed_ms": 16.997256,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 69,
+    "elapsed_ms": 15.05185,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 69,
+    "elapsed_ms": 281.118401,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 70,
+    "elapsed_ms": 148.982249,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 70,
+    "elapsed_ms": 8.350772,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 71,
+    "elapsed_ms": 5.296135,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 71,
+    "elapsed_ms": 112.999278,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 72,
+    "elapsed_ms": 218.958889,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 72,
+    "elapsed_ms": 6.603708,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 73,
+    "elapsed_ms": 5.75519,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 73,
+    "elapsed_ms": 110.292766,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 74,
+    "elapsed_ms": 110.693049,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 74,
+    "elapsed_ms": 6.01891,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 75,
+    "elapsed_ms": 5.702005,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 75,
+    "elapsed_ms": 113.395511,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 76,
+    "elapsed_ms": 117.759733,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 76,
+    "elapsed_ms": 6.516739,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 77,
+    "elapsed_ms": 6.418684,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 77,
+    "elapsed_ms": 113.928816,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 78,
+    "elapsed_ms": 109.664973,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 78,
+    "elapsed_ms": 6.484134,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 79,
+    "elapsed_ms": 5.819481,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 79,
+    "elapsed_ms": 131.227507,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 80,
+    "elapsed_ms": 203.920221,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 80,
+    "elapsed_ms": 7.058651,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 81,
+    "elapsed_ms": 5.590907,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 81,
+    "elapsed_ms": 114.837231,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 82,
+    "elapsed_ms": 117.246684,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 82,
+    "elapsed_ms": 7.875694,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 83,
+    "elapsed_ms": 5.691737,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 83,
+    "elapsed_ms": 110.785517,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 84,
+    "elapsed_ms": 106.915051,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 84,
+    "elapsed_ms": 7.879819,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 85,
+    "elapsed_ms": 6.115754,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 85,
+    "elapsed_ms": 107.18256,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 86,
+    "elapsed_ms": 107.632185,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 86,
+    "elapsed_ms": 6.714138,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 87,
+    "elapsed_ms": 5.929273,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 87,
+    "elapsed_ms": 136.577178,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 88,
+    "elapsed_ms": 205.973878,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 88,
+    "elapsed_ms": 8.864721,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 89,
+    "elapsed_ms": 6.293453,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 89,
+    "elapsed_ms": 114.015,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 90,
+    "elapsed_ms": 112.624683,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 90,
+    "elapsed_ms": 7.045704,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 91,
+    "elapsed_ms": 5.192738,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 91,
+    "elapsed_ms": 110.125166,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 92,
+    "elapsed_ms": 110.331276,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 92,
+    "elapsed_ms": 7.568403,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 93,
+    "elapsed_ms": 5.723441,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 93,
+    "elapsed_ms": 111.502898,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 94,
+    "elapsed_ms": 110.258752,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 94,
+    "elapsed_ms": 7.463068,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 95,
+    "elapsed_ms": 5.21694,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 95,
+    "elapsed_ms": 236.398249,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 96,
+    "elapsed_ms": 116.701295,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 96,
+    "elapsed_ms": 7.330249,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 97,
+    "elapsed_ms": 6.657818,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 97,
+    "elapsed_ms": 113.723494,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 98,
+    "elapsed_ms": 112.148439,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 98,
+    "elapsed_ms": 7.190634,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "rust",
+    "sample_index": 99,
+    "elapsed_ms": 6.26603,
+    "item_count": 0
+  },
+  {
+    "scenario": "startup_empty",
+    "implementation": "python",
+    "sample_index": 99,
+    "elapsed_ms": 114.654987,
+    "item_count": 0
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 0,
+    "elapsed_ms": 117.460111,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 0,
+    "elapsed_ms": 9.100852,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 1,
+    "elapsed_ms": 8.726519,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 1,
+    "elapsed_ms": 117.078511,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 2,
+    "elapsed_ms": 125.418252,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 2,
+    "elapsed_ms": 18.30102,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 3,
+    "elapsed_ms": 19.439308,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 3,
+    "elapsed_ms": 197.620895,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 4,
+    "elapsed_ms": 210.584132,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 4,
+    "elapsed_ms": 8.821156,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 5,
+    "elapsed_ms": 9.250054,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 5,
+    "elapsed_ms": 112.675902,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 6,
+    "elapsed_ms": 121.038089,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 6,
+    "elapsed_ms": 8.625832,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 7,
+    "elapsed_ms": 8.81238,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 7,
+    "elapsed_ms": 113.314008,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 8,
+    "elapsed_ms": 114.30305,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 8,
+    "elapsed_ms": 8.978396,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 9,
+    "elapsed_ms": 8.92934,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 9,
+    "elapsed_ms": 113.003348,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 10,
+    "elapsed_ms": 113.653934,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 10,
+    "elapsed_ms": 9.66448,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 11,
+    "elapsed_ms": 8.097456,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 11,
+    "elapsed_ms": 201.228234,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 12,
+    "elapsed_ms": 117.395406,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 12,
+    "elapsed_ms": 10.144915,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 13,
+    "elapsed_ms": 9.485862,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 13,
+    "elapsed_ms": 114.904264,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 14,
+    "elapsed_ms": 122.690149,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 14,
+    "elapsed_ms": 10.05146,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 15,
+    "elapsed_ms": 7.914137,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 15,
+    "elapsed_ms": 112.326607,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 16,
+    "elapsed_ms": 114.403773,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 16,
+    "elapsed_ms": 8.944009,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 17,
+    "elapsed_ms": 8.475965,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 17,
+    "elapsed_ms": 115.125774,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 18,
+    "elapsed_ms": 113.577775,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 18,
+    "elapsed_ms": 9.155483,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 19,
+    "elapsed_ms": 7.835298,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 19,
+    "elapsed_ms": 244.590811,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 20,
+    "elapsed_ms": 119.878517,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 20,
+    "elapsed_ms": 9.48908,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 21,
+    "elapsed_ms": 8.368394,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 21,
+    "elapsed_ms": 113.527879,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 22,
+    "elapsed_ms": 112.571075,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 22,
+    "elapsed_ms": 9.516832,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 23,
+    "elapsed_ms": 8.070783,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 23,
+    "elapsed_ms": 113.97785,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 24,
+    "elapsed_ms": 112.62992,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 24,
+    "elapsed_ms": 9.292485,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 25,
+    "elapsed_ms": 7.937783,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 25,
+    "elapsed_ms": 113.481551,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 26,
+    "elapsed_ms": 135.62432,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 26,
+    "elapsed_ms": 20.931465,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 27,
+    "elapsed_ms": 25.322358,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 27,
+    "elapsed_ms": 166.149773,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 28,
+    "elapsed_ms": 113.318578,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 28,
+    "elapsed_ms": 8.759631,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 29,
+    "elapsed_ms": 8.052615,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 29,
+    "elapsed_ms": 115.911092,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 30,
+    "elapsed_ms": 114.021573,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 30,
+    "elapsed_ms": 9.712375,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 31,
+    "elapsed_ms": 9.11018,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 31,
+    "elapsed_ms": 114.635224,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 32,
+    "elapsed_ms": 112.686031,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 32,
+    "elapsed_ms": 9.099075,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 33,
+    "elapsed_ms": 8.666424,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 33,
+    "elapsed_ms": 113.83528,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 34,
+    "elapsed_ms": 248.629274,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 34,
+    "elapsed_ms": 9.78585,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 35,
+    "elapsed_ms": 8.525892,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 35,
+    "elapsed_ms": 115.794611,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 36,
+    "elapsed_ms": 170.812276,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 36,
+    "elapsed_ms": 22.821948,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 37,
+    "elapsed_ms": 23.166325,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 37,
+    "elapsed_ms": 262.469354,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 38,
+    "elapsed_ms": 119.576784,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 38,
+    "elapsed_ms": 9.918631,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 39,
+    "elapsed_ms": 8.738023,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 39,
+    "elapsed_ms": 159.858235,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 40,
+    "elapsed_ms": 283.28383,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 40,
+    "elapsed_ms": 10.016669,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 41,
+    "elapsed_ms": 8.361483,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 41,
+    "elapsed_ms": 118.887812,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 42,
+    "elapsed_ms": 115.597574,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 42,
+    "elapsed_ms": 11.956626,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 43,
+    "elapsed_ms": 7.900832,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 43,
+    "elapsed_ms": 113.481932,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 44,
+    "elapsed_ms": 114.721231,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 44,
+    "elapsed_ms": 8.636411,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 45,
+    "elapsed_ms": 8.879145,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 45,
+    "elapsed_ms": 113.001248,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 46,
+    "elapsed_ms": 146.964905,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 46,
+    "elapsed_ms": 19.728066,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 47,
+    "elapsed_ms": 20.833516,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 47,
+    "elapsed_ms": 233.492464,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 48,
+    "elapsed_ms": 110.129745,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 48,
+    "elapsed_ms": 9.672561,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 49,
+    "elapsed_ms": 8.255647,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 49,
+    "elapsed_ms": 109.897187,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 50,
+    "elapsed_ms": 111.528198,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 50,
+    "elapsed_ms": 10.330587,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 51,
+    "elapsed_ms": 8.344394,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 51,
+    "elapsed_ms": 110.808567,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 52,
+    "elapsed_ms": 119.428673,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 52,
+    "elapsed_ms": 9.448963,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 53,
+    "elapsed_ms": 7.989185,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 53,
+    "elapsed_ms": 130.870091,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 54,
+    "elapsed_ms": 244.631681,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 54,
+    "elapsed_ms": 15.672097,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 55,
+    "elapsed_ms": 22.87117,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 55,
+    "elapsed_ms": 219.743234,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 56,
+    "elapsed_ms": 116.56179,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 56,
+    "elapsed_ms": 10.314711,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 57,
+    "elapsed_ms": 10.053503,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 57,
+    "elapsed_ms": 454.558484,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 58,
+    "elapsed_ms": 193.870616,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 58,
+    "elapsed_ms": 9.81236,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 59,
+    "elapsed_ms": 8.308052,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 59,
+    "elapsed_ms": 118.940134,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 60,
+    "elapsed_ms": 114.811822,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 60,
+    "elapsed_ms": 11.292886,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 61,
+    "elapsed_ms": 8.836299,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 61,
+    "elapsed_ms": 192.245554,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 62,
+    "elapsed_ms": 112.914313,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 62,
+    "elapsed_ms": 9.412468,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 63,
+    "elapsed_ms": 8.705703,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 63,
+    "elapsed_ms": 112.930706,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 64,
+    "elapsed_ms": 178.045596,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 64,
+    "elapsed_ms": 21.016548,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 65,
+    "elapsed_ms": 20.572081,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 65,
+    "elapsed_ms": 233.300651,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 66,
+    "elapsed_ms": 122.144318,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 66,
+    "elapsed_ms": 12.748906,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 67,
+    "elapsed_ms": 8.487909,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 67,
+    "elapsed_ms": 195.372269,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 68,
+    "elapsed_ms": 120.892288,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 68,
+    "elapsed_ms": 9.35395,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 69,
+    "elapsed_ms": 8.759116,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 69,
+    "elapsed_ms": 115.263369,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 70,
+    "elapsed_ms": 256.77108,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 70,
+    "elapsed_ms": 28.155649,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 71,
+    "elapsed_ms": 21.968281,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 71,
+    "elapsed_ms": 158.557863,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 72,
+    "elapsed_ms": 114.123944,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 72,
+    "elapsed_ms": 10.452206,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 73,
+    "elapsed_ms": 8.132482,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 73,
+    "elapsed_ms": 112.521764,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 74,
+    "elapsed_ms": 110.273481,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 74,
+    "elapsed_ms": 9.944184,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 75,
+    "elapsed_ms": 9.187693,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 75,
+    "elapsed_ms": 110.138739,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 76,
+    "elapsed_ms": 112.499278,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 76,
+    "elapsed_ms": 9.274535,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 77,
+    "elapsed_ms": 9.021111,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 77,
+    "elapsed_ms": 271.219205,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 78,
+    "elapsed_ms": 250.174556,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 78,
+    "elapsed_ms": 12.322128,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 79,
+    "elapsed_ms": 8.523011,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 79,
+    "elapsed_ms": 111.636012,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 80,
+    "elapsed_ms": 111.024633,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 80,
+    "elapsed_ms": 9.184278,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 81,
+    "elapsed_ms": 8.123208,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 81,
+    "elapsed_ms": 111.04174,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 82,
+    "elapsed_ms": 110.866719,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 82,
+    "elapsed_ms": 9.295335,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 83,
+    "elapsed_ms": 8.366751,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 83,
+    "elapsed_ms": 145.109478,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 84,
+    "elapsed_ms": 219.594389,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 84,
+    "elapsed_ms": 11.071545,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 85,
+    "elapsed_ms": 8.210114,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 85,
+    "elapsed_ms": 112.163107,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 86,
+    "elapsed_ms": 111.361663,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 86,
+    "elapsed_ms": 9.678082,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 87,
+    "elapsed_ms": 8.933369,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 87,
+    "elapsed_ms": 111.371614,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 88,
+    "elapsed_ms": 112.380966,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 88,
+    "elapsed_ms": 10.30811,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 89,
+    "elapsed_ms": 8.345395,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 89,
+    "elapsed_ms": 116.304665,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 90,
+    "elapsed_ms": 114.949617,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 90,
+    "elapsed_ms": 27.890863,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 91,
+    "elapsed_ms": 25.700966,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 91,
+    "elapsed_ms": 205.248549,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 92,
+    "elapsed_ms": 110.967911,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 92,
+    "elapsed_ms": 9.553935,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 93,
+    "elapsed_ms": 8.889144,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 93,
+    "elapsed_ms": 110.23151,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 94,
+    "elapsed_ms": 111.763387,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 94,
+    "elapsed_ms": 9.809621,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 95,
+    "elapsed_ms": 8.130077,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 95,
+    "elapsed_ms": 231.055302,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 96,
+    "elapsed_ms": 162.600606,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 96,
+    "elapsed_ms": 9.289443,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 97,
+    "elapsed_ms": 8.026019,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 97,
+    "elapsed_ms": 234.188147,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 98,
+    "elapsed_ms": 112.140499,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 98,
+    "elapsed_ms": 10.109401,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 99,
+    "elapsed_ms": 7.95798,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 99,
+    "elapsed_ms": 118.827008,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 0,
+    "elapsed_ms": 116.548354,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 0,
+    "elapsed_ms": 8.899119,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 1,
+    "elapsed_ms": 8.099219,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 1,
+    "elapsed_ms": 114.468917,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 2,
+    "elapsed_ms": 121.617264,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 2,
+    "elapsed_ms": 11.834715,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 3,
+    "elapsed_ms": 9.972536,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 3,
+    "elapsed_ms": 117.56486,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 4,
+    "elapsed_ms": 118.264627,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 4,
+    "elapsed_ms": 9.774953,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 5,
+    "elapsed_ms": 8.47579,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 5,
+    "elapsed_ms": 116.188895,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 6,
+    "elapsed_ms": 127.947963,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 6,
+    "elapsed_ms": 8.777119,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 7,
+    "elapsed_ms": 8.019307,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 7,
+    "elapsed_ms": 250.719596,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 8,
+    "elapsed_ms": 126.597607,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 8,
+    "elapsed_ms": 9.462526,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 9,
+    "elapsed_ms": 8.48214,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 9,
+    "elapsed_ms": 117.81204,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 10,
+    "elapsed_ms": 118.599454,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 10,
+    "elapsed_ms": 9.99927,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 11,
+    "elapsed_ms": 8.26424,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 11,
+    "elapsed_ms": 117.934899,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 12,
+    "elapsed_ms": 114.745348,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 12,
+    "elapsed_ms": 9.10562,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 13,
+    "elapsed_ms": 8.742341,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 13,
+    "elapsed_ms": 114.575614,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 14,
+    "elapsed_ms": 250.008297,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 14,
+    "elapsed_ms": 10.846474,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 15,
+    "elapsed_ms": 7.965621,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 15,
+    "elapsed_ms": 121.185954,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 16,
+    "elapsed_ms": 114.784456,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 16,
+    "elapsed_ms": 10.115667,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 17,
+    "elapsed_ms": 8.495752,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 17,
+    "elapsed_ms": 115.182556,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 18,
+    "elapsed_ms": 135.420554,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 18,
+    "elapsed_ms": 10.732288,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 19,
+    "elapsed_ms": 8.808924,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 19,
+    "elapsed_ms": 127.109732,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 20,
+    "elapsed_ms": 125.948979,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 20,
+    "elapsed_ms": 10.924586,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 21,
+    "elapsed_ms": 9.063785,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 21,
+    "elapsed_ms": 306.592274,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 22,
+    "elapsed_ms": 127.814663,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 22,
+    "elapsed_ms": 10.457805,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 23,
+    "elapsed_ms": 8.908377,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 23,
+    "elapsed_ms": 126.194723,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 24,
+    "elapsed_ms": 135.199819,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 24,
+    "elapsed_ms": 9.912498,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 25,
+    "elapsed_ms": 9.238222,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 25,
+    "elapsed_ms": 207.642094,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 26,
+    "elapsed_ms": 129.931451,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 26,
+    "elapsed_ms": 40.832154,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 27,
+    "elapsed_ms": 24.318954,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 27,
+    "elapsed_ms": 200.193789,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 28,
+    "elapsed_ms": 129.16668,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 28,
+    "elapsed_ms": 10.129024,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 29,
+    "elapsed_ms": 8.601956,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 29,
+    "elapsed_ms": 125.205104,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 30,
+    "elapsed_ms": 125.098403,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 30,
+    "elapsed_ms": 9.647133,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 31,
+    "elapsed_ms": 9.057723,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 31,
+    "elapsed_ms": 126.612827,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 32,
+    "elapsed_ms": 126.235019,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 32,
+    "elapsed_ms": 10.034168,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 33,
+    "elapsed_ms": 8.731849,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 33,
+    "elapsed_ms": 149.568822,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 34,
+    "elapsed_ms": 201.883812,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 34,
+    "elapsed_ms": 9.592975,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 35,
+    "elapsed_ms": 10.022459,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 35,
+    "elapsed_ms": 126.836457,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 36,
+    "elapsed_ms": 237.635605,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 36,
+    "elapsed_ms": 11.318899,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 37,
+    "elapsed_ms": 9.354169,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 37,
+    "elapsed_ms": 126.883689,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 38,
+    "elapsed_ms": 126.139941,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 38,
+    "elapsed_ms": 10.742936,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 39,
+    "elapsed_ms": 9.158861,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 39,
+    "elapsed_ms": 125.707716,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 40,
+    "elapsed_ms": 379.479405,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 40,
+    "elapsed_ms": 10.591126,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 41,
+    "elapsed_ms": 11.012166,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 41,
+    "elapsed_ms": 136.172166,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 42,
+    "elapsed_ms": 134.174502,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 42,
+    "elapsed_ms": 10.051247,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 43,
+    "elapsed_ms": 9.78749,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 43,
+    "elapsed_ms": 126.906357,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 44,
+    "elapsed_ms": 122.060539,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 44,
+    "elapsed_ms": 9.851099,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 45,
+    "elapsed_ms": 9.528495,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 45,
+    "elapsed_ms": 170.243662,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 46,
+    "elapsed_ms": 134.315656,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 46,
+    "elapsed_ms": 10.243803,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 47,
+    "elapsed_ms": 9.408979,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 47,
+    "elapsed_ms": 125.768174,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 48,
+    "elapsed_ms": 128.398728,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 48,
+    "elapsed_ms": 10.309331,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "rust",
+    "sample_index": 49,
+    "elapsed_ms": 13.662425,
+    "item_count": 1000
+  },
+  {
+    "scenario": "float_1000",
+    "implementation": "python",
+    "sample_index": 49,
+    "elapsed_ms": 128.928576,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 0,
+    "elapsed_ms": 126.101748,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 0,
+    "elapsed_ms": 10.258946,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 1,
+    "elapsed_ms": 9.10952,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 1,
+    "elapsed_ms": 126.749995,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 2,
+    "elapsed_ms": 125.625973,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 2,
+    "elapsed_ms": 10.022556,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 3,
+    "elapsed_ms": 8.772058,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 3,
+    "elapsed_ms": 126.336023,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 4,
+    "elapsed_ms": 334.209837,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 4,
+    "elapsed_ms": 14.528604,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 5,
+    "elapsed_ms": 11.689605,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 5,
+    "elapsed_ms": 129.106413,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 6,
+    "elapsed_ms": 129.584912,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 6,
+    "elapsed_ms": 9.612511,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 7,
+    "elapsed_ms": 9.324682,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 7,
+    "elapsed_ms": 126.359897,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 8,
+    "elapsed_ms": 127.38137,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 8,
+    "elapsed_ms": 9.878225,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 9,
+    "elapsed_ms": 8.683646,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 9,
+    "elapsed_ms": 128.950331,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 10,
+    "elapsed_ms": 137.151215,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 10,
+    "elapsed_ms": 15.013491,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 11,
+    "elapsed_ms": 19.94496,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 11,
+    "elapsed_ms": 214.595705,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 12,
+    "elapsed_ms": 136.274647,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 12,
+    "elapsed_ms": 21.739351,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 13,
+    "elapsed_ms": 24.187876,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 13,
+    "elapsed_ms": 180.715042,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 14,
+    "elapsed_ms": 125.684306,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 14,
+    "elapsed_ms": 10.3172,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 15,
+    "elapsed_ms": 9.639519,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 15,
+    "elapsed_ms": 124.796455,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 16,
+    "elapsed_ms": 128.4525,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 16,
+    "elapsed_ms": 35.926121,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 17,
+    "elapsed_ms": 19.218604,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 17,
+    "elapsed_ms": 256.805624,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 18,
+    "elapsed_ms": 293.639784,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 18,
+    "elapsed_ms": 20.745571,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 19,
+    "elapsed_ms": 14.129351,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 19,
+    "elapsed_ms": 136.149666,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 20,
+    "elapsed_ms": 126.384364,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 20,
+    "elapsed_ms": 10.153691,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 21,
+    "elapsed_ms": 8.910356,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 21,
+    "elapsed_ms": 125.265122,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 22,
+    "elapsed_ms": 319.146344,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 22,
+    "elapsed_ms": 11.256057,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 23,
+    "elapsed_ms": 9.30162,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 23,
+    "elapsed_ms": 131.609921,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 24,
+    "elapsed_ms": 254.61696,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 24,
+    "elapsed_ms": 10.080001,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 25,
+    "elapsed_ms": 9.154763,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 25,
+    "elapsed_ms": 122.918153,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 26,
+    "elapsed_ms": 127.380347,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 26,
+    "elapsed_ms": 9.364908,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 27,
+    "elapsed_ms": 8.334329,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 27,
+    "elapsed_ms": 251.265866,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 28,
+    "elapsed_ms": 179.940072,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 28,
+    "elapsed_ms": 10.090955,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 29,
+    "elapsed_ms": 9.66077,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 29,
+    "elapsed_ms": 127.054345,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 30,
+    "elapsed_ms": 126.455826,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 30,
+    "elapsed_ms": 9.726043,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 31,
+    "elapsed_ms": 8.665889,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 31,
+    "elapsed_ms": 125.192509,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 32,
+    "elapsed_ms": 123.207383,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 32,
+    "elapsed_ms": 9.010419,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 33,
+    "elapsed_ms": 8.583131,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 33,
+    "elapsed_ms": 123.908009,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 34,
+    "elapsed_ms": 215.638833,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 34,
+    "elapsed_ms": 11.422198,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 35,
+    "elapsed_ms": 9.186084,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 35,
+    "elapsed_ms": 121.658083,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 36,
+    "elapsed_ms": 120.346791,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 36,
+    "elapsed_ms": 9.348778,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 37,
+    "elapsed_ms": 8.768664,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 37,
+    "elapsed_ms": 119.784836,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 38,
+    "elapsed_ms": 123.346043,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 38,
+    "elapsed_ms": 24.091323,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 39,
+    "elapsed_ms": 8.63144,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 39,
+    "elapsed_ms": 119.985467,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 40,
+    "elapsed_ms": 120.882082,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 40,
+    "elapsed_ms": 9.932672,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 41,
+    "elapsed_ms": 8.76316,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 41,
+    "elapsed_ms": 228.900102,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 42,
+    "elapsed_ms": 123.389807,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 42,
+    "elapsed_ms": 10.190936,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 43,
+    "elapsed_ms": 8.451423,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 43,
+    "elapsed_ms": 121.044492,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 44,
+    "elapsed_ms": 122.785414,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 44,
+    "elapsed_ms": 8.901085,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 45,
+    "elapsed_ms": 8.425013,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 45,
+    "elapsed_ms": 121.983549,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 46,
+    "elapsed_ms": 122.863547,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 46,
+    "elapsed_ms": 10.410641,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 47,
+    "elapsed_ms": 8.880124,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 47,
+    "elapsed_ms": 125.87716,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 48,
+    "elapsed_ms": 247.079613,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 48,
+    "elapsed_ms": 10.38153,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "rust",
+    "sample_index": 49,
+    "elapsed_ms": 8.853847,
+    "item_count": 1000
+  },
+  {
+    "scenario": "real_1000",
+    "implementation": "python",
+    "sample_index": 49,
+    "elapsed_ms": 122.297246,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 0,
+    "elapsed_ms": 233.568174,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 0,
+    "elapsed_ms": 12.844041,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 1,
+    "elapsed_ms": 9.789913,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 1,
+    "elapsed_ms": 130.696689,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 2,
+    "elapsed_ms": 125.917026,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 2,
+    "elapsed_ms": 10.336472,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 3,
+    "elapsed_ms": 9.203514,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 3,
+    "elapsed_ms": 126.280033,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 4,
+    "elapsed_ms": 228.246997,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 4,
+    "elapsed_ms": 14.072784,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 5,
+    "elapsed_ms": 9.880266,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 5,
+    "elapsed_ms": 145.258796,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 6,
+    "elapsed_ms": 213.18665,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 6,
+    "elapsed_ms": 10.306546,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 7,
+    "elapsed_ms": 9.278621,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 7,
+    "elapsed_ms": 126.716318,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 8,
+    "elapsed_ms": 128.128339,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 8,
+    "elapsed_ms": 10.612497,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 9,
+    "elapsed_ms": 9.474483,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 9,
+    "elapsed_ms": 124.586474,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 10,
+    "elapsed_ms": 126.9855,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 10,
+    "elapsed_ms": 10.727068,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 11,
+    "elapsed_ms": 9.501035,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 11,
+    "elapsed_ms": 126.614343,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 12,
+    "elapsed_ms": 148.315148,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 12,
+    "elapsed_ms": 21.43714,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 13,
+    "elapsed_ms": 23.341602,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 13,
+    "elapsed_ms": 165.233963,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 14,
+    "elapsed_ms": 126.529434,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 14,
+    "elapsed_ms": 11.862071,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 15,
+    "elapsed_ms": 10.040484,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 15,
+    "elapsed_ms": 129.815596,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 16,
+    "elapsed_ms": 130.673063,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 16,
+    "elapsed_ms": 10.989527,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 17,
+    "elapsed_ms": 10.341589,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 17,
+    "elapsed_ms": 126.780069,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 18,
+    "elapsed_ms": 129.347835,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 18,
+    "elapsed_ms": 10.510075,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 19,
+    "elapsed_ms": 9.687966,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 19,
+    "elapsed_ms": 165.978928,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 20,
+    "elapsed_ms": 240.615232,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 20,
+    "elapsed_ms": 11.433165,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 21,
+    "elapsed_ms": 9.530778,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 21,
+    "elapsed_ms": 129.968083,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 22,
+    "elapsed_ms": 128.340922,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 22,
+    "elapsed_ms": 10.983262,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 23,
+    "elapsed_ms": 9.126923,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 23,
+    "elapsed_ms": 124.993693,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 24,
+    "elapsed_ms": 131.440512,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 24,
+    "elapsed_ms": 10.498514,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 25,
+    "elapsed_ms": 10.788682,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 25,
+    "elapsed_ms": 135.903831,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 26,
+    "elapsed_ms": 321.34282,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 26,
+    "elapsed_ms": 14.448031,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 27,
+    "elapsed_ms": 10.341523,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 27,
+    "elapsed_ms": 141.548124,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 28,
+    "elapsed_ms": 135.257147,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 28,
+    "elapsed_ms": 11.762472,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 29,
+    "elapsed_ms": 10.220413,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 29,
+    "elapsed_ms": 136.630108,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 30,
+    "elapsed_ms": 138.369844,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 30,
+    "elapsed_ms": 15.564404,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 31,
+    "elapsed_ms": 12.48973,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 31,
+    "elapsed_ms": 157.857497,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 32,
+    "elapsed_ms": 200.705901,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 32,
+    "elapsed_ms": 11.169732,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 33,
+    "elapsed_ms": 9.844256,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 33,
+    "elapsed_ms": 124.588821,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 34,
+    "elapsed_ms": 251.010223,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 34,
+    "elapsed_ms": 21.72268,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 35,
+    "elapsed_ms": 22.261908,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 35,
+    "elapsed_ms": 261.627979,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 36,
+    "elapsed_ms": 289.247602,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 36,
+    "elapsed_ms": 13.642402,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 37,
+    "elapsed_ms": 11.165461,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 37,
+    "elapsed_ms": 264.411705,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 38,
+    "elapsed_ms": 270.372603,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 38,
+    "elapsed_ms": 11.149649,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 39,
+    "elapsed_ms": 13.021406,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 39,
+    "elapsed_ms": 195.647038,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 40,
+    "elapsed_ms": 208.221041,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 40,
+    "elapsed_ms": 23.389232,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 41,
+    "elapsed_ms": 11.20293,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 41,
+    "elapsed_ms": 133.211105,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 42,
+    "elapsed_ms": 188.275527,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 42,
+    "elapsed_ms": 20.957019,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 43,
+    "elapsed_ms": 18.15371,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 43,
+    "elapsed_ms": 240.081352,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 44,
+    "elapsed_ms": 233.233628,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 44,
+    "elapsed_ms": 23.792824,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 45,
+    "elapsed_ms": 19.648977,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 45,
+    "elapsed_ms": 272.939791,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 46,
+    "elapsed_ms": 291.384992,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 46,
+    "elapsed_ms": 19.555479,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 47,
+    "elapsed_ms": 16.626631,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 47,
+    "elapsed_ms": 241.631693,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 48,
+    "elapsed_ms": 129.646193,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 48,
+    "elapsed_ms": 12.599879,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "rust",
+    "sample_index": 49,
+    "elapsed_ms": 11.376976,
+    "item_count": 1000
+  },
+  {
+    "scenario": "path_1000",
+    "implementation": "python",
+    "sample_index": 49,
+    "elapsed_ms": 264.422079,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 0,
+    "elapsed_ms": 253.501567,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 0,
+    "elapsed_ms": 20.115358,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 1,
+    "elapsed_ms": 41.777855,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 1,
+    "elapsed_ms": 256.835993,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 2,
+    "elapsed_ms": 300.221922,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 2,
+    "elapsed_ms": 24.154314,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 3,
+    "elapsed_ms": 20.706684,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 3,
+    "elapsed_ms": 299.619829,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 4,
+    "elapsed_ms": 321.047628,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 4,
+    "elapsed_ms": 39.449341,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 5,
+    "elapsed_ms": 34.444195,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 5,
+    "elapsed_ms": 272.230559,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 6,
+    "elapsed_ms": 126.192265,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 6,
+    "elapsed_ms": 13.567919,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 7,
+    "elapsed_ms": 12.28075,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 7,
+    "elapsed_ms": 121.27502,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 8,
+    "elapsed_ms": 123.715987,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 8,
+    "elapsed_ms": 13.24906,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 9,
+    "elapsed_ms": 12.47444,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 9,
+    "elapsed_ms": 254.379515,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 10,
+    "elapsed_ms": 129.679036,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 10,
+    "elapsed_ms": 13.530853,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 11,
+    "elapsed_ms": 11.778973,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 11,
+    "elapsed_ms": 117.695252,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 12,
+    "elapsed_ms": 122.007315,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 12,
+    "elapsed_ms": 13.999638,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 13,
+    "elapsed_ms": 12.104606,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 13,
+    "elapsed_ms": 120.020168,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 14,
+    "elapsed_ms": 123.508648,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 14,
+    "elapsed_ms": 13.392558,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 15,
+    "elapsed_ms": 12.421711,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 15,
+    "elapsed_ms": 123.464008,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 16,
+    "elapsed_ms": 259.339722,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 16,
+    "elapsed_ms": 16.09033,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 17,
+    "elapsed_ms": 12.367397,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 17,
+    "elapsed_ms": 121.432612,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 18,
+    "elapsed_ms": 116.462095,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 18,
+    "elapsed_ms": 13.196949,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 19,
+    "elapsed_ms": 11.536077,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 19,
+    "elapsed_ms": 117.184445,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 20,
+    "elapsed_ms": 114.489507,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 20,
+    "elapsed_ms": 13.096557,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 21,
+    "elapsed_ms": 11.378155,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 21,
+    "elapsed_ms": 114.807932,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 22,
+    "elapsed_ms": 118.235803,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 22,
+    "elapsed_ms": 12.905571,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 23,
+    "elapsed_ms": 11.659626,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 23,
+    "elapsed_ms": 316.736013,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 24,
+    "elapsed_ms": 127.196686,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 24,
+    "elapsed_ms": 22.946919,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 25,
+    "elapsed_ms": 11.351534,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 25,
+    "elapsed_ms": 116.707134,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 26,
+    "elapsed_ms": 200.274299,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 26,
+    "elapsed_ms": 14.973637,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 27,
+    "elapsed_ms": 12.577632,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 27,
+    "elapsed_ms": 194.354212,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 28,
+    "elapsed_ms": 252.754852,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 28,
+    "elapsed_ms": 21.312999,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 29,
+    "elapsed_ms": 18.391507,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 29,
+    "elapsed_ms": 260.669036,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 30,
+    "elapsed_ms": 263.360537,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 30,
+    "elapsed_ms": 20.072266,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 31,
+    "elapsed_ms": 17.14303,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 31,
+    "elapsed_ms": 298.317313,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 32,
+    "elapsed_ms": 337.612112,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 32,
+    "elapsed_ms": 33.210232,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 33,
+    "elapsed_ms": 22.289506,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 33,
+    "elapsed_ms": 307.619335,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 34,
+    "elapsed_ms": 258.957908,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 34,
+    "elapsed_ms": 24.964745,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 35,
+    "elapsed_ms": 18.263496,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 35,
+    "elapsed_ms": 311.205885,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 36,
+    "elapsed_ms": 268.863797,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 36,
+    "elapsed_ms": 22.826729,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 37,
+    "elapsed_ms": 20.484846,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 37,
+    "elapsed_ms": 296.468197,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 38,
+    "elapsed_ms": 287.743033,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 38,
+    "elapsed_ms": 25.137757,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 39,
+    "elapsed_ms": 20.340386,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 39,
+    "elapsed_ms": 318.153308,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 40,
+    "elapsed_ms": 211.354903,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 40,
+    "elapsed_ms": 27.371575,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 41,
+    "elapsed_ms": 23.599652,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 41,
+    "elapsed_ms": 281.076024,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 42,
+    "elapsed_ms": 343.741191,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 42,
+    "elapsed_ms": 18.60237,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 43,
+    "elapsed_ms": 20.732858,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 43,
+    "elapsed_ms": 246.534422,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 44,
+    "elapsed_ms": 253.736126,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 44,
+    "elapsed_ms": 19.773431,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 45,
+    "elapsed_ms": 17.223193,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 45,
+    "elapsed_ms": 265.82852,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 46,
+    "elapsed_ms": 318.889791,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 46,
+    "elapsed_ms": 21.259448,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 47,
+    "elapsed_ms": 20.365063,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 47,
+    "elapsed_ms": 281.336478,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 48,
+    "elapsed_ms": 202.615482,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 48,
+    "elapsed_ms": 16.333861,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "rust",
+    "sample_index": 49,
+    "elapsed_ms": 14.064381,
+    "item_count": 1000
+  },
+  {
+    "scenario": "locale_1000",
+    "implementation": "python",
+    "sample_index": 49,
+    "elapsed_ms": 289.775987,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 0,
+    "elapsed_ms": 181.740239,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 0,
+    "elapsed_ms": 39.216208,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 1,
+    "elapsed_ms": 34.176817,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 1,
+    "elapsed_ms": 252.970524,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 2,
+    "elapsed_ms": 166.676873,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 2,
+    "elapsed_ms": 30.902644,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 3,
+    "elapsed_ms": 31.730739,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 3,
+    "elapsed_ms": 284.293901,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 4,
+    "elapsed_ms": 150.686733,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 4,
+    "elapsed_ms": 36.235488,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 5,
+    "elapsed_ms": 34.307554,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 5,
+    "elapsed_ms": 276.176297,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 6,
+    "elapsed_ms": 261.66046,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 6,
+    "elapsed_ms": 30.005548,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 7,
+    "elapsed_ms": 29.179003,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 7,
+    "elapsed_ms": 168.227559,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 8,
+    "elapsed_ms": 150.700437,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 8,
+    "elapsed_ms": 33.955476,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 9,
+    "elapsed_ms": 39.924153,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 9,
+    "elapsed_ms": 220.842851,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 10,
+    "elapsed_ms": 394.933571,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 10,
+    "elapsed_ms": 29.681146,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 11,
+    "elapsed_ms": 29.054376,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 11,
+    "elapsed_ms": 148.644877,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 12,
+    "elapsed_ms": 153.200474,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 12,
+    "elapsed_ms": 34.923228,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 13,
+    "elapsed_ms": 37.792853,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 13,
+    "elapsed_ms": 328.737398,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 14,
+    "elapsed_ms": 314.419489,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 14,
+    "elapsed_ms": 35.121407,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 15,
+    "elapsed_ms": 34.069419,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 15,
+    "elapsed_ms": 280.212919,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 16,
+    "elapsed_ms": 342.087656,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 16,
+    "elapsed_ms": 35.70579,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 17,
+    "elapsed_ms": 36.228583,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 17,
+    "elapsed_ms": 297.222931,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 18,
+    "elapsed_ms": 323.229867,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 18,
+    "elapsed_ms": 54.275141,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 19,
+    "elapsed_ms": 36.40207,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 19,
+    "elapsed_ms": 300.334097,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 20,
+    "elapsed_ms": 332.911804,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 20,
+    "elapsed_ms": 41.275591,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 21,
+    "elapsed_ms": 40.381323,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 21,
+    "elapsed_ms": 318.873411,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 22,
+    "elapsed_ms": 290.297478,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 22,
+    "elapsed_ms": 36.781681,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 23,
+    "elapsed_ms": 42.660892,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 23,
+    "elapsed_ms": 356.995527,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 24,
+    "elapsed_ms": 361.27004,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 24,
+    "elapsed_ms": 45.998504,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 25,
+    "elapsed_ms": 56.866886,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 25,
+    "elapsed_ms": 307.458547,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 26,
+    "elapsed_ms": 295.619257,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 26,
+    "elapsed_ms": 47.112802,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 27,
+    "elapsed_ms": 50.433222,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 27,
+    "elapsed_ms": 327.458538,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 28,
+    "elapsed_ms": 290.965597,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 28,
+    "elapsed_ms": 41.865412,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 29,
+    "elapsed_ms": 38.676757,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 29,
+    "elapsed_ms": 287.995652,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "python",
+    "sample_index": 0,
+    "elapsed_ms": 471.464235,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "rust",
+    "sample_index": 0,
+    "elapsed_ms": 130.359497,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "rust",
+    "sample_index": 1,
+    "elapsed_ms": 119.082038,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "python",
+    "sample_index": 1,
+    "elapsed_ms": 265.361405,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "python",
+    "sample_index": 2,
+    "elapsed_ms": 306.383658,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "rust",
+    "sample_index": 2,
+    "elapsed_ms": 130.421756,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "rust",
+    "sample_index": 3,
+    "elapsed_ms": 137.231243,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "python",
+    "sample_index": 3,
+    "elapsed_ms": 371.479592,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "python",
+    "sample_index": 4,
+    "elapsed_ms": 291.564341,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "rust",
+    "sample_index": 4,
+    "elapsed_ms": 125.150869,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "rust",
+    "sample_index": 5,
+    "elapsed_ms": 131.483195,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "python",
+    "sample_index": 5,
+    "elapsed_ms": 276.009602,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "python",
+    "sample_index": 6,
+    "elapsed_ms": 276.575222,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "rust",
+    "sample_index": 6,
+    "elapsed_ms": 119.686215,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "rust",
+    "sample_index": 7,
+    "elapsed_ms": 117.829604,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "python",
+    "sample_index": 7,
+    "elapsed_ms": 533.168978,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "python",
+    "sample_index": 8,
+    "elapsed_ms": 270.549075,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "rust",
+    "sample_index": 8,
+    "elapsed_ms": 126.994328,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "rust",
+    "sample_index": 9,
+    "elapsed_ms": 132.218489,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "python",
+    "sample_index": 9,
+    "elapsed_ms": 274.960048,
+    "item_count": 50000
+  }
+]

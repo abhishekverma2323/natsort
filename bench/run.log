@@ -1,0 +1,17 @@
+cargo build --manifest-path rust-port/Cargo.toml --release --bins
+    Finished `release` profile [optimized] target(s) in 1.85s
+.port-venv/bin/python bench/run_judge_benchmarks.py \
+	--python-executable .port-venv/bin/python \
+	--rust-binary rust-port/target/release/natsort \
+	--output-directory bench
+BENCHMARK SUMMARY
+implementation_commit=7e1755400ac0b3f5956e0b20a3ea8a79bbd3efe7
+working_tree_clean_before_run=true
+python_module=/mnt/d/natsort/natsort/__init__.py
+rust_binary_sha256=6d0472b14e81dc65ccb4c53eae8c18bac7d1b37b126895f46dad1b6663a4d5c8
+scenario_count=8
+latency_status=passed
+rss_status=passed
+PASS: Judge-facing benchmark evidence created
+
+BENCHMARK_EXIT_CODE=0

@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "implementation_commit": "7e1755400ac0b3f5956e0b20a3ea8a79bbd3efe7",
+  "branch": "python-to-rust-port",
+  "working_tree_clean_before_run": true,
+  "working_tree_status_before_run": [],
+  "recorded_at_utc": "2026-08-02T15:19:49.127066Z",
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.43",
+  "machine": "x86_64",
+  "processor": "",
+  "cpu_model": "12th Gen Intel(R) Core(TM) i5-1235U",
+  "python_version": "Python 3.14.4",
+  "python_module": "/mnt/d/natsort/natsort/__init__.py",
+  "rustc": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+  "cargo": "cargo 1.97.1 (c980f4866 2026-06-30)",
+  "rust_binary": "/mnt/d/natsort/rust-port/target/release/natsort",
+  "rust_binary_sha256": "6d0472b14e81dc65ccb4c53eae8c18bac7d1b37b126895f46dad1b6663a4d5c8",
+  "rust_binary_size_bytes": 2194280,
+  "gnu_time": "time (GNU Time) UNKNOWN",
+  "locale": "C.UTF-8",
+  "percentile_method": "nearest-rank",
+  "timed_region": "fresh process launch through completed CLI execution; stdout redirected to /dev/null",
+  "corpora": {
+    "parity/benchmark_data/default_1000.txt": {
+      "sha256": "5a05a04ee7644c7ec406641d13b8918e4dae4868d9b994568f68bd93934317d9",
+      "bytes": 20432,
+      "items": 1000
+    },
+    "parity/benchmark_data/default_10000.txt": {
+      "sha256": "2324fca3071ad80f70f40f55b383e7d6f742219c4ad8b3511e049d49712e23a5",
+      "bytes": 205637,
+      "items": 10000
+    },
+    "parity/benchmark_data/default_50000.txt": {
+      "sha256": "400b05cc16fa38cd1c5b2da4e6d5e9c4e559a6fbb57dbecaae717ba5b70f333e",
+      "bytes": 1023779,
+      "items": 50000
+    },
+    "parity/benchmark_data/float_1000.txt": {
+      "sha256": "55ccdddcb3a31f6697e575fdc032c0bff88235bcad84adfeabd0d877ae4ef5b7",
+      "bytes": 19184,
+      "items": 1000
+    },
+    "parity/benchmark_data/locale_1000.txt": {
+      "sha256": "4f6d2fc391e46373e9cf78302fa2fc9ce9d106fff1df6bee29c67a8e456cfb8c",
+      "bytes": 17465,
+      "items": 1000
+    },
+    "parity/benchmark_data/path_1000.txt": {
+      "sha256": "da1f6a6646e542541e2e689e6bd9f1b89b4e03a7705cae83747342fc4fc22908",
+      "bytes": 31596,
+      "items": 1000
+    },
+    "parity/benchmark_data/real_1000.txt": {
+      "sha256": "f2cfcc6937e0e8ff15c0cf07d3882889ee49cd661cd64ab92f4d4f49602bcc24",
+      "bytes": 19417,
+      "items": 1000
+    }
+  }
+}

@@ -1,0 +1,212 @@
+[
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 0,
+    "peak_rss_kib": 17612,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 0,
+    "peak_rss_kib": 3024,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 1,
+    "peak_rss_kib": 3076,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 1,
+    "peak_rss_kib": 17496,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 2,
+    "peak_rss_kib": 17288,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 2,
+    "peak_rss_kib": 3076,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 3,
+    "peak_rss_kib": 3120,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 3,
+    "peak_rss_kib": 17388,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "python",
+    "sample_index": 4,
+    "peak_rss_kib": 17604,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_1000",
+    "implementation": "rust",
+    "sample_index": 4,
+    "peak_rss_kib": 3004,
+    "item_count": 1000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 0,
+    "peak_rss_kib": 20024,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 0,
+    "peak_rss_kib": 7892,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 1,
+    "peak_rss_kib": 7908,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 1,
+    "peak_rss_kib": 19908,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 2,
+    "peak_rss_kib": 20188,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 2,
+    "peak_rss_kib": 7932,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 3,
+    "peak_rss_kib": 7960,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 3,
+    "peak_rss_kib": 20212,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "python",
+    "sample_index": 4,
+    "peak_rss_kib": 20136,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_10000",
+    "implementation": "rust",
+    "sample_index": 4,
+    "peak_rss_kib": 7928,
+    "item_count": 10000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "python",
+    "sample_index": 0,
+    "peak_rss_kib": 31704,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "rust",
+    "sample_index": 0,
+    "peak_rss_kib": 28496,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "rust",
+    "sample_index": 1,
+    "peak_rss_kib": 28504,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "python",
+    "sample_index": 1,
+    "peak_rss_kib": 31476,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "python",
+    "sample_index": 2,
+    "peak_rss_kib": 31732,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "rust",
+    "sample_index": 2,
+    "peak_rss_kib": 28528,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "rust",
+    "sample_index": 3,
+    "peak_rss_kib": 28504,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "python",
+    "sample_index": 3,
+    "peak_rss_kib": 31708,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "python",
+    "sample_index": 4,
+    "peak_rss_kib": 31704,
+    "item_count": 50000
+  },
+  {
+    "scenario": "default_50000",
+    "implementation": "rust",
+    "sample_index": 4,
+    "peak_rss_kib": 28488,
+    "item_count": 50000
+  }
+]
