@@ -7,6 +7,8 @@ import random
 import shutil
 import subprocess
 import sys
+import time
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -361,9 +363,9 @@ def resolve_python_executable(value: Path) -> Path:
     )
 
 
-def windows_script_path() -> str:
+def windows_path(path: Path) -> str:
     result = subprocess.run(
-        ["wslpath", "-w", str(SCRIPT)],
+        ["wslpath", "-w", str(path)],
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
@@ -372,8 +374,7 @@ def windows_script_path() -> str:
 
     if result.returncode != 0:
         raise RuntimeError(
-            "Unable to convert the fuzz script path to a Windows path:\n"
-            + result.stderr
+            f"Unable to convert {path} to a Windows path:\n" + result.stderr
         )
 
     return result.stdout.strip()
@@ -389,13 +390,17 @@ def start_oracle(
     environment["PYTHONIOENCODING"] = "utf-8"
 
     uses_windows_python_from_wsl = (
-        os.name != "nt"
-        and resolved_python.suffix.lower() == ".exe"
+        os.name != "nt" and resolved_python.suffix.lower() == ".exe"
     )
-    script_path = (
-        windows_script_path()
-        if uses_windows_python_from_wsl
-        else str(SCRIPT)
+    script_path = windows_path(SCRIPT) if uses_windows_python_from_wsl else str(SCRIPT)
+    root_path = windows_path(ROOT) if uses_windows_python_from_wsl else str(ROOT)
+    pythonpath_separator = ";" if uses_windows_python_from_wsl else os.pathsep
+    existing_pythonpath = environment.get("PYTHONPATH")
+
+    environment["PYTHONPATH"] = (
+        root_path
+        if not existing_pythonpath
+        else root_path + pythonpath_separator + existing_pythonpath
     )
 
     return subprocess.Popen(
@@ -537,19 +542,49 @@ def save_failure(
     )
 
 
+def utc_timestamp() -> str:
+    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+
+def write_summary(
+    path: Path,
+    payload: dict[str, Any],
+) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(
+        json.dumps(
+            payload,
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
+
+
 def controller() -> None:
     parser = argparse.ArgumentParser(
-        description=(
-            "Differentially compare Python natsort "
-            "with the Rust CLI."
-        )
+        description=("Differentially compare Python natsort with the Rust CLI.")
     )
-    parser.add_argument(
+
+    run_limit = parser.add_mutually_exclusive_group()
+
+    run_limit.add_argument(
         "--cases",
         type=int,
-        default=1000,
-        help="Number of generated cases.",
+        help=(
+            "Number of generated cases. Defaults to 1000 when no duration is supplied."
+        ),
     )
+    run_limit.add_argument(
+        "--duration-seconds",
+        type=float,
+        help=(
+            "Run complete differential cases until at least "
+            "this many seconds have elapsed."
+        ),
+    )
+
     parser.add_argument(
         "--seed",
         type=int,
@@ -565,28 +600,64 @@ def controller() -> None:
             "Accepts an absolute path or a command available on PATH."
         ),
     )
+    parser.add_argument(
+        "--summary-file",
+        type=Path,
+        help=("Optional JSON file for a machine-readable run summary."),
+    )
 
     arguments = parser.parse_args()
 
-    if arguments.cases <= 0:
+    case_limit = arguments.cases
+    duration_target = arguments.duration_seconds
+
+    if case_limit is None and duration_target is None:
+        case_limit = 1000
+
+    if case_limit is not None and case_limit <= 0:
         parser.error("--cases must be greater than zero")
+
+    if duration_target is not None and duration_target <= 0:
+        parser.error("--duration-seconds must be greater than zero")
+
+    summary_file = arguments.summary_file
+
+    if summary_file is not None and not summary_file.is_absolute():
+        summary_file = ROOT / summary_file
 
     rng = random.Random(arguments.seed)
 
     if FAILURE_FILE.exists():
         FAILURE_FILE.unlink()
 
+    if summary_file is not None and summary_file.exists():
+        summary_file.unlink()
+
     build_rust_binary()
 
-    oracle = start_oracle(arguments.python_oracle)
+    resolved_oracle = resolve_python_executable(arguments.python_oracle)
+    oracle = start_oracle(resolved_oracle)
 
-    mode_counts = {
-        mode: 0
-        for mode in MODES
-    }
+    mode_counts = {mode: 0 for mode in MODES}
+
+    run_mode = "duration" if duration_target is not None else "cases"
+    case_index = 0
+    started_at_utc = utc_timestamp()
+    monotonic_start = time.monotonic()
 
     try:
-        for case_index in range(1, arguments.cases + 1):
+        while True:
+            if case_limit is not None and case_index >= case_limit:
+                break
+
+            if (
+                duration_target is not None
+                and case_index > 0
+                and (time.monotonic() - monotonic_start >= duration_target)
+            ):
+                break
+
+            case_index += 1
             mode = rng.choice(MODES)
             reverse = rng.random() < 0.35
             entries = generate_entries(rng, mode)
@@ -602,25 +673,18 @@ def controller() -> None:
                 request,
             )
 
-            rust_result, used_arguments, rust_stdin = (
-                run_rust_case(
-                    rng,
-                    mode,
-                    entries,
-                    reverse,
-                )
+            rust_result, used_arguments, rust_stdin = run_rust_case(
+                rng,
+                mode,
+                entries,
+                reverse,
             )
 
-            actual = normalize_output(
-                rust_result.stdout
-            )
+            actual = normalize_output(rust_result.stdout)
 
             mode_counts[mode] += 1
 
-            if (
-                rust_result.returncode != 0
-                or actual != expected
-            ):
+            if rust_result.returncode != 0 or actual != expected:
                 save_failure(
                     seed=arguments.seed,
                     case_index=case_index,
@@ -633,6 +697,41 @@ def controller() -> None:
                     stderr=rust_result.stderr,
                 )
 
+                failure_elapsed = time.monotonic() - monotonic_start
+                failure_ended_at = utc_timestamp()
+
+                if summary_file is not None:
+                    write_summary(
+                        summary_file,
+                        {
+                            "schema_version": 1,
+                            "status": "failed",
+                            "seed": arguments.seed,
+                            "run_mode": run_mode,
+                            "requested_cases": case_limit,
+                            "requested_duration_seconds": (duration_target),
+                            "completed_cases": case_index,
+                            "passed_cases": case_index - 1,
+                            "failed_case_index": case_index,
+                            "failed_mode": mode,
+                            "elapsed_seconds": round(
+                                failure_elapsed,
+                                6,
+                            ),
+                            "started_at_utc": (started_at_utc),
+                            "ended_at_utc": (failure_ended_at),
+                            "duration_target_met": False,
+                            "zero_divergences": False,
+                            "mode_counts": mode_counts,
+                            "python_oracle": str(resolved_oracle),
+                            "controller_python": (sys.executable),
+                            "rust_binary": str(RUST_BINARY),
+                            "platform": sys.platform,
+                            "command": sys.argv,
+                            "failure_file": str(FAILURE_FILE),
+                        },
+                    )
+
                 print()
                 print("DIFFERENTIAL FAILURE")
                 print(f"Seed: {arguments.seed}")
@@ -643,18 +742,19 @@ def controller() -> None:
                 print(f"Entries: {entries!r}")
                 print(f"Expected: {expected!r}")
                 print(f"Actual: {actual!r}")
-                print(
-                    f"Failure saved to: "
-                    f"{FAILURE_FILE}"
-                )
+                print(f"Failure saved to: {FAILURE_FILE}")
+
+                if summary_file is not None:
+                    print(f"Summary saved to: {summary_file}")
 
                 raise SystemExit(1)
 
             if case_index % 100 == 0:
-                print(
-                    f"Passed {case_index}/"
-                    f"{arguments.cases} cases"
-                )
+                if case_limit is not None:
+                    print(f"Passed {case_index}/{case_limit} cases")
+                else:
+                    elapsed = time.monotonic() - monotonic_start
+                    print(f"Passed {case_index} cases in {elapsed:.2f} seconds")
 
     finally:
         if oracle.stdin is not None:
@@ -668,15 +768,62 @@ def controller() -> None:
             oracle.kill()
             oracle.wait()
 
+    elapsed_seconds = time.monotonic() - monotonic_start
+    ended_at_utc = utc_timestamp()
+    duration_target_met = duration_target is None or elapsed_seconds >= duration_target
+
+    summary = {
+        "schema_version": 1,
+        "status": "passed",
+        "seed": arguments.seed,
+        "run_mode": run_mode,
+        "requested_cases": case_limit,
+        "requested_duration_seconds": duration_target,
+        "completed_cases": case_index,
+        "passed_cases": case_index,
+        "elapsed_seconds": round(
+            elapsed_seconds,
+            6,
+        ),
+        "started_at_utc": started_at_utc,
+        "ended_at_utc": ended_at_utc,
+        "duration_target_met": duration_target_met,
+        "zero_divergences": True,
+        "mode_counts": mode_counts,
+        "python_oracle": str(resolved_oracle),
+        "controller_python": sys.executable,
+        "rust_binary": str(RUST_BINARY),
+        "platform": sys.platform,
+        "command": sys.argv,
+        "failure_file": str(FAILURE_FILE),
+    }
+
+    if summary_file is not None:
+        write_summary(
+            summary_file,
+            summary,
+        )
+
     print()
     print("DIFFERENTIAL FUZZING PASSED")
     print(f"Seed: {arguments.seed}")
-    print(f"Cases: {arguments.cases}")
+    print(f"Run mode: {run_mode}")
+
+    if case_limit is not None:
+        print(f"Requested cases: {case_limit}")
+
+    if duration_target is not None:
+        print(f"Requested duration: {duration_target:.2f} seconds")
+
+    print(f"Elapsed: {elapsed_seconds:.2f} seconds")
+    print(f"Cases: {case_index}")
+    print("Zero divergences: yes")
 
     for mode in MODES:
-        print(
-            f"{mode}: {mode_counts[mode]}"
-        )
+        print(f"{mode}: {mode_counts[mode]}")
+
+    if summary_file is not None:
+        print(f"Summary: {summary_file}")
 
 
 def main() -> None:
