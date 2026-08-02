@@ -1,0 +1,5 @@
+cargo build --manifest-path rust-port/Cargo.toml --release --bins
+   Compiling rust-port v0.1.0 (/mnt/d/natsort/rust-port)
+    Finished `release` profile [optimized] target(s) in 5.18s
+
+MAKE_BUILD_EXIT_CODE=0

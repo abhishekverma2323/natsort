@@ -1,0 +1,6 @@
+source_commit=b543bdce8771b6e7a7dae0c6745ddf7e80299797
+comparison_basis=canonical_git_blob_content
+working_tree_line_endings=not_used_for_hash_comparison
+source_test_files=19
+submission_test_files=19
+problems=0

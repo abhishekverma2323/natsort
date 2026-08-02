@@ -1,0 +1,303 @@
+==================================================
+PORT MORTEM 2026 — REPOSITORY BASELINE
+==================================================
+
+===== DATE =====
+2026-08-02T13:42:38+00:00
+
+===== GIT BRANCH =====
+python-to-rust-port
+
+===== EXACT COMMIT =====
+8fa3669e00bb9635b5dedfaf384f890f9f7f6d75
+8fa3669 feat: complete genuine Python-to-Rust compatibility validation
+
+===== REMOTES =====
+origin	https://github.com/abhishekverma2323/natsort.git (fetch)
+origin	https://github.com/abhishekverma2323/natsort.git (push)
+upstream	https://github.com/SethMMorton/natsort.git (fetch)
+upstream	https://github.com/SethMMorton/natsort.git (push)
+
+===== WORKING TREE =====
+?? parity/evidence/repository_baseline.txt
+
+===== OPERATING SYSTEM =====
+Linux Abhishek 6.18.33.2-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Thu Jun 18 21:54:43 UTC 2026 x86_64 GNU/Linux
+Ubuntu 26.04 LTS
+
+===== TOOLCHAIN =====
+Python 3.14.4
+Python 3.14.4
+rustc 1.97.1 (8bab26f4f 2026-07-14)
+cargo 1.97.1 (c980f4866 2026-06-30)
+git version 2.53.0
+
+===== EXPECTED JUDGE-FACING FILES =====
+MISSING  README.md
+PRESENT  DECISIONS.md
+PRESENT  PORT_MORTEM_2026.md
+MISSING  PYTHON_TEST_COVERAGE.md
+MISSING  Dockerfile
+MISSING  Makefile
+MISSING  .port-mortem.toml
+
+===== EXPECTED DIRECTORIES =====
+PRESENT  rust-port/
+PRESENT  tests/
+PRESENT  parity/
+PRESENT  parity/evidence/
+MISSING  fuzz/
+MISSING  bench/
+
+===== RUST PROJECT FILES =====
+rust-port/ARCHITECTURE.md
+rust-port/Cargo.lock
+rust-port/Cargo.toml
+rust-port/.gitignore
+rust-port/README.md
+rust-port/scripts/check_unsafe.sh
+rust-port/src/algorithm.rs
+rust-port/src/api.rs
+rust-port/src/cli.rs
+rust-port/src/decode.rs
+rust-port/src/lib.rs
+rust-port/src/locale.rs
+rust-port/src/options.rs
+rust-port/src/os_sort.rs
+rust-port/src/path.rs
+rust-port/src/python_compat.rs
+rust-port/src/separator.rs
+rust-port/src/sort.rs
+rust-port/src/text.rs
+rust-port/src/token.rs
+rust-port/src/unicode_numeric.rs
+rust-port/src/value_api.rs
+rust-port/src/value.rs
+rust-port/tests/python_parity.rs
+
+===== PARITY FILES =====
+parity/benchmark_data/default_10000.txt
+parity/benchmark_data/default_1000.txt
+parity/benchmark_data/default_50000.txt
+parity/benchmark_data/float_10000.txt
+parity/benchmark_data/float_1000.txt
+parity/benchmark_data/float_50000.txt
+parity/benchmark_data/locale_10000.txt
+parity/benchmark_data/locale_1000.txt
+parity/benchmark_data/locale_50000.txt
+parity/benchmark_data/manifest.json
+parity/benchmark_data/path_10000.txt
+parity/benchmark_data/path_1000.txt
+parity/benchmark_data/path_50000.txt
+parity/benchmark_data/real_10000.txt
+parity/benchmark_data/real_1000.txt
+parity/benchmark_data/real_50000.txt
+parity/benchmark_python.py
+parity/benchmark_results_before_optimization.json
+parity/BENCHMARK_RESULTS_BEFORE_OPTIMIZATION.md
+parity/benchmark_results.json
+parity/BENCHMARK_RESULTS.md
+parity/differential_fuzz.py
+parity/evidence/genuine_full_suite_final.txt
+parity/evidence/original_suite_adapter_344.txt
+parity/evidence/repository_baseline.txt
+parity/generate_benchmark_data.py
+parity/original_suite_adapter/natsort/__init__.py
+parity/original_suite_adapter/natsort/__main__.py
+parity/original_suite_adapter/natsort/ns_enum.py
+parity/original_suite_adapter/natsort/unicode_numbers.py
+parity/original_suite_adapter/natsort/unicode_numeric_hex.py
+parity/original_suite_adapter/natsort/utils.py
+parity/python_api_reference_output.txt
+parity/python_api_reference.py
+parity/python_cli_behavior_reference_output.txt
+parity/python_cli_behavior_reference.py
+parity/python_cli_reference_output.txt
+parity/python_flags_reference_output.txt
+parity/python_flags_reference.py
+parity/python_locale_reference_output.txt
+parity/python_locale_reference.py
+parity/python_mixed_reference_output.txt
+parity/python_mixed_reference.py
+parity/python_numafter_reference_output.txt
+parity/python_numafter_reference.py
+parity/python_os_sort_reference_output.txt
+parity/python_os_sort_reference.py
+parity/python_reference_output.txt
+parity/python_reference.py
+parity/PYTHON_TEST_COVERAGE.md
+parity/run_benchmarks.py
+parity/run_original_suite_against_rust.py
+
+===== ORIGINAL TEST FILES =====
+tests/test_fake_fastnumbers.py
+tests/test_final_data_transform_factory.py
+tests/test_input_string_transform_factory.py
+tests/test_main.py
+tests/test_natsorted_convenience.py
+tests/test_natsorted.py
+tests/test_natsort_keygen.py
+tests/test_natsort_key.py
+tests/test_ns_enum.py
+tests/test_os_sorted.py
+tests/test_parse_bytes_function.py
+tests/test_parse_number_function.py
+tests/test_parse_string_function.py
+tests/test_regex.py
+tests/test_string_component_transform_factory.py
+tests/test_unicode_numbers.py
+tests/test_utils.py
+
+===== ORIGINAL TEST FILE COUNT =====
+17
+
+===== FINAL PARITY EVIDENCE =====
+344 passed, 3 warnings in 470.87s (0:07:50)
+PYTEST_EXIT_CODE=0
+
+===== TOP-LEVEL REPOSITORY TREE =====
+./CHANGELOG.md
+./CODE_OF_CONDUCT.md
+./CONTRIBUTING.md
+./.coverage
+./.coveragerc
+./DECISIONS.md
+./dev
+./dev/bump.py
+./dev/clean.py
+./dev/generate_new_unicode_numbers.py
+./dev/generate_rust_unicode_numeric.py
+./dev/README.md
+./docs
+./docs/api.rst
+./docs/changelog.rst
+./docs/conf.py
+./docs/examples.rst
+./docs/howitworks.rst
+./docs/index.rst
+./docs/locale_issues.rst
+./docs/shell.rst
+./evidence
+./evidence/differential_fuzz_65s.json
+./evidence/differential_fuzz_65s.log
+./evidence/differential_fuzz_65s.sha256
+./.hypothesis
+./.hypothesis/constants
+./.hypothesis/examples
+./.hypothesis/.gitignore
+./.hypothesis/tmp
+./.hypothesis/unicode_data
+./LICENSE
+./mypy_stubs
+./mypy_stubs/icu.pyi
+./natsort
+./natsort/compat
+./natsort.egg-info
+./natsort.egg-info/dependency_links.txt
+./natsort.egg-info/entry_points.txt
+./natsort.egg-info/PKG-INFO
+./natsort.egg-info/requires.txt
+./natsort.egg-info/scm_file_list.json
+./natsort.egg-info/scm_version.json
+./natsort.egg-info/SOURCES.txt
+./natsort.egg-info/top_level.txt
+./natsort/__init__.py
+./natsort/__main__.py
+./natsort/natsort.py
+./natsort/ns_enum.py
+./natsort/__pycache__
+./natsort/py.typed
+./natsort/unicode_numbers.py
+./natsort/unicode_numeric_hex.py
+./natsort/utils.py
+./natsort/_version.py
+./parity
+./parity/benchmark_data
+./parity/benchmark_python.py
+./parity/benchmark_results_before_optimization.json
+./parity/BENCHMARK_RESULTS_BEFORE_OPTIMIZATION.md
+./parity/benchmark_results.json
+./parity/BENCHMARK_RESULTS.md
+./parity/differential_fuzz.py
+./parity/evidence
+./parity/generate_benchmark_data.py
+./parity/original_suite_adapter
+./parity/__pycache__
+./parity/python_api_reference_output.txt
+./parity/python_api_reference.py
+./parity/python_cli_behavior_reference_output.txt
+./parity/python_cli_behavior_reference.py
+./parity/python_cli_reference_output.txt
+./parity/python_flags_reference_output.txt
+./parity/python_flags_reference.py
+./parity/python_locale_reference_output.txt
+./parity/python_locale_reference.py
+./parity/python_mixed_reference_output.txt
+./parity/python_mixed_reference.py
+./parity/python_numafter_reference_output.txt
+./parity/python_numafter_reference.py
+./parity/python_os_sort_reference_output.txt
+./parity/python_os_sort_reference.py
+./parity/python_reference_output.txt
+./parity/python_reference.py
+./parity/PYTHON_TEST_COVERAGE.md
+./parity/run_benchmarks.py
+./parity/run_original_suite_against_rust.py
+./PORT_MORTEM_2026.md
+./pyproject.toml
+./.pytest_cache
+./.pytest_cache/CACHEDIR.TAG
+./.pytest_cache/.gitignore
+./.pytest_cache/README.md
+./.pytest_cache/v
+./README.rst
+./RELEASING.md
+./.ruff_cache
+./.ruff_cache/0.11.13
+./.ruff_cache/CACHEDIR.TAG
+./.ruff_cache/.gitignore
+./rust-port
+./rust-port/ARCHITECTURE.md
+./rust-port/Cargo.lock
+./rust-port/Cargo.toml
+./rust-port/.gitignore
+./rust-port/README.md
+./rust-port/scripts
+./rust-port/src
+./rust-port/tests
+./tests
+./tests/conftest.py
+./tests/profile_natsorted.py
+./tests/__pycache__
+./tests/test_fake_fastnumbers.py
+./tests/test_final_data_transform_factory.py
+./tests/test_input_string_transform_factory.py
+./tests/test_main.py
+./tests/test_natsorted_convenience.py
+./tests/test_natsorted.py
+./tests/test_natsort_keygen.py
+./tests/test_natsort_key.py
+./tests/test_ns_enum.py
+./tests/test_os_sorted.py
+./tests/test_parse_bytes_function.py
+./tests/test_parse_number_function.py
+./tests/test_parse_string_function.py
+./tests/test_regex.py
+./tests/test_string_component_transform_factory.py
+./tests/test_unicode_numbers.py
+./tests/test_utils.py
+./tox.ini
+./UNSAFE_AUDIT.md
+./.venv
+./.venv/.gitignore
+./.venv/Include
+./.venv/Lib
+./.venv/pyvenv.cfg
+./.venv/Scripts
+./.venv-wsl
+./.venv-wsl/bin
+./.venv-wsl/.gitignore
+./.venv-wsl/include
+./.venv-wsl/lib
+./.venv-wsl/lib64
+./.venv-wsl/pyvenv.cfg
