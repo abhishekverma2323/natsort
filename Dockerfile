@@ -29,6 +29,9 @@ RUN apt-get update \
 WORKDIR /workspace
 COPY . .
 
+# Normalize the copied checkout before Git-blob integrity verification.
+RUN git config core.autocrlf false && git reset --hard HEAD
+
 RUN make setup \
     && make build
 

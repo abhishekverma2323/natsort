@@ -1,0 +1,839 @@
+python3 parity/verify_original_tests.py \
+	--source-commit b543bdce8771b6e7a7dae0c6745ddf7e80299797
+PASS: 19 original test files match the pinned source commit
+Comparison basis: canonical Git blob content
+Source manifest: parity/test_hashes/source.sha256
+Submission manifest: parity/test_hashes/submission.sha256
+Verification: parity/test_hashes/verification.txt
+cargo fmt --manifest-path rust-port/Cargo.toml --all -- --check
+cargo test --manifest-path rust-port/Cargo.toml --all-targets
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.24
+   Compiling stable_deref_trait v1.2.1
+   Compiling writeable v0.6.3
+   Compiling litemap v0.8.2
+   Compiling autocfg v1.5.1
+   Compiling utf8_iter v1.0.4
+   Compiling icu_normalizer_data v2.2.0
+   Compiling icu_locale_data v2.2.0
+   Compiling icu_collator_data v2.2.0
+   Compiling grift_unicode v1.4.0
+   Compiling write16 v1.0.0
+   Compiling utf16_iter v1.0.5
+   Compiling smallvec v1.15.2
+   Compiling tinyvec_macros v0.1.1
+   Compiling sys-locale v0.3.2
+   Compiling tinyvec v1.12.0
+   Compiling unicode-casefold v0.2.0
+   Compiling num-traits v0.2.19
+   Compiling unicode-normalization v0.1.25
+   Compiling syn v2.0.119
+   Compiling syn v3.0.3
+   Compiling num-integer v0.1.46
+   Compiling num-bigint v0.4.8
+   Compiling synstructure v0.13.2
+   Compiling displaydoc v0.2.7
+   Compiling zerofrom-derive v0.1.7
+   Compiling yoke-derive v0.8.2
+   Compiling zerovec-derive v0.11.3
+   Compiling zerofrom v0.1.8
+   Compiling yoke v0.8.3
+   Compiling zerovec v0.11.6
+   Compiling zerotrie v0.2.4
+   Compiling tinystr v0.8.3
+   Compiling potential_utf v0.1.5
+   Compiling icu_collections v2.2.0
+   Compiling icu_locale_core v2.2.0
+   Compiling icu_provider v2.2.0
+   Compiling icu_locale v2.2.0
+   Compiling icu_properties v2.2.0
+   Compiling icu_normalizer v2.2.0
+   Compiling icu_collator v2.2.1
+   Compiling rust-port v0.1.0 (/mnt/d/natsort-fresh-verify/rust-port)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 19.66s
+     Running unittests src/lib.rs (rust-port/target/debug/deps/rust_port-f825268a57f56f95)
+
+running 381 tests
+test algorithm::tests::chooses_all_six_numeric_families ... ok
+test algorithm::tests::exposes_python_flag_values ... ok
+test algorithm::tests::exposes_python_aliases ... ok
+test api::tests::index_sort_handles_empty_input ... ok
+test api::tests::index_sort_handles_single_input ... ok
+test api::tests::index_sort_is_stable_for_equivalent_values ... ok
+test api::tests::direct_path_sort_forces_path_mode_and_supports_reverse ... ok
+test api::tests::index_sort_supports_ignore_case ... ok
+test api::tests::index_sort_supports_paths ... ok
+test api::tests::index_sort_supports_presort ... ok
+test api::tests::index_sort_supports_reverse_presort ... ok
+test api::tests::key_sort_handles_empty_input ... ok
+test api::tests::key_sort_handles_single_item ... ok
+test api::tests::key_function_can_borrow_owned_string ... ok
+test api::tests::key_sort_is_stable ... ok
+test api::tests::key_sort_supports_ignore_case ... ok
+test api::tests::key_sort_supports_paths ... ok
+test api::tests::key_sort_supports_presort ... ok
+test api::tests::key_sort_supports_reverse_presort ... ok
+test api::tests::order_by_index_iterator_yields_values_lazily ... ok
+test api::tests::order_by_index_supports_duplicates ... ok
+test api::tests::order_by_index_supports_empty_indexes ... ok
+test api::tests::orders_primary_values_by_indexes ... ok
+test api::tests::orders_secondary_values_by_indexes ... ok
+test api::tests::real_key_sort_is_stable ... ok
+test api::tests::real_key_sort_supports_reverse ... ok
+test api::tests::real_sort_preserves_ignore_case_option ... ok
+test api::tests::real_sort_preserves_path_option ... ok
+test api::tests::real_sort_supports_reverse ... ok
+test api::tests::real_sorts_signed_floats ... ok
+test api::tests::real_sorts_records_by_key ... ok
+test api::tests::returns_direct_path_sort_indexes ... ok
+test api::tests::returns_natural_sort_indexes ... ok
+test api::tests::returns_reverse_natural_sort_indexes ... ok
+test api::tests::returns_real_sort_indexes ... ok
+test api::tests::safe_order_by_index_iterator_defers_invalid_index_error ... ok
+test api::tests::safe_order_reports_invalid_index ... ok
+test api::tests::safe_order_returns_values ... ok
+test api::tests::sorts_borrowed_path_values_directly ... ok
+test api::tests::sorts_path_buf_values_directly ... ok
+test api::tests::sorts_records_by_key ... ok
+test api::tests::sorts_records_by_key_in_reverse ... ok
+test cli::tests::applies_inclusive_filter ... ok
+test cli::tests::applies_reverse_filter_and_keeps_plain_text ... ok
+test cli::tests::excludes_entries_by_numeric_equality ... ok
+test cli::tests::invalid_number_type_returns_parse_error ... ok
+test cli::tests::keeps_entries_matching_any_range ... ok
+test cli::tests::empty_stdin_outputs_one_blank_entry ... ok
+test cli::tests::parses_all_repeatable_options ... ok
+test cli::tests::noexp_changes_float_order ... ok
+test cli::tests::parses_default_options ... ok
+test cli::tests::preserves_whitespace_from_command_line_entries ... ok
+test cli::tests::preserves_whitespace_from_newline_stdin ... ok
+test cli::tests::preserves_whitespace_from_zero_terminated_stdin ... ok
+test cli::tests::reads_newline_separated_stdin ... ok
+test cli::tests::reads_zero_terminated_stdin ... ok
+test cli::tests::real_mode_forces_signed_float_even_after_nosign ... ok
+test cli::tests::runs_basic_positional_sort ... ok
+test cli::tests::runs_reverse_sort ... ok
+test cli::tests::supports_float_filtering ... ok
+test cli::tests::supports_signed_real_sorting ... ok
+test cli::tests::unknown_option_returns_parse_error ... ok
+test cli::tests::validates_ranges ... ok
+test cli::tests::reversed_filter_bounds_return_runtime_error ... ok
+test decode::tests::accepts_utf8_underscore_alias ... ok
+test decode::tests::accepts_utf8_dash_alias ... ok
+test decode::tests::as_ascii_decodes_bytes ... ok
+test decode::tests::as_ascii_preserves_text ... ok
+test decode::tests::as_utf8_decodes_bytes ... ok
+test decode::tests::creates_ascii_decoder ... ok
+test decode::tests::creates_latin1_decoder_and_common_aliases ... ok
+test decode::tests::as_utf8_preserves_integer ... ok
+test decode::tests::creates_utf8_decoder ... ok
+test decode::tests::decoder_preserves_float ... ok
+test decode::tests::decoder_preserves_none ... ok
+test decode::tests::decoder_sort_is_stable ... ok
+test decode::tests::decoder_sort_preserves_original_values ... ok
+test decode::tests::decoder_sort_propagates_utf8_error ... ok
+test decode::tests::decoder_sort_supports_ignore_case ... ok
+test decode::tests::decoder_sort_supports_paths ... ok
+test decode::tests::decodes_ascii_bytes ... ok
+test decode::tests::decoder_sort_supports_reverse ... ok
+test decode::tests::decodes_latin1_bytes_without_loss ... ok
+test decode::tests::decodes_utf8_bytes ... ok
+test decode::tests::empty_decoder_sort_is_supported ... ok
+test decode::tests::latin1_decoder_preserves_non_byte_values ... ok
+test decode::tests::latin1_decoder_sorts_mixed_bytes_and_text ... ok
+test decode::tests::rejects_invalid_utf8 ... ok
+test decode::tests::rejects_non_ascii_byte ... ok
+test decode::tests::rejects_unknown_encoding ... ok
+test decode::tests::sorts_mixed_bytes_and_strings ... ok
+test locale::tests::accepts_french_non_breaking_space_fallback ... ok
+test locale::tests::accepts_french_narrow_no_break_space ... ok
+test api::tests::order_by_index_panics_for_invalid_index - should panic ... ok
+test api::tests::human_sort_supports_key_functions ... ok
+test api::tests::human_sort_supports_localized_numbers ... ok
+test api::tests::human_sort_matches_locale_sort_options ... ok
+test api::tests::human_indexes_match_locale_indexes ... ok
+test locale::tests::c_locale_sort_keys_are_lexical ... ok
+test locale::tests::does_not_switch_decimal_without_float_mode ... ok
+test locale::tests::exposes_czech_numeric_symbols ... ok
+test locale::tests::exposes_german_numeric_symbols ... ok
+test locale::tests::english_locale_places_lowercase_before_uppercase ... ok
+test locale::tests::exposes_indian_numeric_symbols ... ok
+test locale::tests::locale_num_after_separator_sorts_after_normal_text ... ok
+test locale::tests::matches_python_second_us_grouping_edge_case ... ok
+test locale::tests::matches_python_us_grouping_edge_case ... ok
+test locale::tests::normalizes_german_number ... ok
+test locale::tests::parses_czech_locale_identifiers ... ok
+test locale::tests::parses_windows_english_india_identifier ... ok
+test locale::tests::parses_windows_german_identifier ... ok
+test locale::tests::preserves_non_numeric_german_comma ... ok
+test locale::tests::strips_valid_english_grouping ... ok
+test locale::tests::switches_german_decimal_in_float_mode ... ok
+test options::tests::builds_options_from_python_flags ... ok
+test options::tests::ignores_unknown_algorithm_bits ... ok
+test options::tests::maps_real_and_locale_aliases ... ok
+test options::tests::raw_negative_bits_enable_every_known_option ... ok
+test options::tests::reverse_and_locale_profile_are_not_algorithm_flags ... ok
+test options::tests::round_trips_all_known_algorithm_bits ... ok
+test os_sort::tests::key_generator_uses_configured_profile ... ok
+test os_sort::tests::windows_comparison_is_case_insensitive ... ok
+test os_sort::tests::windows_presort_keeps_python_order ... ok
+test os_sort::tests::windows_reverse_sort_matches_python ... ok
+test os_sort::tests::windows_sorts_basic_names_like_explorer ... ok
+test os_sort::tests::windows_matches_compound_path_order ... ok
+test os_sort::tests::windows_sorts_path_components ... ok
+test os_sort::tests::windows_sorts_unicode_names ... ok
+test os_sort::tests::windows_supports_key_functions ... ok
+test os_sort::tests::windows_uses_more_leading_zeroes_as_tiebreaker ... ok
+test path::tests::applies_extension_length_heuristic ... ok
+test path::tests::does_not_treat_hidden_file_name_as_extension ... ok
+test path::tests::handles_hidden_file_extension ... ok
+test os_sort::tests::windows_coerces_mixed_values_to_strings ... ok
+test locale::tests::czech_numeric_collator_orders_embedded_numbers_naturally ... ok
+test locale::tests::matches_python_czech_locale_regression_140 ... ok
+test path::tests::normalizes_empty_path_to_dot ... ok
+test path::tests::preserves_parent_components ... ok
+test os_sort::tests::unix_profile_uses_locale_aware_natural_sorting ... ok
+test path::tests::preserves_root_component ... ok
+test path::tests::removes_current_directory_components_from_paths ... ok
+test path::tests::leaves_long_extension_attached ... ok
+test path::tests::normalizes_dot_paths ... ok
+test path::tests::separates_at_most_two_extensions ... ok
+test path::tests::separates_single_extension ... ok
+test path::tests::separates_two_extensions ... ok
+test path::tests::splits_regular_path_components ... ok
+test path::tests::splits_windows_path_components ... ok
+test path::tests::stops_before_numeric_suffix ... ok
+test python_compat::tests::replaces_nan_with_requested_sentinel ... ok
+test separator::tests::num_after_prefix_has_twenty_characters ... ok
+test separator::tests::num_after_prefix_uses_maximum_unicode_character ... ok
+test os_sort::tests::windows_matches_punctuation_corpus ... ok
+test python_compat::tests::parses_python_style_float_inputs ... ok
+test separator::tests::default_numeric_prefix_is_empty ... ok
+test python_compat::tests::parses_python_style_integer_inputs ... ok
+test sort::tests::canonically_normalizes_equivalent_text ... ok
+test sort::tests::case_folds_sharp_s ... ok
+test sort::tests::case_folds_kelvin_sign ... ok
+test sort::tests::combines_capital_and_lowercase_first ... ok
+test sort::tests::combines_ignore_case_and_lowercase_first ... ok
+test sort::tests::combines_path_and_ignore_case_options ... ok
+test sort::tests::case_folds_greek_sigma ... ok
+test sort::tests::combines_group_letters_and_ignore_case ... ok
+test sort::tests::combines_locale_alpha_and_numeric_sorting ... ok
+test sort::tests::compares_equivalent_scientific_values ... ok
+test sort::tests::compares_numbers_with_leading_zeros_by_numeric_value ... ok
+test sort::tests::compares_signed_zero_values_as_equal ... ok
+test sort::tests::compatibility_normalizes_circled_letters ... ok
+test sort::tests::default_places_pure_numeric_strings_before_text ... ok
+test sort::tests::handles_high_precision_scientific_values ... ok
+test sort::tests::ignores_exponents_when_no_exp_is_enabled ... ok
+test sort::tests::ignores_exponents_for_signed_floats ... ok
+test sort::tests::num_after_combines_with_group_letters ... ok
+test sort::tests::keeps_unsigned_behavior_by_default ... ok
+test sort::tests::num_after_combines_with_path_mode ... ok
+test sort::tests::num_after_combines_with_ignore_case ... ok
+test sort::tests::num_after_preserves_embedded_numbers ... ok
+test sort::tests::num_after_places_pure_numbers_after_text ... ok
+test sort::tests::presorts_equivalent_numeric_values ... ok
+test sort::tests::path_mode_separates_version_from_extensions ... ok
+test sort::tests::reverse_num_after_matches_python ... ok
+test sort::tests::sorts_arabic_indic_digits ... ok
+test sort::tests::reverse_presort_matches_python_ordering ... ok
+test sort::tests::sorts_basic_file_paths ... ok
+test sort::tests::sorts_broader_unicode_numeric_characters_in_float_mode ... ok
+test sort::tests::sorts_c_locale_alpha_like_python ... ok
+test sort::tests::sorts_capitals_first ... ok
+test sort::tests::sorts_case_insensitively ... ok
+test sort::tests::sorts_decimal_numbers_in_float_mode ... ok
+test sort::tests::canonically_normalizes_ring_characters ... ok
+test sort::tests::compatibility_normalizes_numbers ... ok
+test sort::tests::compatibility_normalizes_fullwidth_letters ... ok
+test sort::tests::compatibility_normalizes_ligatures ... ok
+test sort::tests::sorts_complex_filesystem_paths_like_python ... ok
+test sort::tests::sorts_devanagari_digits ... ok
+test sort::tests::sorts_explicit_positive_numbers ... ok
+test sort::tests::sorts_file_names_naturally ... ok
+test sort::tests::sorts_group_letters_with_numbers ... ok
+test sort::tests::sorts_floats_with_leading_decimal_points ... ok
+test sort::tests::sorts_english_locale_alpha_like_python ... ok
+test sort::tests::sorts_grouped_letters_lowercase_first ... ok
+test sort::tests::sorts_floats_with_trailing_decimal_points ... ok
+test sort::tests::sorts_fullwidth_digits ... ok
+test sort::tests::sorts_grouped_letters ... ok
+test sort::tests::sorts_localized_english_numbers ... ok
+test sort::tests::sorts_hidden_file_paths ... ok
+test sort::tests::sorts_in_reverse_order ... ok
+test sort::tests::sorts_high_precision_decimal_numbers ... ok
+test sort::tests::sorts_localized_french_numbers ... ok
+test sort::tests::sorts_lowercase_first_with_numbers ... ok
+test sort::tests::sorts_lowercase_first ... ok
+test sort::tests::sorts_localized_german_numbers ... ok
+test sort::tests::sorts_mixed_unicode_digit_scripts ... ok
+test sort::tests::sorts_multiple_numeric_components ... ok
+test sort::tests::sorts_mixed_unicode_numeric_characters ... ok
+test sort::tests::sorts_negative_scientific_notation ... ok
+test sort::tests::sorts_non_decimal_unicode_digits ... ok
+test sort::tests::sorts_nested_directory_paths ... ok
+test sort::tests::sorts_numbers_larger_than_u64 ... ok
+test sort::tests::sorts_path_extension_regression_case ... ok
+test sort::tests::sorts_parent_directory_before_child_path ... ok
+test sort::tests::sorts_paths_with_file_extensions ... ok
+test sort::tests::sorts_parent_paths_before_children ... ok
+test sort::tests::sorts_paths_with_grouped_letters ... ok
+test sort::tests::sorts_paths_lowercase_first ... ok
+test sort::tests::sorts_relative_paths ... ok
+test sort::tests::sorts_plain_text ... ok
+test sort::tests::sorts_rooted_paths_naturally ... ok
+test sort::tests::sorts_paths_with_multiple_numeric_components ... ok
+test sort::tests::sorts_scientific_values_with_positive_exponents ... ok
+test sort::tests::sorts_scientific_notation ... ok
+test sort::tests::sorts_signed_decimal_numbers ... ok
+test sort::tests::sorts_signed_floats_with_leading_decimal_points ... ok
+test sort::tests::sorts_signed_unicode_integers ... ok
+test sort::tests::sorts_signed_integers ... ok
+test sort::tests::sorts_unicode_decimal_values ... ok
+test sort::tests::sorts_signed_floats_with_trailing_decimal_points ... ok
+test sort::tests::sorts_valid_and_invalid_exponents_like_python ... ok
+test sort::tests::sorts_unicode_paths_ignoring_case ... ok
+test sort::tests::sorts_very_large_negative_integers ... ok
+test sort::tests::sorts_windows_style_paths ... ok
+test sort::tests::treats_equivalent_decimal_values_as_equal ... ok
+test text::tests::applies_canonical_decomposition ... ok
+test text::tests::applies_canonical_ring_decomposition ... ok
+test text::tests::c_locale_applies_python_dumb_locale_swap ... ok
+test text::tests::c_locale_groups_letters_like_python ... ok
+test text::tests::compatibility_normalizes_circled_letter ... ok
+test text::tests::compatibility_normalizes_circled_number ... ok
+test text::tests::compatibility_normalizes_fullwidth_letter ... ok
+test text::tests::compatibility_normalizes_ligature ... ok
+test text::tests::compatibility_normalizes_superscript_number ... ok
+test text::tests::english_locale_removes_thousands_separator ... ok
+test text::tests::folds_greek_sigma_variants ... ok
+test text::tests::folds_kelvin_sign ... ok
+test text::tests::folds_sharp_s ... ok
+test text::tests::german_locale_switches_decimal_separator ... ok
+test text::tests::groups_letters_by_folded_and_original_values ... ok
+test text::tests::locale_alpha_recomposes_unicode_before_collation ... ok
+test text::tests::prepares_case_folded_input ... ok
+test text::tests::swap_case_supports_character_expansion ... ok
+test text::tests::prepares_lowercase_first_input ... ok
+test text::tests::swaps_uppercase_and_lowercase_characters ... ok
+test token::tests::keeps_unicode_fraction_as_text_in_integer_mode ... ok
+test token::tests::leaves_exponent_without_digits_as_text ... ok
+test token::tests::leaves_exponent_as_separate_tokens_when_no_exp_is_enabled ... ok
+test token::tests::leaves_invalid_exponent_as_text ... ok
+test token::tests::leaves_invalid_positive_exponent_as_text ... ok
+test token::tests::leaves_invalid_negative_exponent_as_text ... ok
+test token::tests::normalizes_fullwidth_digits ... ok
+test token::tests::keeps_decimal_point_as_text_when_float_mode_is_disabled ... ok
+test token::tests::normalizes_devanagari_digits ... ok
+test token::tests::normalizes_signed_unicode_numbers ... ok
+test token::tests::normalizes_unicode_decimal_digits ... ok
+test token::tests::normalizes_unicode_exponent_digits ... ok
+test token::tests::normalizes_unicode_integer_digits ... ok
+test token::tests::preserves_very_large_numbers ... ok
+test token::tests::tokenizes_decimal_as_one_number_in_float_mode ... ok
+test token::tests::tokenizes_float_with_leading_decimal_point ... ok
+test token::tests::tokenizes_float_with_trailing_decimal_point ... ok
+test token::tests::tokenizes_negative_numbers_when_signed_is_enabled ... ok
+test token::tests::tokenizes_non_decimal_unicode_digit_in_integer_mode ... ok
+test token::tests::tokenizes_positive_exponent ... ok
+test token::tests::tokenizes_positive_numbers_when_signed_is_enabled ... ok
+test token::tests::tokenizes_roman_numeral_in_float_mode ... ok
+test token::tests::tokenizes_scientific_notation ... ok
+test token::tests::tokenizes_signed_decimal_number ... ok
+test token::tests::tokenizes_signed_float_with_leading_decimal_point ... ok
+test token::tests::tokenizes_signed_float_with_trailing_decimal_point ... ok
+test token::tests::matches_python_numeric_regex_split_corpus_semantics ... ok
+test token::tests::tokenizes_signed_number_with_negative_exponent ... ok
+test token::tests::tokenizes_signed_unicode_numeric_character ... ok
+test token::tests::tokenizes_text_and_numbers ... ok
+test token::tests::tokenizes_unicode_fraction_in_float_mode ... ok
+test token::tests::treats_sign_as_text_when_signed_is_disabled ... ok
+test unicode_numeric::tests::rejects_non_numeric_characters ... ok
+test unicode_numeric::tests::returns_values_for_broader_unicode_numerics ... ok
+test unicode_numeric::tests::returns_values_for_unicode_digits ... ok
+test unicode_numeric::tests::validates_representative_unicode_numeric_categories ... ok
+test value::tests::bytes_ignore_case_matches_python ... ok
+test value::tests::byte_key_contains_one_bytes_atom ... ok
+test value::tests::byte_path_key_is_wrapped_without_splitting ... ok
+test value::tests::bytes_support_reverse_order ... ok
+test value::tests::default_places_nan_then_none_then_negative_infinity ... ok
+test value::tests::default_direct_number_key_differs_from_decimal_string_key ... ok
+test value::tests::float_mode_direct_number_key_matches_decimal_string_key ... ok
+test value::tests::human_sort_matches_locale_options ... ok
+test value::tests::keygen_uses_default_options ... ok
+test value::tests::locale_key_equates_localized_string_and_direct_number ... ok
+test value::tests::mixed_sort_supports_reverse ... ok
+test value::tests::nan_last_places_infinity_then_none_then_nan ... ok
+test value::tests::byte_group_letters_does_not_modify_key ... ok
+test value::tests::nan_last_reverses_special_value_location ... ok
+test value::tests::byte_lowercase_first_does_not_modify_key ... ok
+test value::tests::human_sort_handles_mixed_localized_values ... ok
+test value::tests::nested_key_is_recursive ... ok
+test value::tests::num_after_combines_with_signed_values ... ok
+test value::tests::none_and_nan_keys_have_different_markers ... ok
+test value::tests::bytes_path_mode_remains_lexicographic ... ok
+test value::tests::num_after_does_not_change_embedded_number_key ... ok
+test value::tests::num_after_combines_with_float_values ... ok
+test value::tests::num_after_numeric_string_and_integer_keys_are_equal ... ok
+test value::tests::num_after_places_direct_numbers_after_text ... ok
+test value::tests::num_after_places_text_key_before_direct_number_key ... ok
+test value::tests::preserves_equivalent_number_stability ... ok
+test value::tests::real_key_equates_scientific_value ... ok
+test value::tests::sorts_bytes_lexicographically ... ok
+test value::tests::real_sorts_signed_mixed_values ... ok
+test value::tests::sorts_deeply_nested_sequences ... ok
+test value::tests::sorts_nested_mixed_sequences ... ok
+test value::tests::sorts_mixed_text_and_integers ... ok
+test value::tests::sorts_nested_string_sequences ... ok
+test value::tests::sorts_positive_and_negative_infinity ... ok
+test value::tests::supports_arbitrarily_large_direct_integers ... ok
+test value::tests::sorts_nested_real_sequences ... ok
+test value::tests::sorts_numeric_strings_and_integers ... ok
+test value_api::tests::decoder_indexes_propagate_errors ... ok
+test value_api::tests::byte_indexes_support_ignore_case ... ok
+test value_api::tests::decoder_indexes_mixed_bytes_and_text ... ok
+test value_api::tests::decoder_indexes_support_ignore_case ... ok
+test value_api::tests::decoder_indexes_support_reverse ... ok
+test value_api::tests::human_value_indexes_match_python_locale_order ... ok
+test value_api::tests::key_function_runs_once_per_item ... ok
+test value_api::tests::human_value_key_indexes_are_stable ... ok
+test value_api::tests::human_value_key_sort_supports_localized_numbers ... ok
+test value_api::tests::keeps_equivalent_value_indexes_stable ... ok
+test value_api::tests::returns_byte_indexes ... ok
+test value_api::tests::returns_default_none_and_nan_indexes ... ok
+test value_api::tests::real_sorts_records_by_value_key ... ok
+test value_api::tests::returns_direct_numeric_indexes ... ok
+test value_api::tests::returns_infinity_indexes ... ok
+test value_api::tests::returns_indexes_by_value_key ... ok
+test value_api::tests::returns_mixed_value_indexes ... ok
+test value_api::tests::returns_nan_last_indexes ... ok
+test value_api::tests::returns_nested_mixed_sequence_indexes ... ok
+test value_api::tests::returns_numeric_string_and_integer_indexes ... ok
+test value_api::tests::returns_nested_sequence_indexes ... ok
+test value_api::tests::returns_real_mixed_value_indexes ... ok
+test value_api::tests::returns_real_indexes_by_value_key ... ok
+test value_api::tests::returns_reverse_indexes_by_value_key ... ok
+test value_api::tests::returns_reverse_indexes ... ok
+test value::tests::sorts_direct_numeric_values ... ok
+test value_api::tests::sequence_prefixes_sort_shorter_first ... ok
+test value_api::tests::sorts_records_by_value_key_in_reverse ... ok
+test value_api::tests::value_indexes_support_empty_input ... ok
+test value_api::tests::sorts_records_by_natural_value_key ... ok
+test value_api::tests::value_indexes_support_num_after ... ok
+test value_api::tests::value_indexes_support_presort ... ok
+test value_api::tests::value_indexes_support_reverse_presort ... ok
+test value_api::tests::value_indexes_support_single_input ... ok
+test value_api::tests::value_key_sort_is_stable ... ok
+test value_api::tests::value_key_sort_supports_nested_keys ... ok
+test value_api::tests::value_key_sort_supports_presort ... ok
+test value_api::tests::value_key_sort_supports_paths ... ok
+test algorithm::tests::chooses_signed_integer_pattern ... ok
+test algorithm::tests::chooses_unsigned_integer_pattern_by_default ... ok
+test algorithm::tests::chooses_float_pattern_with_unicode_numeric_class ... ok
+test algorithm::tests::accepts_arbitrary_raw_integer_flags_like_python ... ok
+test algorithm::tests::ignores_non_numeric_flags_when_selecting_regex ... ok
+test unicode_numeric::tests::exhaustively_validates_generated_unicode_numeric_tables ... ok
+test python_compat::tests::exposes_non_ascii_unicode_collections ... ok
+
+test result: ok. 381 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.04s
+
+     Running unittests src/bin/benchmark.rs (rust-port/target/debug/deps/benchmark-d40b17fd5b802dd5)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/natsort.rs (rust-port/target/debug/deps/natsort-3c279626cf7a5470)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/bin/original_suite_adapter.rs (rust-port/target/debug/deps/original_suite_adapter-7f74117fc1b39ba0)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/python_parity.rs (rust-port/target/debug/deps/python_parity-46a90a4d0d99a8c0)
+
+running 176 tests
+test matches_python_algorithm_aliases ... ok
+test matches_python_algorithm_flag_values ... ok
+test lazy_order_by_index_reports_errors_only_when_reached ... ok
+test matches_python_byte_value_indexes ... ok
+test matches_python_ascii_decoder ... ok
+test matches_python_bytes_default_sorting ... ok
+test matches_python_bytes_path_mode ... ok
+test matches_python_bytes_ignore_case_sorting ... ok
+test combines_path_and_ignore_case_options ... ok
+test matches_python_basic_natural_sort ... ok
+test matches_python_basic_path_sorting ... ok
+test matches_python_canonical_normalization_sorting ... ok
+test algorithm_flags_drive_existing_sort_options ... ok
+test matches_python_canonical_ring_normalization_sorting ... ok
+test matches_python_c_locale_alpha ... ok
+test matches_python_arabic_indic_digit_sorting ... ok
+test matches_python_capital_first_sorting ... ok
+test matches_python_capital_and_lowercase_first_sorting ... ok
+test matches_python_circled_letter_compatibility_normalization ... ok
+test matches_python_cli_empty_stdin ... ok
+test matches_python_cli_integer_exclude ... ok
+test matches_python_cli_multiple_number_filtering ... ok
+test matches_python_cli_float_exponent_sort ... ok
+test matches_python_cli_path_sort ... ok
+test matches_python_cli_inclusive_filter ... ok
+test matches_python_cli_float_noexp_sort ... ok
+test matches_python_cli_invalid_number_type_exit_code ... ok
+test matches_python_cli_newline_stdin ... ok
+test matches_python_cli_positional_basic ... ok
+test matches_python_cli_real_sort ... ok
+test matches_python_cli_whitespace_from_zero_terminated_stdin ... ok
+test matches_python_czech_locale_identifier_aliases ... ok
+test matches_python_cli_reverse_filter ... ok
+test matches_python_cli_whitespace_from_newline_stdin ... ok
+test matches_python_cli_zero_terminated_stdin ... ok
+test matches_python_cli_real_with_nosign ... ok
+test matches_python_cli_reversed_range_error ... ok
+test matches_python_decoder_non_bytes_passthrough ... ok
+test matches_python_cli_whitespace_from_command_line_entries ... ok
+test matches_python_decoder_mixed_value_indexes ... ok
+test matches_python_devanagari_digit_sorting ... ok
+test matches_python_direct_numeric_value_indexes ... ok
+test matches_python_empty_input ... ok
+test matches_python_english_localized_numbers ... ok
+test matches_python_equivalent_leading_zero_values ... ok
+test matches_python_float_leading_decimal_point_sorting ... ok
+test matches_python_direct_numeric_sorting ... ok
+test matches_python_direct_path_object_sorting ... ok
+test matches_python_float_sorting ... ok
+test matches_python_direct_path_object_indexes ... ok
+test matches_python_float_trailing_decimal_point_sorting ... ok
+test matches_python_french_localized_numbers ... ok
+test matches_python_fullwidth_digit_sorting ... ok
+test matches_python_german_localized_numbers ... ok
+test matches_python_greek_sigma_casefold_sorting ... ok
+test matches_python_fullwidth_compatibility_normalization ... ok
+test matches_python_group_letters_ignore_case_sorting ... ok
+test matches_python_group_letters_lowercase_first_sorting ... ok
+test matches_python_group_letters_numeric_sorting ... ok
+test matches_python_group_letters_sorting ... ok
+test matches_python_hidden_file_path_sorting ... ok
+test matches_python_ignore_case_lowercase_first_sorting ... ok
+test matches_python_ignore_case_sorting ... ok
+test matches_python_index_equivalent_value_stability ... ok
+test matches_python_index_natsorted_basic ... ok
+test matches_python_index_natsorted_reverse ... ok
+test matches_python_index_presort ... ok
+test matches_python_index_presort_reverse ... ok
+test matches_python_infinity_sorting ... ok
+test matches_python_index_realsorted_basic ... ok
+test matches_python_infinity_value_indexes ... ok
+test matches_python_invalid_utf8_error ... ok
+test matches_python_kelvin_sign_casefold_sorting ... ok
+test matches_python_key_sort_stability ... ok
+test matches_python_latin1_decoder ... ok
+test matches_python_large_integer_sorting ... ok
+test matches_python_latin1_decoder_sorting ... ok
+test matches_python_lazy_order_by_index ... ok
+test matches_python_leading_zero_behavior ... ok
+test matches_python_ligature_compatibility_normalization ... ok
+test matches_python_lowercase_first_numeric_sorting ... ok
+test matches_python_lowercase_first_sorting ... ok
+test matches_python_mixed_bytes_string_decoder_sorting ... ok
+test matches_python_mixed_scientific_notation_sorting ... ok
+test matches_python_mixed_text_and_integer_sorting ... ok
+test matches_python_mixed_unicode_digit_sorting ... ok
+test matches_python_mixed_unicode_numeric_character_sorting ... ok
+test matches_python_mixed_value_indexes ... ok
+test matches_python_multiple_numeric_components ... ok
+test matches_python_natsorted_with_key ... ok
+test matches_python_natsorted_with_key_reverse ... ok
+test matches_python_nested_directory_path_sorting ... ok
+test locale_key_equates_german_localized_number_and_direct_number ... ok
+test matches_python_mixed_english_locale_sort ... ok
+test matches_python_english_human_natural_sort ... ok
+test matches_python_czech_locale_bug_regression_140 ... ok
+test locale_key_equates_english_localized_number_and_direct_number ... ok
+test matches_python_english_locale_alpha ... ok
+test matches_python_nested_mixed_sequence_indexes ... ok
+test matches_python_nested_mixed_sequence_sorting ... ok
+test matches_python_none_and_nan_default_indexes ... ok
+test matches_python_nested_string_sequence_sorting ... ok
+test matches_python_no_exp_float_sorting ... ok
+test matches_python_none_and_nan_last_indexes ... ok
+test matches_python_english_human_indexes ... ok
+test matches_python_num_after_basic_sorting ... ok
+test matches_python_num_after_float_values ... ok
+test matches_python_num_after_indexes ... ok
+test matches_python_num_after_mixed_direct_values ... ok
+test algorithm_flags_drive_locale_sorting ... ok
+test matches_python_nested_sequence_indexes ... ok
+test matches_python_none_and_nan_last_sorting ... ok
+test matches_python_mixed_english_locale_indexes ... ok
+test matches_python_num_after_reverse ... ok
+test matches_python_num_after_signed_values ... ok
+test matches_python_number_compatibility_normalization ... ok
+test matches_python_num_after_path_sorting ... ok
+test matches_python_numeric_string_and_integer_indexes ... ok
+test matches_python_numeric_string_and_integer_sorting ... ok
+test matches_python_order_by_index_primary ... ok
+test matches_python_order_by_index_secondary ... ok
+test matches_python_none_and_nan_default_sorting ... ok
+test matches_python_num_after_group_letters ... ok
+test matches_python_path_group_letters_sorting ... ok
+test matches_python_path_lowercase_first_sorting ... ok
+test matches_python_num_after_ignore_case ... ok
+test matches_python_path_file_extension_sorting ... ok
+test matches_python_plain_text_sorting ... ok
+test matches_python_path_numeric_component_sorting ... ok
+test matches_python_realsorted_basic ... ok
+test matches_python_precise_decimal_sorting ... ok
+test matches_python_relative_path_sorting ... ok
+test matches_python_reverse_sorting ... ok
+test matches_python_presort_equivalent_value_sorting ... ok
+test matches_python_realsorted_reverse ... ok
+test matches_python_punctuation_and_separator_sorting ... ok
+test matches_python_sharp_s_casefold_sorting ... ok
+test matches_python_scientific_notation_sorting ... ok
+test matches_python_signed_float_leading_decimal_point_sorting ... ok
+test matches_python_signed_float_trailing_decimal_point_sorting ... ok
+test matches_python_signed_float_sorting ... ok
+test matches_python_signed_integer_sorting ... ok
+test matches_python_signed_mixed_value_indexes ... ok
+test matches_python_signed_no_exp_float_sorting ... ok
+test matches_python_signed_unicode_integer_sorting ... ok
+test matches_python_single_item_input ... ok
+test matches_python_signed_mixed_value_sorting ... ok
+test matches_python_trailing_path_separator_sorting ... ok
+test matches_python_unicode_decimal_sorting ... ok
+test matches_python_utf8_decoder ... ok
+test matches_python_unicode_path_ignore_case_sorting ... ok
+test matches_python_unicode_digit_character_sorting ... ok
+test matches_python_signed_zero_sorting ... ok
+test matches_python_unicode_numeric_character_float_sorting ... ok
+test matches_python_valid_and_invalid_exponent_sorting ... ok
+test matches_python_windows_os_key_sort ... ok
+test matches_python_windows_os_basic_sort ... ok
+test matches_python_windows_os_leading_zero_order ... ok
+test matches_python_windows_os_mixed_indexes ... ok
+test matches_python_windows_os_reverse_sort ... ok
+test matches_python_windows_path_sorting ... ok
+test matches_python_windows_os_path_sort ... ok
+test path_mode_separates_version_from_extensions ... ok
+test matches_python_windows_os_unicode_sort ... ok
+test sort_options_round_trip_python_algorithm_bits ... ok
+test sorts_parent_paths_before_children ... ok
+test sorts_rooted_paths_naturally ... ok
+test sorts_complex_filesystem_paths_like_python ... ok
+test sorts_path_extension_regression_case ... ok
+test matches_python_windows_os_punctuation_sort ... ok
+test matches_python_default_numeric_regex ... ok
+test matches_python_signed_integer_numeric_regex ... ok
+test matches_python_float_numeric_regex ... ok
+test matches_python_regex_selection_for_arbitrary_integers ... ok
+test matches_python_regex_selection_with_non_numeric_flags ... ok
+test matches_python_signed_float_noexp_regex ... ok
+
+test result: ok. 176 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.81s
+
+cargo clippy --manifest-path rust-port/Cargo.toml --all-targets -- -D warnings
+   Compiling proc-macro2 v1.0.107
+    Checking stable_deref_trait v1.2.1
+    Checking writeable v0.6.3
+    Checking litemap v0.8.2
+    Checking utf8_iter v1.0.4
+    Checking smallvec v1.15.2
+    Checking utf16_iter v1.0.5
+   Compiling num-traits v0.2.19
+    Checking icu_locale_data v2.2.0
+    Checking icu_normalizer_data v2.2.0
+    Checking tinyvec_macros v0.1.1
+    Checking write16 v1.0.0
+   Compiling grift_unicode v1.4.0
+    Checking icu_collator_data v2.2.0
+    Checking tinyvec v1.12.0
+    Checking unicode-casefold v0.2.0
+    Checking sys-locale v0.3.2
+    Checking unicode-normalization v0.1.25
+   Compiling quote v1.0.47
+    Checking num-integer v0.1.46
+   Compiling syn v2.0.119
+   Compiling syn v3.0.3
+    Checking num-bigint v0.4.8
+   Compiling synstructure v0.13.2
+   Compiling displaydoc v0.2.7
+   Compiling zerofrom-derive v0.1.7
+   Compiling yoke-derive v0.8.2
+   Compiling zerovec-derive v0.11.3
+    Checking zerofrom v0.1.8
+    Checking yoke v0.8.3
+    Checking zerovec v0.11.6
+    Checking zerotrie v0.2.4
+    Checking tinystr v0.8.3
+    Checking potential_utf v0.1.5
+    Checking icu_collections v2.2.0
+    Checking icu_locale_core v2.2.0
+    Checking icu_provider v2.2.0
+    Checking icu_normalizer v2.2.0
+    Checking icu_properties v2.2.0
+    Checking icu_locale v2.2.0
+    Checking icu_collator v2.2.1
+    Checking rust-port v0.1.0 (/mnt/d/natsort-fresh-verify/rust-port)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 11.98s
+python3 -m venv .port-venv
+.port-venv/bin/python -m pip install --upgrade pip
+Requirement already satisfied: pip in ./.port-venv/lib/python3.14/site-packages (25.1.1)
+Collecting pip
+  Using cached pip-26.2-py3-none-any.whl.metadata (4.6 kB)
+Using cached pip-26.2-py3-none-any.whl (1.8 MB)
+Installing collected packages: pip
+  Attempting uninstall: pip
+    Found existing installation: pip 25.1.1
+    Uninstalling pip-25.1.1:
+      Successfully uninstalled pip-25.1.1
+Successfully installed pip-26.2
+.port-venv/bin/python -m pip install -e .
+Obtaining file:///mnt/d/natsort-fresh-verify
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Getting requirements to build editable: started
+  Getting requirements to build editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: natsort
+  Building editable for natsort (pyproject.toml): started
+  Building editable for natsort (pyproject.toml): finished with status 'done'
+  Created wheel for natsort: filename=natsort-0.1.dev1109+gb1caa38d5-0.editable-py3-none-any.whl size=10728 sha256=35d10f880171b6252d6a0d1ece0f340d7d84ff12208a81ab7027c105d07c8f83
+  Stored in directory: /tmp/pip-ephem-wheel-cache-0xkj7jde/wheels/a3/69/90/2e12cd8034e4174422890ee332ec8f90e9f8d1611e4e4cf598
+Successfully built natsort
+Installing collected packages: natsort
+Successfully installed natsort-0.1.dev1109+gb1caa38d5
+.port-venv/bin/python -m pip install \
+	pytest pytest-mock hypothesis pytest-cov setuptools-scm tox
+Collecting pytest
+  Using cached pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+Collecting pytest-mock
+  Using cached pytest_mock-3.15.1-py3-none-any.whl.metadata (3.9 kB)
+Collecting hypothesis
+  Using cached hypothesis-6.165.0-cp314-cp314-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.7 kB)
+Collecting pytest-cov
+  Using cached pytest_cov-7.1.0-py3-none-any.whl.metadata (32 kB)
+Collecting setuptools-scm
+  Using cached setuptools_scm-10.2.1-py3-none-any.whl.metadata (6.7 kB)
+Collecting tox
+  Using cached tox-4.58.0-py3-none-any.whl.metadata (3.8 kB)
+Collecting iniconfig>=1.0.1 (from pytest)
+  Using cached iniconfig-2.3.0-py3-none-any.whl.metadata (2.5 kB)
+Collecting packaging>=22 (from pytest)
+  Using cached packaging-26.2-py3-none-any.whl.metadata (3.5 kB)
+Collecting pluggy<2,>=1.5 (from pytest)
+  Using cached pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+Collecting pygments>=2.7.2 (from pytest)
+  Using cached pygments-2.20.0-py3-none-any.whl.metadata (2.5 kB)
+Collecting sortedcontainers<3.0.0,>=2.1.0 (from hypothesis)
+  Using cached sortedcontainers-2.4.0-py2.py3-none-any.whl.metadata (10 kB)
+Collecting coverage>=7.10.6 (from coverage[toml]>=7.10.6->pytest-cov)
+  Using cached coverage-7.15.2-cp314-cp314-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (8.6 kB)
+Collecting vcs-versioning<3,>=2.0.0.dev0 (from setuptools-scm)
+  Using cached vcs_versioning-2.2.3-py3-none-any.whl.metadata (1.7 kB)
+Collecting setuptools (from setuptools-scm)
+  Using cached setuptools-83.0.0-py3-none-any.whl.metadata (6.6 kB)
+Collecting cachetools>=7.0.3 (from tox)
+  Using cached cachetools-7.1.7-py3-none-any.whl.metadata (5.5 kB)
+Collecting colorama>=0.4.6 (from tox)
+  Using cached colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+Collecting filelock>=3.25 (from tox)
+  Using cached filelock-3.32.2-py3-none-any.whl.metadata (2.0 kB)
+Collecting platformdirs>=4.9.4 (from tox)
+  Using cached platformdirs-4.11.0-py3-none-any.whl.metadata (5.5 kB)
+Collecting pyproject-api>=1.10 (from tox)
+  Using cached pyproject_api-1.11.0-py3-none-any.whl.metadata (2.3 kB)
+Collecting python-discovery>=1.4.4 (from tox)
+  Using cached python_discovery-1.5.1-py3-none-any.whl.metadata (5.0 kB)
+Collecting tomli-w>=1.2 (from tox)
+  Using cached tomli_w-1.2.0-py3-none-any.whl.metadata (5.7 kB)
+Collecting virtualenv>=21.1 (from tox)
+  Using cached virtualenv-21.7.1-py3-none-any.whl.metadata (3.5 kB)
+Collecting distlib<1,>=0.3.7 (from virtualenv>=21.1->tox)
+  Using cached distlib-0.4.3-py2.py3-none-any.whl.metadata (5.3 kB)
+Using cached pytest-9.1.1-py3-none-any.whl (386 kB)
+Using cached pluggy-1.6.0-py3-none-any.whl (20 kB)
+Using cached pytest_mock-3.15.1-py3-none-any.whl (10 kB)
+Using cached hypothesis-6.165.0-cp314-cp314-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.1 MB)
+Using cached sortedcontainers-2.4.0-py2.py3-none-any.whl (29 kB)
+Using cached pytest_cov-7.1.0-py3-none-any.whl (22 kB)
+Using cached setuptools_scm-10.2.1-py3-none-any.whl (29 kB)
+Using cached vcs_versioning-2.2.3-py3-none-any.whl (108 kB)
+Using cached tox-4.58.0-py3-none-any.whl (223 kB)
+Using cached cachetools-7.1.7-py3-none-any.whl (16 kB)
+Using cached colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+Using cached coverage-7.15.2-cp314-cp314-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (255 kB)
+Using cached filelock-3.32.2-py3-none-any.whl (98 kB)
+Using cached iniconfig-2.3.0-py3-none-any.whl (7.5 kB)
+Using cached packaging-26.2-py3-none-any.whl (100 kB)
+Using cached platformdirs-4.11.0-py3-none-any.whl (23 kB)
+Using cached pygments-2.20.0-py3-none-any.whl (1.2 MB)
+Using cached pyproject_api-1.11.0-py3-none-any.whl (13 kB)
+Using cached python_discovery-1.5.1-py3-none-any.whl (35 kB)
+Using cached tomli_w-1.2.0-py3-none-any.whl (6.7 kB)
+Using cached virtualenv-21.7.1-py3-none-any.whl (5.5 MB)
+Using cached distlib-0.4.3-py2.py3-none-any.whl (470 kB)
+Using cached setuptools-83.0.0-py3-none-any.whl (1.0 MB)
+Installing collected packages: sortedcontainers, distlib, tomli-w, setuptools, pygments, pluggy, platformdirs, packaging, iniconfig, hypothesis, filelock, coverage, colorama, cachetools, vcs-versioning, python-discovery, pytest, pyproject-api, virtualenv, setuptools-scm, pytest-mock, pytest-cov, tox
+
+Successfully installed cachetools-7.1.7 colorama-0.4.6 coverage-7.15.2 distlib-0.4.3 filelock-3.32.2 hypothesis-6.165.0 iniconfig-2.3.0 packaging-26.2 platformdirs-4.11.0 pluggy-1.6.0 pygments-2.20.0 pyproject-api-1.11.0 pytest-9.1.1 pytest-cov-7.1.0 pytest-mock-3.15.1 python-discovery-1.5.1 setuptools-83.0.0 setuptools-scm-10.2.1 sortedcontainers-2.4.0 tomli-w-1.2.0 tox-4.58.0 vcs-versioning-2.2.3 virtualenv-21.7.1
+cargo build --manifest-path rust-port/Cargo.toml --bins
+   Compiling num-traits v0.2.19
+   Compiling grift_unicode v1.4.0
+   Compiling zerofrom v0.1.8
+   Compiling yoke v0.8.3
+   Compiling zerovec v0.11.6
+   Compiling zerotrie v0.2.4
+   Compiling num-integer v0.1.46
+   Compiling num-bigint v0.4.8
+   Compiling tinystr v0.8.3
+   Compiling potential_utf v0.1.5
+   Compiling icu_collections v2.2.0
+   Compiling icu_locale_core v2.2.0
+   Compiling icu_provider v2.2.0
+   Compiling icu_properties v2.2.0
+   Compiling icu_locale v2.2.0
+   Compiling icu_normalizer v2.2.0
+   Compiling icu_collator v2.2.1
+   Compiling rust-port v0.1.0 (/mnt/d/natsort-fresh-verify/rust-port)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 9.24s
+.port-venv/bin/python parity/run_original_suite_against_rust.py -- \
+	-q --continue-on-collection-errors --maxfail=0 --tb=short -ra tests
+Rust-backed package: /mnt/d/natsort-fresh-verify/parity/original_suite_adapter/natsort/__init__.py
+Rust adapter binary: /mnt/d/natsort-fresh-verify/rust-port/target/debug/original-suite-adapter
+........................................................................ [ 20%]
+........................................................................ [ 41%]
+........................................................................ [ 62%]
+........................................................................ [ 83%]
+........................................................                 [100%]
+=============================== warnings summary ===============================
+.port-venv/lib/python3.14/site-packages/_pytest/config/__init__.py:1345
+  /mnt/d/natsort-fresh-verify/.port-venv/lib/python3.14/site-packages/_pytest/config/__init__.py:1345: PytestAssertRewriteWarning: Module already imported so cannot be rewritten; _hypothesis_globals
+    self._mark_plugins_for_rewrite(hook, disable_autoload)
+
+.port-venv/lib/python3.14/site-packages/_pytest/config/__init__.py:1345
+  /mnt/d/natsort-fresh-verify/.port-venv/lib/python3.14/site-packages/_pytest/config/__init__.py:1345: PytestAssertRewriteWarning: Module already imported so cannot be rewritten; hypothesis
+    self._mark_plugins_for_rewrite(hook, disable_autoload)
+
+tests/test_unicode_numbers.py::test_missing_unicode_number_in_collection
+  /mnt/d/natsort-fresh-verify/.port-venv/lib/python3.14/site-packages/_pytest/python.py:167: UserWarning: Not all numeric unicode characters are represented in natsort/unicode_numeric_hex.py
+  This can be addressed by running dev/generate_new_unicode_numbers.py with the current version of Python.
+  It would be much appreciated if you would submit a Pull Request to the natsort
+  repository (https://github.com/SethMMorton/natsort) with the resulting change.
+  
+    result = testfunction(**testargs)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+344 passed, 3 warnings in 531.74s (0:08:51)
+
+FRESH_CLONE_VERIFY_EXIT_CODE=0
