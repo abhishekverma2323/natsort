@@ -1,0 +1,28 @@
+Rust-backed package: /mnt/d/natsort/parity/original_suite_adapter/natsort/__init__.py
+Rust adapter binary: /mnt/d/natsort/rust-port/target/debug/original-suite-adapter
+........................................................................ [ 20%]
+........................................................................ [ 41%]
+........................................................................ [ 62%]
+........................................................................ [ 83%]
+........................................................                 [100%]
+=============================== warnings summary ===============================
+.tox/py/lib/python3.14/site-packages/_pytest/config/__init__.py:1345
+  /mnt/d/natsort/.tox/py/lib/python3.14/site-packages/_pytest/config/__init__.py:1345: PytestAssertRewriteWarning: Module already imported so cannot be rewritten; _hypothesis_globals
+    self._mark_plugins_for_rewrite(hook, disable_autoload)
+
+.tox/py/lib/python3.14/site-packages/_pytest/config/__init__.py:1345
+  /mnt/d/natsort/.tox/py/lib/python3.14/site-packages/_pytest/config/__init__.py:1345: PytestAssertRewriteWarning: Module already imported so cannot be rewritten; hypothesis
+    self._mark_plugins_for_rewrite(hook, disable_autoload)
+
+tests/test_unicode_numbers.py::test_missing_unicode_number_in_collection
+  /mnt/d/natsort/.tox/py/lib/python3.14/site-packages/_pytest/python.py:167: UserWarning: Not all numeric unicode characters are represented in natsort/unicode_numeric_hex.py
+  This can be addressed by running dev/generate_new_unicode_numbers.py with the current version of Python.
+  It would be much appreciated if you would submit a Pull Request to the natsort
+  repository (https://github.com/SethMMorton/natsort) with the resulting change.
+  
+    result = testfunction(**testargs)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+344 passed, 3 warnings in 470.87s (0:07:50)
+
+PYTEST_EXIT_CODE=0

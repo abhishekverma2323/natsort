@@ -20,7 +20,7 @@ fn compose_input(input: &str, compatibility_normalize: bool) -> String {
     }
 }
 
-fn swap_case(input: &str) -> String {
+pub(crate) fn swap_case(input: &str) -> String {
     let mut output = String::new();
 
     for character in input.chars() {
@@ -36,11 +36,11 @@ fn swap_case(input: &str) -> String {
     output
 }
 
-fn case_fold(input: &str) -> String {
+pub(crate) fn case_fold(input: &str) -> String {
     input.case_fold().collect()
 }
 
-fn group_letters(input: &str) -> String {
+pub(crate) fn group_letters(input: &str) -> String {
     let mut output = String::new();
 
     for character in input.chars() {

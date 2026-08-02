@@ -523,17 +523,92 @@ __all__ = [
     *ns.__members__,
 ]
 
-# BEGIN ORIGINAL-SUITE REPRESENTATION COMPATIBILITY
-#
-# These imports reproduce Python-specific key tuple, regex, factory,
-# Unicode collection, and CLI representations inspected by the unchanged
-# original suite. Public sorting functions above remain Rust-backed.
+def numeric_regex_chooser(alg: int) -> str:
+    """Return the numeric regex selected by the Rust implementation."""
+    return _run_adapter(["numeric-regex", str(int(alg))]).decode("utf-8")
+
+
 from . import utils as utils
-from ._key_compat import (
-    natsort_key,
-    natsort_keygen,
-    numeric_regex_chooser,
-)
+
+
+def natsort_keygen(
+    key: Any = None,
+    alg: int = ns.DEFAULT,
+) -> Any:
+    if not isinstance(alg, int):
+        raise ValueError(
+            "natsort_keygen: 'alg' argument must be from the enum "
+            f"'ns', got {alg!s}"
+        )
+
+    from .compat import locale as locale_compat
+    from .ns_enum import NS_DUMB
+
+    bits = int(alg)
+
+    if bits & int(ns.LOCALEALPHA) and locale_compat.dumb_sort():
+        bits |= NS_DUMB
+
+    if bits & int(ns.NUMAFTER):
+        sep = (
+            locale_compat.null_string_locale_max
+            if bits & int(ns.LOCALEALPHA)
+            else locale_compat.null_string_max
+        )
+        pre_sep = locale_compat.null_string_max
+    else:
+        sep = (
+            locale_compat.null_string_locale
+            if bits & int(ns.LOCALEALPHA)
+            else locale_compat.null_string
+        )
+        pre_sep = locale_compat.null_string
+
+    regex = utils.regex_chooser(bits)
+    input_transform = utils.input_string_transform_factory(bits)
+    component_transform = utils.string_component_transform_factory(bits)
+    final_transform = utils.final_data_transform_factory(
+        bits,
+        sep,
+        pre_sep,
+    )
+
+    string_func = utils.parse_string_factory(
+        bits,
+        sep,
+        regex.split,
+        input_transform,
+        component_transform,
+        final_transform,
+    )
+
+    if bits & int(ns.PATH):
+        string_func = utils.parse_path_factory(string_func)
+
+    bytes_func = utils.parse_bytes_factory(bits)
+    num_func = utils.parse_number_or_none_factory(
+        bits,
+        sep,
+        pre_sep,
+    )
+
+    def generated(value: Any) -> tuple[Any, ...]:
+        return utils.natsort_key(
+            value,
+            key,
+            string_func,
+            bytes_func,
+            num_func,
+        )
+
+    return generated
+
+
+_default_natsort_key = natsort_keygen()
+
+
+def natsort_key(value: Any) -> tuple[Any, ...]:
+    return _default_natsort_key(value)
 
 __all__.extend(
     [
@@ -543,4 +618,3 @@ __all__.extend(
         "utils",
     ]
 )
-# END ORIGINAL-SUITE REPRESENTATION COMPATIBILITY

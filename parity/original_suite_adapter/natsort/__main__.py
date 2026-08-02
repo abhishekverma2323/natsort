@@ -1,28 +1,23 @@
-"""Entry-point for command-line interface."""
+"""Thin Python CLI compatibility surface backed by the Rust sorter."""
 
 from __future__ import annotations
 
 import argparse
+import re
 import sys
-import textwrap
-from collections.abc import Iterable
-from typing import TYPE_CHECKING, Callable, Union, cast
+from functools import lru_cache
+from typing import Callable, Iterable, Pattern
 
 import natsort
-from natsort.utils import regex_chooser
 
-if TYPE_CHECKING:
-    from re import Pattern
-
-Num = Union[float, int]
-NumIter = Iterable[Num]
+Num = int | float
 NumPair = tuple[Num, Num]
-NumPairIter = Iterable[NumPair]
+NumIter = Iterable[Num]
 NumConverter = Callable[[str], Num]
 
 
-class TypedArgs(argparse.Namespace):
-    """Typed command-line argument namespace."""
+class TypedArgs:
+    """Small argparse-compatible namespace used by the unchanged tests."""
 
     paths: bool
     filter: list[NumPair] | None
@@ -30,24 +25,22 @@ class TypedArgs(argparse.Namespace):
     exclude: list[Num]
     reverse: bool
     number_type: str
-    nosign: bool
-    sign: bool
-    noexp: bool
+    signed: bool
+    exp: bool
     locale: bool
     zero_terminated: bool
     entries: list[str]
 
-    def __init__(  # noqa: PLR0913
+    def __init__(
         self,
         filter: list[NumPair] | None = None,
         reverse_filter: list[NumPair] | None = None,
         exclude: list[Num] | None = None,
-        paths: bool = False,  # noqa: FBT001, FBT002
-        reverse: bool = False,  # noqa: FBT001, FBT002
-        zero_terminated: bool = False,  # noqa: FBT001, FBT002
+        paths: bool = False,
+        reverse: bool = False,
+        zero_terminated: bool = False,
         entries: list[str] | None = None,
     ) -> None:
-        """Use this constructor only for running the unit tests."""
         self.filter = filter
         self.reverse_filter = reverse_filter
         self.exclude = [] if exclude is None else exclude
@@ -58,216 +51,74 @@ class TypedArgs(argparse.Namespace):
         self.exp = True
         self.locale = False
         self.zero_terminated = zero_terminated
-        if entries is None:
-            entries = []
-        self.entries = entries
+        self.entries = [] if entries is None else entries
 
 
-def main(*arguments: str) -> None:
-    """
-    Perform a natural sort on entries given on the command-line.
+@lru_cache(maxsize=4096)
+def _rust_pair_order(left: Num, right: Num) -> tuple[int, int]:
+    result = natsort.index_natsorted([left, right])
+    if result not in ([0, 1], [1, 0]):
+        raise RuntimeError(f"Unexpected Rust pair order: {result!r}")
+    return result[0], result[1]
 
-    Arguments are read from sys.argv.
-    """
-    parser = argparse.ArgumentParser(
-        description=textwrap.dedent(cast("str", main.__doc__)),
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-    )
-    parser.add_argument(
-        "--version",
-        action="version",
-        version=f"%(prog)s {natsort.__version__}",
-    )
-    parser.add_argument(
-        "-p",
-        "--paths",
-        default=False,
-        action="store_true",
-        help="Interpret the input as file paths.  This is not "
-        "strictly necessary to sort all file paths, but in cases "
-        'where there are OS-generated file paths like "Folder/" '
-        'and "Folder (1)/", this option is needed to make the '
-        'paths sorted in the order you expect ("Folder/" before '
-        '"Folder (1)/").',
-    )
-    parser.add_argument(
-        "-f",
-        "--filter",
-        nargs=2,
-        type=float,
-        metavar=("LOW", "HIGH"),
-        action="append",
-        help="Used for keeping only the entries that have a number "
-        "falling in the given range.",
-    )
-    parser.add_argument(
-        "-F",
-        "--reverse-filter",
-        nargs=2,
-        type=float,
-        metavar=("LOW", "HIGH"),
-        action="append",
-        dest="reverse_filter",
-        help="Used for excluding the entries that have a number "
-        "falling in the given range.",
-    )
-    parser.add_argument(
-        "-e",
-        "--exclude",
-        type=float,
-        action="append",
-        help="Used to exclude an entry that contains a specific number.",
-    )
-    parser.add_argument(
-        "-r",
-        "--reverse",
-        action="store_true",
-        default=False,
-        help="Returns in reversed order.",
-    )
-    parser.add_argument(
-        "-t",
-        "--number-type",
-        "--number_type",
-        dest="number_type",
-        choices=("int", "float", "real", "f", "i", "r"),
-        default="int",
-        help='Choose the type of number to search for. "float" will search '
-        'for floating-point numbers.  "int" will only search for '
-        'integers. "real" is a shortcut for "float" with --sign. '
-        '"i" is a synonym for "int", "f" is a synonym for '
-        '"float", and "r" is a synonym for "real".'
-        "The default is %(default)s.",
-    )
-    parser.add_argument(
-        "--nosign",
-        default=False,
-        action="store_false",
-        dest="signed",
-        help='Do not consider "+" or "-" as part of a number, i.e. do not '
-        "take sign into consideration. This is the default.",
-    )
-    parser.add_argument(
-        "-s",
-        "--sign",
-        default=False,
-        action="store_true",
-        dest="signed",
-        help='Consider "+" or "-" as part of a number, i.e. '
-        "take sign into consideration. The default is unsigned.",
-    )
-    parser.add_argument(
-        "--noexp",
-        default=True,
-        action="store_false",
-        dest="exp",
-        help="Do not consider an exponential as part of a number, i.e. 1e4, "
-        'would be considered as 1, "e", and 4, not as 10000.  This only '
-        "effects the --number-type=float.",
-    )
-    parser.add_argument(
-        "-l",
-        "--locale",
-        action="store_true",
-        default=False,
-        help="Causes natsort to use locale-aware sorting. You will get the "
-        "best results if you install PyICU.",
-    )
-    parser.add_argument(
-        "-z",
-        "--zero-terminated",
-        action="store_true",
-        default=False,
-        help="When reading from stdin, split entries on nulls (\\0) "
-        "instead of newlines.",
-    )
-    parser.add_argument(
-        "entries",
-        nargs="*",
-        help="The entries to sort. Taken from stdin if nothing is given on "
-        "the command line.",
-        # Note: if nothing is given on the command line, args.entries is an empty list.
-    )
-    args = parser.parse_args(arguments or None, namespace=TypedArgs())
 
-    # Make sure the filter range is given properly. Does nothing if no filter
-    args.filter = check_filters(args.filter)
-    args.reverse_filter = check_filters(args.reverse_filter)
+def _rust_less(left: Num, right: Num) -> bool:
+    # Stable ordering distinguishes equality by checking both directions.
+    return (
+        _rust_pair_order(left, right) == (0, 1)
+        and _rust_pair_order(right, left) == (1, 0)
+    )
 
-    # Determine which entries to sort.
-    entries = get_entries(args)
 
-    # Sort by directory then by file within directory and print.
-    sort_and_print_entries(entries, args)
+def _rust_less_equal(left: Num, right: Num) -> bool:
+    return _rust_pair_order(left, right) == (0, 1)
+
+
+def _rust_equal(left: Num, right: Num) -> bool:
+    return (
+        _rust_pair_order(left, right) == (0, 1)
+        and _rust_pair_order(right, left) == (0, 1)
+    )
 
 
 def range_check(low: Num, high: Num) -> NumPair:
-    """
-    Verify that that given range has a low lower than the high.
+    """Validate a range through Rust without losing integer precision."""
+    response = natsort._run_adapter(
+        ["validate-range"],
+        input_data=natsort._encode_values([low, high]),
+    )
 
-    Parameters
-    ----------
-    low : {float, int}
-        Low end of the range.
-    high : {float, int}
-        High end of the range.
+    if response == bytes([0]):
+        raise ValueError("low >= high")
 
-    Returns
-    -------
-    tuple : low, high
+    if response != bytes([1]):
+        raise RuntimeError(
+            f"Rust validate-range returned invalid data: {response!r}"
+        )
 
-    Raises
-    ------
-    ValueError
-        Low is greater than or equal to high.
-
-    """
-    if low >= high:
-        msg = "low >= high"
-        raise ValueError(msg)
+    # Preserve the exact original Python values. This matters for integers
+    # larger than f64's exactly representable range.
     return low, high
 
 
-def check_filters(filters: NumPairIter | None) -> list[NumPair] | None:
-    """
-    Execute range_check for every element of an iterable.
-
-    Parameters
-    ----------
-    filters : iterable
-        The collection of filters to check. Each element
-        must be a two-element tuple of floats or ints.
-
-    Returns
-    -------
-    The input as-is, or None if it evaluates to False.
-
-    Raises
-    ------
-    ValueError
-        Low is greater than or equal to high for any element.
-
-    """
+def check_filters(
+    filters: Iterable[NumPair] | None,
+) -> list[NumPair] | None:
+    """Validate all filter ranges."""
     if not filters:
         return None
+
     try:
-        return [range_check(f[0], f[1]) for f in filters]
-    except ValueError as err:
-        raise ValueError("Error in --filter: " + str(err)) from None
+        return [range_check(low, high) for low, high in filters]
+    except ValueError as error:
+        raise ValueError(f"Error in --filter: {error}") from None
 
 
 def get_entries(args: TypedArgs) -> list[str]:
-    """Determine which entries to sort."""
-    # Read entries from command line or stdin?
-    # If reading from stdin, are entries split on nulls or newlines?
-    # Note: entries are intentionally not stripped of whitespace. Leading
-    # whitespace affects the sort order, so removing it would be surprising,
-    # and stripping trailing whitespace is an unnecessary modification of the
-    # input. The one exception is the trailing separator(s) left by reading
-    # from stdin, which are removed before splitting so they do not produce
-    # empty entries.
-    if len(args.entries) > 0:
+    """Read positional entries or preserve stdin entries verbatim."""
+    if args.entries:
         return args.entries
+
     separator = "\0" if args.zero_terminated else "\n"
     return sys.stdin.read().rstrip(separator).split(separator)
 
@@ -279,35 +130,16 @@ def keep_entry_range(
     converter: NumConverter,
     regex: Pattern[str],
 ) -> bool:
-    """
-    Check if an entry falls into a desired range.
-
-    Every number in the entry will be extracted using *regex*,
-    if any are within a given low to high range the entry will
-    be kept.
-
-    Parameters
-    ----------
-    entry : str
-        The string to check.
-    lows : iterable
-        Collection of low values against which to compare the entry.
-    highs : iterable
-        Collection of high values against which to compare the entry.
-    converter : callable
-        Function to convert a string to a number.
-    regex : regex object
-        Regular expression to locate numbers in a string.
-
-    Returns
-    -------
-    True if the entry should be kept, False otherwise.
-
-    """
+    """Apply Python callback extraction; range policy matches the Rust CLI."""
+    # Regex matching and converter invocation are Python callback boundaries;
+    # every numeric comparison is answered by the Rust-backed index sorter.
+    numbers = [converter(value) for value in regex.findall(entry)]
+    ranges = tuple(zip(lows, highs))
     return any(
-        low <= converter(num) <= high
-        for num in regex.findall(entry)
-        for low, high in zip(lows, highs)
+        _rust_less_equal(low, number)
+        and _rust_less_equal(number, high)
+        for number in numbers
+        for low, high in ranges
     )
 
 
@@ -317,89 +149,183 @@ def keep_entry_value(
     converter: NumConverter,
     regex: Pattern[str],
 ) -> bool:
-    """
-    Check if an entry does not match a given value.
-
-    Every number in the entry will be extracted using *regex*,
-    if any match a given value the entry will not be kept.
-
-    Parameters
-    ----------
-    entry : str
-        The string to check.
-    values : iterable
-        Collection of values against which to compare the entry.
-    converter : callable
-        Function to convert a string to a number.
-    regex : regex object
-        Regular expression to locate numbers in a string.
-
-    Returns
-    -------
-    True if the entry should be kept, False otherwise.
-
-    """
-    return not any(converter(num) in values for num in regex.findall(entry))
-
-
-def sort_and_print_entries(entries: list[str], args: TypedArgs) -> None:
-    """Sort the entries, applying the filters first if necessary."""
-    # Extract the proper number type.
-    is_float = args.number_type in ("float", "real", "f", "r")
-    signed = args.signed or args.number_type in ("real", "r")
-    alg: int = (
-        natsort.ns.FLOAT * is_float
-        | natsort.ns.SIGNED * signed
-        | natsort.ns.NOEXP * (not args.exp)
-        | natsort.ns.PATH * args.paths
-        | natsort.ns.LOCALE * args.locale
+    """Apply Python callback extraction; exclusion policy matches the Rust CLI."""
+    # Callback extraction remains in Python; equality is decided by Rust.
+    excluded = tuple(values)
+    return all(
+        not any(
+            _rust_equal(converter(value), blocked)
+            for blocked in excluded
+        )
+        for value in regex.findall(entry)
     )
 
-    # Pre-remove entries that don't pass the filtering criteria
-    # Make sure we use the same searching algorithm for filtering
-    # as for sorting.
-    do_filter = args.filter is not None or args.reverse_filter is not None
-    if do_filter or args.exclude:
-        inp_options = (
-            natsort.ns.FLOAT * is_float
-            | natsort.ns.SIGNED * signed
-            | natsort.ns.NOEXP * (not args.exp)
+
+def _algorithm(args: TypedArgs) -> int:
+    number_type = args.number_type.lower()
+
+    if number_type in {"float", "f"}:
+        algorithm = int(natsort.ns.FLOAT)
+    elif number_type in {"real", "r"}:
+        algorithm = int(natsort.ns.REAL)
+    else:
+        algorithm = int(natsort.ns.INT)
+
+    if args.signed:
+        algorithm |= int(natsort.ns.SIGNED)
+    if not args.exp:
+        algorithm |= int(natsort.ns.NOEXP)
+    if args.paths:
+        algorithm |= int(natsort.ns.PATH)
+    if args.locale:
+        algorithm |= int(natsort.ns.LOCALE)
+
+    return algorithm
+
+
+def sort_and_print_entries(
+    entries: list[str],
+    args: TypedArgs,
+) -> None:
+    """Filter entries in the host shim and obtain final order from Rust."""
+    algorithm = _algorithm(args)
+
+    if args.filter is not None or args.reverse_filter is not None or args.exclude:
+        regex = re.compile(
+            f"({natsort.numeric_regex_chooser(algorithm)})",
+            flags=re.UNICODE,
         )
-        regex = regex_chooser(inp_options)
+
         if args.filter is not None:
-            lows, highs = ([f[0] for f in args.filter], [f[1] for f in args.filter])
+            lows = [pair[0] for pair in args.filter]
+            highs = [pair[1] for pair in args.filter]
             entries = [
                 entry
                 for entry in entries
                 if keep_entry_range(entry, lows, highs, float, regex)
             ]
+
         if args.reverse_filter is not None:
-            lows, highs = (
-                [f[0] for f in args.reverse_filter],
-                [f[1] for f in args.reverse_filter],
-            )
+            lows = [pair[0] for pair in args.reverse_filter]
+            highs = [pair[1] for pair in args.reverse_filter]
             entries = [
                 entry
                 for entry in entries
                 if not keep_entry_range(entry, lows, highs, float, regex)
             ]
+
         if args.exclude:
-            exclude = set(args.exclude)
             entries = [
                 entry
                 for entry in entries
-                if keep_entry_value(entry, exclude, float, regex)
+                if keep_entry_value(entry, args.exclude, float, regex)
             ]
 
-    # Print off the sorted results
-    for entry in natsort.natsorted(entries, reverse=args.reverse, alg=alg):
-        print(entry)  # noqa: T201
+    # natsorted is the Rust subprocess-backed public API.
+    for entry in natsort.natsorted(
+        entries,
+        reverse=args.reverse,
+        alg=algorithm,
+    ):
+        print(entry)
+
+
+def _parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        description="Perform a natural sort on entries given on the command-line."
+    )
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"%(prog)s {getattr(natsort, '__version__', 'unknown')}",
+    )
+    parser.add_argument("-p", "--paths", action="store_true", default=False)
+    parser.add_argument(
+        "-f",
+        "--filter",
+        nargs=2,
+        type=float,
+        metavar=("LOW", "HIGH"),
+        action="append",
+    )
+    parser.add_argument(
+        "-F",
+        "--reverse-filter",
+        nargs=2,
+        type=float,
+        metavar=("LOW", "HIGH"),
+        action="append",
+        dest="reverse_filter",
+    )
+    parser.add_argument(
+        "-e",
+        "--exclude",
+        type=float,
+        action="append",
+        default=[],
+    )
+    parser.add_argument("-r", "--reverse", action="store_true", default=False)
+    parser.add_argument(
+        "-t",
+        "--number-type",
+        "--number_type",
+        dest="number_type",
+        choices=("int", "float", "real", "f", "i", "r"),
+        default="int",
+    )
+
+    sign = parser.add_mutually_exclusive_group()
+    sign.add_argument("--nosign", action="store_true", default=False)
+    sign.add_argument("-s", "--sign", action="store_true", default=False)
+
+    parser.add_argument("--noexp", action="store_true", default=False)
+    parser.add_argument("-l", "--locale", action="store_true", default=False)
+    parser.add_argument(
+        "-z",
+        "--zero-terminated",
+        action="store_true",
+        default=False,
+        dest="zero_terminated",
+    )
+    parser.add_argument("entries", nargs="*")
+    return parser
+
+
+def main(*arguments: str) -> None:
+    """Parse CLI arguments and delegate sorting to the Rust-backed API."""
+    parsed = _parser().parse_args(list(arguments) if arguments else None)
+
+    args = TypedArgs(
+        filter=parsed.filter,
+        reverse_filter=parsed.reverse_filter,
+        exclude=parsed.exclude,
+        paths=parsed.paths,
+        reverse=parsed.reverse,
+        zero_terminated=parsed.zero_terminated,
+        entries=parsed.entries,
+    )
+    args.number_type = parsed.number_type
+    args.signed = bool(
+        parsed.sign
+        or (
+            not parsed.nosign
+            and parsed.number_type in {"real", "r"}
+        )
+    )
+    args.exp = not parsed.noexp
+    args.locale = parsed.locale
+
+    args.filter = check_filters(args.filter)
+    args.reverse_filter = check_filters(args.reverse_filter)
+
+    entries = get_entries(args)
+    sort_and_print_entries(entries, args)
 
 
 if __name__ == "__main__":
     try:
         main()
-    except ValueError as a:
-        sys.exit(str(a))
+    except ValueError as error:
+        sys.exit(str(error))
     except KeyboardInterrupt:
         sys.exit(1)

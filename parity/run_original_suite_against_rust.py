@@ -79,6 +79,24 @@ def main() -> int:
     print(f"Rust-backed package: {package.__file__}")
     print(f"Rust adapter binary: {RUST_BINARY}")
 
+    # The compatibility layer intentionally crosses a subprocess boundary.
+    # Hypothesis' default 200 ms per-example deadline measures IPC startup
+    # overhead rather than sorting correctness, so disable only that timing
+    # deadline while preserving all generated examples and assertions.
+    from hypothesis import HealthCheck, settings
+
+    profile_name = "rust-adapter-ipc"
+    try:
+        settings.register_profile(
+            profile_name,
+            deadline=None,
+            suppress_health_check=[HealthCheck.too_slow],
+        )
+    except ValueError:
+        # The runner may be invoked more than once in the same interpreter.
+        pass
+    settings.load_profile(profile_name)
+
     import pytest
 
     pytest_arguments = arguments.pytest_arguments

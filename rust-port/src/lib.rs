@@ -6,6 +6,15 @@ mod locale;
 mod options;
 mod os_sort;
 mod path;
+mod python_compat;
+
+pub use python_compat::{
+    PythonComponent, PythonUnicodeTables, python_decode_bytes, python_fast_float, python_fast_int,
+    python_final_transform_mode, python_group_letters, python_input_transform,
+    python_input_transform_is_noop, python_normalize_string, python_number_plan,
+    python_parse_bytes, python_parse_string_plan, python_path_components, python_separator_plan,
+    python_transform_components, python_unicode_tables, python_value_kind,
+};
 mod separator;
 mod sort;
 mod text;

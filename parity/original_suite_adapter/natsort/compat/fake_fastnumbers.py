@@ -1,122 +1,60 @@
-"""
-Replication of fastnumbers functionality.
-
-Used when the fastnumbers module is not installed.
-"""
+"""Thin Python callback bridge for Rust-backed numeric conversion."""
 
 from __future__ import annotations
 
-import unicodedata
-from typing import Callable, Union
+import struct
+from collections.abc import Callable
+from typing import TypeVar
 
-from natsort.unicode_numbers import decimal_chars
+from .. import _encode_strings, _run_adapter
 
-_NAN_INF = [
-    "INF",
-    "INf",
-    "Inf",
-    "inF",
-    "iNF",
-    "InF",
-    "inf",
-    "iNf",
-    "NAN",
-    "nan",
-    "NaN",
-    "nAn",
-    "naN",
-    "NAn",
-    "nAN",
-    "Nan",
-]
-_NAN_INF.extend(["+" + x[:2] for x in _NAN_INF] + ["-" + x[:2] for x in _NAN_INF])
-NAN_INF = frozenset(_NAN_INF)
-ASCII_NUMS = "0123456789+-"
-POTENTIAL_FIRST_CHAR = frozenset(decimal_chars + list(ASCII_NUMS + "."))
+_T = TypeVar("_T")
 
-StrOrFloat = Union[str, float]
-StrOrInt = Union[str, int]
+
+def _nan_bits(value: float) -> int:
+    return struct.unpack("<Q", struct.pack("<d", value))[0]
 
 
 def fast_float(
     x: str,
-    key: Callable[[str], str] = lambda x: x,
+    key: Callable[[str], _T] = lambda value: value,
     nan: float = float("inf"),
-    _uni: Callable[[str, StrOrFloat], StrOrFloat] = unicodedata.numeric,
-    _nan_inf: frozenset[str] = NAN_INF,
-    _first_char: frozenset[str] = POTENTIAL_FIRST_CHAR,
-) -> StrOrFloat:
-    """
-    Convert a string to a float quickly, return input as-is if not possible.
+) -> float | _T:
+    """Return Rust's float conversion, or apply ``key`` on failure."""
+    response = _run_adapter(
+        ["fast-float", str(_nan_bits(nan))],
+        input_data=_encode_strings([x]),
+    )
 
-    We don't need to accept all input that the real fast_int accepts because
-    natsort is controlling what is passed to this function.
+    if response == b"\x00":
+        return key(x)
 
-    Parameters
-    ----------
-    x : str
-        String to attempt to convert to a float.
-    key : callable
-        Single-argument function to apply to *x* if conversion fails.
-    nan : float
-        Value to return instead of NaN if NaN would be returned.
+    if len(response) == 9 and response[0] == 1:
+        return struct.unpack("<d", response[1:])[0]
 
-    Returns
-    -------
-    *str* or *float*
-
-    """
-    if x[0] in _first_char or x.lstrip()[:3] in _nan_inf:
-        try:
-            ret = float(x)
-        except ValueError:
-            try:
-                return _uni(x, key(x)) if len(x) == 1 else key(x)
-            except TypeError:  # pragma: no cover
-                return key(x)
-        else:
-            return nan if ret != ret else ret
-    else:
-        try:
-            return _uni(x, key(x)) if len(x) == 1 else key(x)
-        except TypeError:  # pragma: no cover
-            return key(x)
+    raise RuntimeError("Rust adapter returned an invalid fast-float response")
 
 
 def fast_int(
     x: str,
-    key: Callable[[str], str] = lambda x: x,
-    _uni: Callable[[str, StrOrInt], StrOrInt] = unicodedata.digit,
-    _first_char: frozenset[str] = POTENTIAL_FIRST_CHAR,
-) -> StrOrInt:
-    """
-    Convert a string to a int quickly, return input as-is if not possible.
+    key: Callable[[str], _T] = lambda value: value,
+) -> int | _T:
+    """Return Rust's integer conversion, or apply ``key`` on failure."""
+    response = _run_adapter(
+        ["fast-int"],
+        input_data=_encode_strings([x]),
+    )
 
-    We don't need to accept all input that the real fast_int accepts because
-    natsort is controlling what is passed to this function.
+    if response == b"\x00":
+        return key(x)
 
-    Parameters
-    ----------
-    x : str
-        String to attempt to convert to an int.
-    key : callable
-        Single-argument function to apply to *x* if conversion fails.
+    if len(response) >= 9 and response[0] == 2:
+        length = struct.unpack("<Q", response[1:9])[0]
+        payload = response[9:]
 
-    Returns
-    -------
-    *str* or *int*
+        if len(payload) != length:
+            raise RuntimeError("Rust adapter returned a truncated fast-int response")
 
-    """
-    if x[0] in _first_char:
-        try:
-            return int(x)
-        except ValueError:
-            try:
-                return _uni(x, key(x)) if len(x) == 1 else key(x)
-            except TypeError:  # pragma: no cover
-                return key(x)
-    else:
-        try:
-            return _uni(x, key(x)) if len(x) == 1 else key(x)
-        except TypeError:  # pragma: no cover
-            return key(x)
+        return int(payload.decode("ascii"))
+
+    raise RuntimeError("Rust adapter returned an invalid fast-int response")

@@ -1,35 +1,97 @@
-"""Pre-determine the collection of unicode decimals, digits, and numerals."""
+"""Unicode collections supplied by Rust and adapted to the host Python UCD."""
 
 from __future__ import annotations
 
+import struct
 import unicodedata
 
-from natsort.unicode_numeric_hex import numeric_hex
+from . import _read_u64, _run_adapter
 
-# Convert each hex into the literal Unicode character.
-# Stop if a ValueError is raised in case of a narrow Unicode build.
-# The extra check with unicodedata is in case this Python version
-# does not support some characters.
-numeric_chars = []
-for a in numeric_hex:
-    try:
-        character = chr(a)
-    except ValueError:  # pragma: no cover
-        break
-    if unicodedata.numeric(character, None) is None:
-        continue  # pragma: no cover
-    numeric_chars.append(character)
 
-# The digit characters are a subset of the numerals.
-digit_chars = [a for a in numeric_chars if unicodedata.digit(a, None) is not None]
+def _read_codepoints(
+    data: bytes,
+    offset: int,
+) -> tuple[tuple[int, ...], int]:
+    count, offset = _read_u64(data, offset)
+    values: list[int] = []
 
-# The decimal characters are a subset of the numerals
-# (probably of the digits, but let's be safe).
-decimal_chars = [a for a in numeric_chars if unicodedata.decimal(a, None) is not None]
+    for _ in range(count):
+        end = offset + 4
 
-# Create a single string with the above data.
-decimals = "".join(decimal_chars)
-digits = "".join(digit_chars)
+        if end > len(data):
+            raise RuntimeError(
+                "Rust Unicode-table response ended unexpectedly"
+            )
+
+        values.append(
+            struct.unpack("<I", data[offset:end])[0]
+        )
+        offset = end
+
+    return tuple(values), offset
+
+
+_data = _run_adapter(["unicode-tables"])
+
+# Rust remains the authoritative source of the generated codepoint inventory.
+numeric_hex, _offset = _read_codepoints(_data, 0)
+_rust_digit_hex, _offset = _read_codepoints(_data, _offset)
+_rust_decimal_hex, _offset = _read_codepoints(_data, _offset)
+
+if _offset != len(_data):
+    raise RuntimeError(
+        "Rust Unicode-table response contained trailing bytes"
+    )
+
+
+# The adapter may be tested with a Python interpreter whose Unicode database
+# is older than the Rust Unicode tables. Filter only the Python-visible
+# representation through the host interpreter's unicodedata database.
+#
+# This mirrors upstream natsort's compatibility boundary. It does not perform
+# natural sorting, numeric parsing, or tokenization in Python.
+numeric_chars = [
+    chr(codepoint)
+    for codepoint in numeric_hex
+    if unicodedata.numeric(chr(codepoint), None) is not None
+]
+
+digit_chars = [
+    character
+    for character in numeric_chars
+    if unicodedata.digit(character, None) is not None
+]
+
+decimal_chars = [
+    character
+    for character in numeric_chars
+    if unicodedata.decimal(character, None) is not None
+]
+
 numeric = "".join(numeric_chars)
-digits_no_decimals = "".join([x for x in digits if x not in decimals])
-numeric_no_decimals = "".join([x for x in numeric if x not in decimals])
+digits = "".join(digit_chars)
+decimals = "".join(decimal_chars)
+
+digits_no_decimals = "".join(
+    character
+    for character in digit_chars
+    if character not in decimals
+)
+
+numeric_no_decimals = "".join(
+    character
+    for character in numeric_chars
+    if character not in decimals
+)
+
+__all__ = [
+    "decimal_chars",
+    "decimals",
+    "digit_chars",
+    "digits",
+    "digits_no_decimals",
+    "numeric",
+    "numeric_chars",
+    "numeric_hex",
+    "numeric_no_decimals",
+]
