@@ -196,8 +196,22 @@ def normalized_text(data: bytes) -> str:
     return data.decode("utf-8", errors="replace").replace("\r\n", "\n")
 
 
+def normalize_choice_list(diagnostic: str) -> str:
+    """Normalize only quote rendering inside a trailing argparse choice list."""
+    match = re.search(r"\(choose from (?P<choices>[^)]*)\)$", diagnostic)
+    if match is None:
+        return diagnostic
+
+    choices = [
+        value.strip().removeprefix("'").removesuffix("'")
+        for value in match.group("choices").split(",")
+    ]
+    normalized = "(choose from " + ", ".join(choices) + ")"
+    return diagnostic[: match.start()] + normalized
+
+
 def final_diagnostic(stderr: bytes) -> str:
-    """Normalize only executable-name and wrapping differences in errors."""
+    """Normalize stable, non-semantic CLI diagnostic presentation drift."""
     lines = [
         re.sub(r"\s+", " ", line).strip()
         for line in normalized_text(stderr).splitlines()
@@ -205,11 +219,13 @@ def final_diagnostic(stderr: bytes) -> str:
     ]
     if not lines:
         return ""
-    return re.sub(
+
+    diagnostic = re.sub(
         r"^.*?(?:-m natsort|natsort): error:",
         "error:",
         lines[-1],
     )
+    return normalize_choice_list(diagnostic)
 
 
 def execute(command: list[str], case: Case, environment: dict[str, str]) -> Result:
@@ -454,8 +470,8 @@ def main() -> int:  # noqa: PLR0915
             "successful_cases": "Exact return code, stdout bytes, and stderr bytes.",
             "error_cases": (
                 "Exact return code and stdout bytes; final diagnostic compared after "
-                "normalizing executable display name, line endings, "
-                "and wrapping whitespace."
+                "normalizing executable display name, line endings, wrapping "
+                "whitespace, and quote rendering inside argparse choice lists."
             ),
         },
     }

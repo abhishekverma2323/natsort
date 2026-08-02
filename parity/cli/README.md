@@ -11,8 +11,10 @@ binary on the same arguments, stdin bytes, locale, and working directory.
 
 Successful cases compare the process exit code, stdout bytes, and stderr bytes
 exactly. Error cases compare the exact exit code and stdout bytes plus the
-final diagnostic after normalizing only executable display names, line
-endings, and wrapping whitespace.
+final diagnostic after normalizing executable display names, line endings,
+wrapping whitespace, and Python-version-specific quote rendering inside
+`argparse` choice lists. The rejected value and ordered choice values remain
+part of the comparison.
 
 Raw stdout, stderr, and exit-code files for both implementations are retained
 under `parity/evidence/cli/raw/`.

@@ -338,8 +338,9 @@ docker run --rm natsort-rust-port
 
 - The Python compatibility boundary uses subprocess IPC and is not presented
   as production performance.
-- Error-message comparison normalizes only executable display names, line
-  endings, and wrapping whitespace.
+- Error-message comparison normalizes executable display names, line endings,
+  wrapping whitespace, and Python-version-specific quote rendering inside
+  `argparse` choice lists; rejected values and ordered choices still match.
 - Built-in decoders are ASCII, UTF-8, and Latin-1—not Python's entire codec
   registry.
 - Non-UTF-8 Rust paths use documented lossy text conversion.
