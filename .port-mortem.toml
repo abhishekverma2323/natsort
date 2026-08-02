@@ -5,7 +5,7 @@ source_repository = "https://github.com/SethMMorton/natsort"
 source_commit = "b543bdce8771b6e7a7dae0c6745ddf7e80299797"
 port_repository = "https://github.com/abhishekverma2323/natsort"
 port_branch = "python-to-rust-port"
-verified_port_commit = "8fa3669e00bb9635b5dedfaf384f890f9f7f6d75"
+verified_port_commit = "abc23bfd8c8673ac9b736444ee1297ee1ea0a515"
 
 build_command = "make build"
 verification_command = "make verify"

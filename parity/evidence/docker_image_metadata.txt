@@ -1,0 +1,6 @@
+image_id=sha256:c0227cbf81b23251c906d8235981e71eff9263d5a210f71e3abf88a782a13cf7
+image_size_bytes=495757976
+verified_commit=abc23bfd8c8673ac9b736444ee1297ee1ea0a515
+recorded_at=2026-08-02T14:44:32+00:00
+docker_client=29.6.2
+docker_server=29.6.2
