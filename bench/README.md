@@ -1,13 +1,20 @@
-# Benchmarks
+# Judge-Facing Benchmarks
 
-The existing deterministic in-process benchmark implementation is maintained in:
+Build and commit the benchmark harness first, then run from a clean repository:
 
-- `parity/run_benchmarks.py`
-- `parity/benchmark_python.py`
-- `parity/benchmark_data/`
-- `parity/benchmark_results.json`
-- `parity/BENCHMARK_RESULTS.md`
+```bash
+make bench-final
+```
 
-The judge-facing benchmark package in this directory will additionally record
-startup latency, p50/p95/p99 latency, peak RSS, throughput, binary size, exact
-commands, corpus hashes, and machine metadata.
+Generated evidence:
+
+- `bench/results.json`
+- `bench/results.csv`
+- `bench/raw_latency_samples.json`
+- `bench/raw_rss_samples.json`
+- `bench/environment.json`
+- `bench/report.md`
+
+Methodology is documented in `bench/methodology.md`. The existing in-process
+benchmark implementation and historical optimization results remain under
+`parity/`.

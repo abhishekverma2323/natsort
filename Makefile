@@ -73,3 +73,9 @@ cli-diff: setup build
 	$(VENV_PYTHON) parity/cli/run_cli_equivalence.py \
 		--python-executable $(VENV_PYTHON) \
 		--rust-binary rust-port/target/release/natsort
+.PHONY: bench-final
+bench-final: setup build
+	$(VENV_PYTHON) bench/run_judge_benchmarks.py \
+		--python-executable $(VENV_PYTHON) \
+		--rust-binary rust-port/target/release/natsort \
+		--output-directory bench
