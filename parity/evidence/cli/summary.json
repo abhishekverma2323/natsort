@@ -1,0 +1,22 @@
+{
+  "implementation_commit": "be082753a478ee5c262d8c7d57c36243aa9e666b",
+  "working_tree_clean_before_run": true,
+  "working_tree_status_before_run": [],
+  "python_executable": "/usr/bin/python3.14",
+  "python_version": "Python 3.14.4",
+  "python_module": "/mnt/d/natsort/natsort/__init__.py",
+  "rust_binary": "/mnt/d/natsort/rust-port/target/release/natsort",
+  "rust_binary_sha256": "6d0472b14e81dc65ccb4c53eae8c18bac7d1b37b126895f46dad1b6663a4d5c8",
+  "rustc": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+  "cargo": "cargo 1.97.1 (c980f4866 2026-06-30)",
+  "locale": "C.UTF-8",
+  "total_cases": 20,
+  "success_exact_cases": 17,
+  "error_semantic_cases": 3,
+  "matched_cases": 20,
+  "mismatches": [],
+  "comparison_policy": {
+    "successful_cases": "Exact return code, stdout bytes, and stderr bytes.",
+    "error_cases": "Exact return code and stdout bytes; final diagnostic compared after normalizing executable display name, line endings, and wrapping whitespace."
+  }
+}

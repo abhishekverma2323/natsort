@@ -1,0 +1,5 @@
+usage: natsort [-h] [--version] [-p] [-f LOW HIGH] [-F LOW HIGH]
+               [-e EXCLUDE] [-r] [-t {int,float,real,f,i,r}]
+               [--nosign] [-s] [--noexp] [-l] [-z]
+               [entries ...]
+natsort: error: argument -t/--number-type/--number_type: invalid choice: 'decimal' (choose from int, float, real, f, i, r)

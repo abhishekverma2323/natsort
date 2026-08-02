@@ -1,0 +1,140 @@
+===== positional_default =====
+arguments=["file10", "file2", "file1", "file02"]
+stdin_hex=
+return_code=0
+stdout_hex=66696c65310a66696c65320a66696c6530320a66696c6531300a
+stdout_text="file1\nfile2\nfile02\nfile10\n"
+stderr=""
+===== reverse =====
+arguments=["--reverse", "file10", "file2", "file1", "file02"]
+stdin_hex=
+return_code=0
+stdout_hex=66696c6531300a66696c65320a66696c6530320a66696c65310a
+stdout_text="file10\nfile2\nfile02\nfile1\n"
+stderr=""
+===== signed_integer =====
+arguments=["--sign", "item-2", "item10", "item-10", "item2", "item+3"]
+stdin_hex=
+return_code=0
+stdout_hex=6974656d2d31300a6974656d2d320a6974656d320a6974656d2b330a6974656d31300a
+stdout_text="item-10\nitem-2\nitem2\nitem+3\nitem10\n"
+stderr=""
+===== float =====
+arguments=["--number-type", "float", "v1.10", "v1.2", "v1.02", "v1e3", "v2.5"]
+stdin_hex=
+return_code=0
+stdout_hex=76312e30320a76312e31300a76312e320a76322e350a763165330a
+stdout_text="v1.02\nv1.10\nv1.2\nv2.5\nv1e3\n"
+stderr=""
+===== real =====
+arguments=["--number-type", "real", "v-1.5", "v2", "v-10", "v+3", "v0"]
+stdin_hex=
+return_code=0
+stdout_hex=762d31300a762d312e350a76300a76320a762b330a
+stdout_text="v-10\nv-1.5\nv0\nv2\nv+3\n"
+stderr=""
+===== float_noexp =====
+arguments=["--number-type", "float", "--noexp", "v1e3", "v2e2", "v10", "v1e2"]
+stdin_hex=
+return_code=0
+stdout_hex=763165320a763165330a763265320a7631300a
+stdout_text="v1e2\nv1e3\nv2e2\nv10\n"
+stderr=""
+===== paths =====
+arguments=["--paths", "folder/file10.txt", "folder/file2.txt", "folder/file1.txt", "folder/file1.tar.gz"]
+stdin_hex=
+return_code=0
+stdout_hex=666f6c6465722f66696c65312e7461722e677a0a666f6c6465722f66696c65312e7478740a666f6c6465722f66696c65322e7478740a666f6c6465722f66696c6531302e7478740a
+stdout_text="folder/file1.tar.gz\nfolder/file1.txt\nfolder/file2.txt\nfolder/file10.txt\n"
+stderr=""
+===== inclusive_filter =====
+arguments=["--filter", "2", "10", "a1", "a2", "a10", "a11", "plain"]
+stdin_hex=
+return_code=0
+stdout_hex=61320a6131300a
+stdout_text="a2\na10\n"
+stderr=""
+===== reverse_filter =====
+arguments=["--reverse-filter", "2", "10", "a1", "a2", "a10", "a11", "plain"]
+stdin_hex=
+return_code=0
+stdout_hex=61310a6131310a706c61696e0a
+stdout_text="a1\na11\nplain\n"
+stderr=""
+===== repeated_exclude =====
+arguments=["--exclude", "2", "--exclude", "10", "a1", "a2", "a10", "a11", "plain"]
+stdin_hex=
+return_code=0
+stdout_hex=61310a6131310a706c61696e0a
+stdout_text="a1\na11\nplain\n"
+stderr=""
+===== negative_positional_values =====
+arguments=["--number-type", "real", "--", "-3", "2", "-10", "1"]
+stdin_hex=
+return_code=0
+stdout_hex=2d31300a2d330a310a320a
+stdout_text="-10\n-3\n1\n2\n"
+stderr=""
+===== locale_sort =====
+arguments=["--locale", "Öl5", "Oase4", "Äpfel10", "äpfel2", "apple2"]
+stdin_hex=
+return_code=0
+stdout_hex=6170706c65320a4f617365340ac3a47066656c320ac3847066656c31300ac3966c350a
+stdout_text="apple2\nOase4\näpfel2\nÄpfel10\nÖl5\n"
+stderr=""
+===== stdin_newline =====
+arguments=[]
+stdin_hex=66696c6531300a66696c65320a66696c65310a
+return_code=0
+stdout_hex=66696c65310a66696c65320a66696c6531300a
+stdout_text="file1\nfile2\nfile10\n"
+stderr=""
+===== stdin_whitespace =====
+arguments=[]
+stdin_hex=2066696c653130200a66696c65320a202066696c65310a
+return_code=0
+stdout_hex=202066696c65310a2066696c653130200a66696c65320a
+stdout_text="  file1\n file10 \nfile2\n"
+stderr=""
+===== stdin_zero_terminated =====
+arguments=["--zero-terminated"]
+stdin_hex=66696c6531300066696c65320066696c653100
+return_code=0
+stdout_hex=66696c65310a66696c65320a66696c6531300a
+stdout_text="file1\nfile2\nfile10\n"
+stderr=""
+===== empty_stdin =====
+arguments=[]
+stdin_hex=
+return_code=0
+stdout_hex=0a
+stdout_text="\n"
+stderr=""
+===== float_filter =====
+arguments=["--number-type", "float", "--filter", "1.5", "3.5", "v1.25", "v1.5", "v2.75", "v4.0"]
+stdin_hex=
+return_code=0
+stdout_hex=76312e350a76322e37350a
+stdout_text="v1.5\nv2.75\n"
+stderr=""
+===== invalid_number_type =====
+arguments=["--number-type", "decimal", "a1"]
+stdin_hex=
+return_code=2
+stdout_hex=
+stdout_text=""
+stderr="error: argument -t/--number-type/--number_type: invalid choice: 'decimal' (choose from int, float, real, f, i, r)"
+===== reversed_filter_bounds =====
+arguments=["--filter", "10", "2", "a1"]
+stdin_hex=
+return_code=1
+stdout_hex=
+stdout_text=""
+stderr="Error in --filter: low >= high"
+===== unknown_option =====
+arguments=["--definitely-unknown"]
+stdin_hex=
+return_code=2
+stdout_hex=
+stdout_text=""
+stderr="error: unrecognized arguments: --definitely-unknown"

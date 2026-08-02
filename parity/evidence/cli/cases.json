@@ -1,0 +1,256 @@
+[
+  {
+    "name": "positional_default",
+    "arguments": [
+      "file10",
+      "file2",
+      "file1",
+      "file02"
+    ],
+    "stdin_hex": "",
+    "comparison": "exact-exit-stdout-stderr-bytes",
+    "matched": true
+  },
+  {
+    "name": "reverse",
+    "arguments": [
+      "--reverse",
+      "file10",
+      "file2",
+      "file1",
+      "file02"
+    ],
+    "stdin_hex": "",
+    "comparison": "exact-exit-stdout-stderr-bytes",
+    "matched": true
+  },
+  {
+    "name": "signed_integer",
+    "arguments": [
+      "--sign",
+      "item-2",
+      "item10",
+      "item-10",
+      "item2",
+      "item+3"
+    ],
+    "stdin_hex": "",
+    "comparison": "exact-exit-stdout-stderr-bytes",
+    "matched": true
+  },
+  {
+    "name": "float",
+    "arguments": [
+      "--number-type",
+      "float",
+      "v1.10",
+      "v1.2",
+      "v1.02",
+      "v1e3",
+      "v2.5"
+    ],
+    "stdin_hex": "",
+    "comparison": "exact-exit-stdout-stderr-bytes",
+    "matched": true
+  },
+  {
+    "name": "real",
+    "arguments": [
+      "--number-type",
+      "real",
+      "v-1.5",
+      "v2",
+      "v-10",
+      "v+3",
+      "v0"
+    ],
+    "stdin_hex": "",
+    "comparison": "exact-exit-stdout-stderr-bytes",
+    "matched": true
+  },
+  {
+    "name": "float_noexp",
+    "arguments": [
+      "--number-type",
+      "float",
+      "--noexp",
+      "v1e3",
+      "v2e2",
+      "v10",
+      "v1e2"
+    ],
+    "stdin_hex": "",
+    "comparison": "exact-exit-stdout-stderr-bytes",
+    "matched": true
+  },
+  {
+    "name": "paths",
+    "arguments": [
+      "--paths",
+      "folder/file10.txt",
+      "folder/file2.txt",
+      "folder/file1.txt",
+      "folder/file1.tar.gz"
+    ],
+    "stdin_hex": "",
+    "comparison": "exact-exit-stdout-stderr-bytes",
+    "matched": true
+  },
+  {
+    "name": "inclusive_filter",
+    "arguments": [
+      "--filter",
+      "2",
+      "10",
+      "a1",
+      "a2",
+      "a10",
+      "a11",
+      "plain"
+    ],
+    "stdin_hex": "",
+    "comparison": "exact-exit-stdout-stderr-bytes",
+    "matched": true
+  },
+  {
+    "name": "reverse_filter",
+    "arguments": [
+      "--reverse-filter",
+      "2",
+      "10",
+      "a1",
+      "a2",
+      "a10",
+      "a11",
+      "plain"
+    ],
+    "stdin_hex": "",
+    "comparison": "exact-exit-stdout-stderr-bytes",
+    "matched": true
+  },
+  {
+    "name": "repeated_exclude",
+    "arguments": [
+      "--exclude",
+      "2",
+      "--exclude",
+      "10",
+      "a1",
+      "a2",
+      "a10",
+      "a11",
+      "plain"
+    ],
+    "stdin_hex": "",
+    "comparison": "exact-exit-stdout-stderr-bytes",
+    "matched": true
+  },
+  {
+    "name": "negative_positional_values",
+    "arguments": [
+      "--number-type",
+      "real",
+      "--",
+      "-3",
+      "2",
+      "-10",
+      "1"
+    ],
+    "stdin_hex": "",
+    "comparison": "exact-exit-stdout-stderr-bytes",
+    "matched": true
+  },
+  {
+    "name": "locale_sort",
+    "arguments": [
+      "--locale",
+      "Öl5",
+      "Oase4",
+      "Äpfel10",
+      "äpfel2",
+      "apple2"
+    ],
+    "stdin_hex": "",
+    "comparison": "exact-exit-stdout-stderr-bytes",
+    "matched": true
+  },
+  {
+    "name": "stdin_newline",
+    "arguments": [],
+    "stdin_hex": "66696c6531300a66696c65320a66696c65310a",
+    "comparison": "exact-exit-stdout-stderr-bytes",
+    "matched": true
+  },
+  {
+    "name": "stdin_whitespace",
+    "arguments": [],
+    "stdin_hex": "2066696c653130200a66696c65320a202066696c65310a",
+    "comparison": "exact-exit-stdout-stderr-bytes",
+    "matched": true
+  },
+  {
+    "name": "stdin_zero_terminated",
+    "arguments": [
+      "--zero-terminated"
+    ],
+    "stdin_hex": "66696c6531300066696c65320066696c653100",
+    "comparison": "exact-exit-stdout-stderr-bytes",
+    "matched": true
+  },
+  {
+    "name": "empty_stdin",
+    "arguments": [],
+    "stdin_hex": "",
+    "comparison": "exact-exit-stdout-stderr-bytes",
+    "matched": true
+  },
+  {
+    "name": "float_filter",
+    "arguments": [
+      "--number-type",
+      "float",
+      "--filter",
+      "1.5",
+      "3.5",
+      "v1.25",
+      "v1.5",
+      "v2.75",
+      "v4.0"
+    ],
+    "stdin_hex": "",
+    "comparison": "exact-exit-stdout-stderr-bytes",
+    "matched": true
+  },
+  {
+    "name": "invalid_number_type",
+    "arguments": [
+      "--number-type",
+      "decimal",
+      "a1"
+    ],
+    "stdin_hex": "",
+    "comparison": "exit+stdout+normalized-final-diagnostic",
+    "matched": true
+  },
+  {
+    "name": "reversed_filter_bounds",
+    "arguments": [
+      "--filter",
+      "10",
+      "2",
+      "a1"
+    ],
+    "stdin_hex": "",
+    "comparison": "exit+stdout+normalized-final-diagnostic",
+    "matched": true
+  },
+  {
+    "name": "unknown_option",
+    "arguments": [
+      "--definitely-unknown"
+    ],
+    "stdin_hex": "",
+    "comparison": "exit+stdout+normalized-final-diagnostic",
+    "matched": true
+  }
+]

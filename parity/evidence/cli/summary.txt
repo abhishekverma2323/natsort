@@ -1,0 +1,14 @@
+CLI EQUIVALENCE SUMMARY
+
+implementation_commit=be082753a478ee5c262d8c7d57c36243aa9e666b
+python_module=/mnt/d/natsort/natsort/__init__.py
+rust_binary_sha256=6d0472b14e81dc65ccb4c53eae8c18bac7d1b37b126895f46dad1b6663a4d5c8
+total_cases=20
+success_exact_cases=17
+error_semantic_cases=3
+matched_cases=20
+mismatch_count=0
+mismatches=none
+working_tree_clean_before_run=true
+cli_success_output_diff_empty=true
+cli_all_normalized_diff_empty=true
