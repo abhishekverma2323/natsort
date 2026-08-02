@@ -50,6 +50,10 @@ jobs:
           rustc --version
           cargo --version
 
+      - name: Enforce first-party unsafe boundary
+        shell: bash
+        run: ./scripts/check_unsafe.sh
+
       - name: Check formatting
         run: cargo fmt --all -- --check
 
