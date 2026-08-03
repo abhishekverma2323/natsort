@@ -1201,3 +1201,38 @@ The project does not claim:
 - zero first-party unsafe;
 - universal internal API identity;
 - benchmark metrics outside the committed methodology.
+
+## Decision 26 — Preserve and disclose the four pre-kickoff commits
+
+**Date:** 2026-08-03
+
+### Context
+
+During the final submission audit, we discovered that four early incremental
+commits were created shortly before the official kickoff time of
+2026-07-31 18:00:00 UTC. This resulted from an incorrect UTC-to-IST
+interpretation.
+
+We immediately disclosed the timestamps to the Port Mortem organizers. The
+organizers reviewed the situation, confirmed that the submission remains
+eligible, requested this written disclosure, and stated that the post-kickoff
+work will be judged.
+
+The Git history has not been rebased, amended, rewritten, squashed, or
+otherwise concealed.
+
+### Disclosed commits
+
+| Commit | UTC timestamp | IST timestamp | Content |
+|---|---|---|---|
+| `212bc3fc7f57103dd99c84d3fcc5dcba78cc014a` | 2026-07-31 17:33:54 UTC | 2026-07-31 23:03:54 IST | Created the initial `rust-port` crate, basic text-and-number tokenization, the first natural-sorting API, and three basic tests. |
+| `05bb2685663b57c61d15688ec6b37c7a2601d66c` | 2026-07-31 17:40:10 UTC | 2026-07-31 23:10:10 IST | Replaced fixed-width numeric tokens with string-backed numeric tokens, added arbitrary-precision integer comparison, and added coverage for values larger than `u64` and numbers with leading zeros. |
+| `72fe73eca4f1ff3a12c4f675b244e8b8eeeb61ab` | 2026-07-31 17:49:39 UTC | 2026-07-31 23:19:39 IST | Added `SortOptions`, case-insensitive sorting, reverse sorting, the configurable sorting API, and corresponding tests. |
+| `7aad92b67dc3c97fa1bad0f5f833fb392ab46ea5` | 2026-07-31 17:58:13 UTC | 2026-07-31 23:28:13 IST | Performed a small follow-up cleanup and introduced the `signed` option field with a default value of `false`; the actual signed-number sorting implementation followed in the next post-kickoff commit. |
+
+### Decision
+
+We will preserve the complete original history and timestamps. We will not
+rewrite or remove these commits. This disclosure is included at the explicit
+request of the organizers, and the submission will be evaluated based on the
+post-kickoff work.
