@@ -173,6 +173,8 @@ jobs:
           cargo --version
 
       - name: Run submission checks
+        env:
+          SETUPTOOLS_SCM_PRETEND_VERSION_FOR_NATSORT: "8.4.0"
         run: make submission-check
 
       - name: Upload CLI mismatch diagnostics
